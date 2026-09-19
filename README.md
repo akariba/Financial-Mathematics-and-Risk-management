@@ -1,385 +1,328 @@
-You are continuing the Lending Credit Relationship Workbench.
+Name
+Lending Relationship Research - Web + SEC
 
-This phase introduces R2D2 external research/enrichment.
+Description
+Research credit-relevant relationships between Lending clients and related entities using approved R2D2 Web and SEC evidence. Return structured, source-grounded findings for corroboration, new relationship proposals, conflicts, confidence, materiality, and mention-only exclusion. CAM remains authoritative.
 
-This is LENDING ONLY.
+Shortcut Key
+lending-relationship-research
 
-Do NOT modify the trusted internal CAM pipeline unless absolutely required for integration.
-Do NOT rebuild the frozen internal baseline.
-Do NOT redesign the application.
-Do NOT introduce another business lane.
-Do NOT use direct public internet calls as a substitute for R2D2.
+Then click Next.
 
-The current Lending foundation already exists:
+For the knowledge package, I would create these files:
 
-- target population control
-- CAM availability/freshness
-- persistent SQLite database
-- document/version ingestion
-- section extraction
-- exact evidence storage
-- validated relationship baseline
-- review-required workflow
-- Lending relationship explorer/map
+00_PRESET_READINESS.md
+Contains the exact marker:
+relationship_research_ready: true
+01_LENDING_RELATIONSHIP_RESEARCH_POLICY.md
+CAM authority, external evidence rules, no overwrite, corroboration vs proposal.
+02_RELATIONSHIP_TAXONOMY.md
+Supplier, Critical Supplier, Customer, Sponsor, Guarantor, Parent, Subsidiary, Investor, Lender, Technology Dependency, Infrastructure Dependency, Revenue Concentration, Strategic Partner, etc.
+03_SOURCE_AND_EVIDENCE_RULES.md
+SEC vs R2D2 Web, credible-source hierarchy, exact excerpts, dates, contradiction handling.
+04_CONFIDENCE_AND_CROSSCHECK_RULES.md
+High/Medium/Low based on source authority, explicitness, corroboration, entity certainty, recency and conflicts.
+05_CREDIT_MATERIALITY_RULES.md
+MATERIAL / POTENTIALLY_MATERIAL / CONTEXTUAL / UNKNOWN, kept separate from evidence confidence.
+06_ENTITY_RESOLUTION_RULES.md
+Legal names, aliases, CAGID, CIK/LEI if present, ambiguity handling.
+07_OUTPUT_SCHEMA.md
+Exact structured output the app expects.
+08_RESEARCH_EXAMPLES.md
+Good examples for CAM corroboration, new proposal, conflict, mention-only, current/historical/emerging, direct/indirect.
+09_EXCLUSIONS_AND_GUARDRAILS.md
+No co-mention = relationship, no fabricated sources, no unsupported confidence, no automatic CAM mutation.
+Give Luna this prompt now
+Create the complete knowledge package required for the manually configured Stylus preset:
 
-Treat that foundation as frozen.
+"Lending Relationship Research - Web + SEC"
 
-==================================================
-MOST IMPORTANT INSTRUCTION — REUSE RPR R2D2
-==================================================
+IMPORTANT BOUNDARY:
+You are NOT configuring or creating the Stylus preset.
+You are ONLY creating the knowledge files that I will manually upload into Stylus Preset Builder.
 
-DO NOT INVENT A NEW R2D2 INTEGRATION.
+Use the existing Lending relationship solution, R2D2 integration code, current relationship taxonomy, external research models, confidence logic, review workflow, and RPR Runner integration as the source of truth.
 
-There is already a known-working R2D2 integration pattern in the RPR project.
+Do not invent runtime input names or output fields if they already exist in the code.
 
-FIRST locate and inspect the current RPR implementation.
+FIRST inspect:
+- current Lending R2D2 Assist implementation
+- external research persistence models
+- relationship taxonomy
+- confidence-factor model
+- proposal/review model
+- Runner response parser
+- any preset validation logic in stylus_preset.py
+- the exact structured result schema expected by the Lending backend
 
-Reuse the proven RPR approach for:
+Then create the following Markdown knowledge files in a dedicated folder such as:
 
-- authentication
-- OAuth / token handling
-- token refresh
-- environment configuration
-- Runner Service configuration
-- request construction
-- streaming/SSE handling
-- error handling
-- timeout / bounded completion handling
-- response parsing
-- preset payload construction
-- runtime input mapping
-
-The known RPR pattern uses the Runner Service and sends the FULL PRESET DEFINITION INLINE.
-
-Do NOT assume or invent a preset UUID API.
-
-The proven conceptual flow is:
-
-OAuth / refresh token
-    ↓
-Runner Service
-    ↓
-POST /runner-service/chat
-    ↓
-full preset definition inline
-    ↓
-runtime inputs
-    ↓
-streamed response
-    ↓
-structured result parsing
-
-Inspect the actual CURRENT RPR code and reuse the exact working implementation rather than relying only on this description.
-
-Do NOT change the RPR project itself.
+preset_knowledge/lending_relationship_research/
 
 ==================================================
-IMPORTANT PRESET BOUNDARY
+FILE 1
+00_PRESET_READINESS.md
 ==================================================
 
-The coding agent does NOT create or manually configure Stylus presets.
+This file must contain:
 
-Presets are created/configured/tested manually in Stylus Workspaces.
+relationship_research_ready: true
 
-The application code only:
+Also state:
 
-- reuses the proven preset definition/configuration already established
-- sends the captured equivalent full preset definition inline
-- injects runtime company/entity/search inputs
-- invokes the Runner
-- parses the returned result
+Preset purpose:
+Lending relationship research using approved R2D2 Web and SEC evidence.
 
-If a genuinely new manual Stylus preset is required and no existing RPR preset can satisfy the task, report that as a genuine external blocker.
+Authority rule:
+CAM/internal approved Lending evidence remains authoritative.
+External evidence can corroborate, supplement, conflict, or create reviewable proposals.
+External evidence must never silently overwrite CAM.
 
-Do NOT fabricate a preset.
-Do NOT guess a preset ID.
-Do NOT create fake preset configuration.
-
-Prefer reuse of the existing proven RPR WEB / SEC+WEB capability where appropriate.
+Do not add pending/TODO language to this file.
 
 ==================================================
-R2D2 ROLE IN THIS LENDING PRODUCT
+FILE 2
+01_LENDING_RELATIONSHIP_RESEARCH_POLICY.md
 ==================================================
 
-CAM remains the authoritative internal baseline.
-
-R2D2 must NEVER silently overwrite CAM.
-
-R2D2 has TWO purposes:
-
-1. CORROBORATION
-Find external evidence supporting an existing CAM relationship.
-
-2. DISCOVERY
-Find a potentially credit-relevant relationship not present in the available CAM baseline.
-
-These outcomes must remain separate.
-
-Example:
-
-CAM:
-Company A -> Company B
-Relationship = Supplier
-
-R2D2 finds credible external evidence confirming it.
-
-Result:
-
-same canonical CAM relationship
-+
-external corroborating evidence
-
-DO NOT create a duplicate economic relationship.
-
-
-Another example:
-
-CAM has no Company A -> Company C relationship.
-
-R2D2 finds strong external evidence of:
-Company A -> Company C
-Relationship = Critical Supplier
-
-Result:
-
-EXTERNAL_PROPOSED
-
-It must NOT automatically become CAM-confirmed or trusted canonical truth.
-
-
-==================================================
-R2D2 SOURCE MODES
-==================================================
-
-Use the RPR-proven R2D2 configuration to expose external research in clearly separated evidence channels.
-
-Where supported by the actual proven RPR configuration:
-
-A. R2D2 WEB
-Broad credible public research.
-
-B. SEC FILINGS
-Regulatory filing evidence.
-
-Even if both technically run through the same R2D2/Runner framework, preserve the distinction in our data model and UI.
-
-Example:
-
-source_channel = R2D2_WEB
-
-or:
-
-source_channel = SEC_FILING
-
-
-If an SEC document is discovered through a broad web search but the actual filing content is subsequently retrieved and verified, classify the evidence as SEC filing evidence.
-
-Do not claim SEC support merely because a web page mentions an SEC filing.
-
-==================================================
-SOURCE PRIORITY
-==================================================
-
-For Lending use this conceptual hierarchy:
-
-1. CAM / internal approved credit evidence
-2. SEC filing evidence
-3. credible R2D2 Web evidence
-
-CAM remains authoritative.
-
-External evidence may:
-
-- corroborate
-- supplement
-- add freshness/context
-- propose a new relationship
-- flag a conflict
-
-External evidence may NOT automatically overwrite CAM.
-
-
-==================================================
-R2D2 ASSIST
-==================================================
-
-Add an R2D2 Assist capability to the existing relationship/correlation configuration experience.
-
-Keep it visually separate from the saved business configuration.
-
-The assistant should support two modes:
-
------------------------------------------------
-MODE 1 — RESEARCH RELATIONSHIP
------------------------------------------------
-
-User can type:
-
-"Find the relationship between NVIDIA and Anthropic"
-
-or any two entities.
-
-R2D2 should research the selected source channels and return STRUCTURED candidate findings.
-
-Return fields such as:
-
-Entity A
-Entity B
-Relationship Type
-Relationship Family
-Direction
-Current / Historical / Emerging
-Direct / Indirect
-Evidence Confidence
-Potential Credit Materiality
-Source Channel
-Source Name
-Source Date
-Exact Evidence Excerpt
-Source Reference
-Why the evidence supports the classification
-Contradictory Evidence
-Known in CAM? yes/no
-Discovery Status
-
-Discovery Status values:
-
-CAM_KNOWN
-CORROBORATES_CAM
-NEW_TO_BASELINE
-CONFLICTS_WITH_CAM
-INSUFFICIENT_EVIDENCE
-
-
-Do NOT treat co-mention as a relationship.
-
-If two entities are merely mentioned in the same article:
-
-return:
-
-MENTION_ONLY / INSUFFICIENT_EVIDENCE
-
-and do NOT add a relationship proposal.
-
-
------------------------------------------------
-MODE 2 — ASSIST CONFIGURATION
------------------------------------------------
-
-When the analyst is configuring a relationship type such as:
-
-Critical Supplier
-
-allow R2D2 Assist to suggest:
-
-- objective
-- inclusion criteria
-- exclusion criteria
-- evidence characteristics
-- useful terminology
-- examples from credible evidence
-
-BUT:
-
-R2D2 must never silently modify the saved business definition.
-
-Provide an explicit:
-
-Apply suggestion
-
-action.
-
-The business user remains authoritative over the configuration.
-
-
-==================================================
-TEST CONFIGURATION
-==================================================
-
-Inside the configuration workflow add:
-
-TEST CONFIGURATION
-
-The analyst should be able to test one configured relationship definition against:
-
-- one entity pair
-or
-- a small selected Lending sample
-
-Example:
-
-Relationship:
-Critical Supplier
-
-Test:
-CoreWeave / NVIDIA
-
-Return:
-
-MATCH / NO MATCH / INSUFFICIENT
-
-with:
-
-rules matched
-rules not matched
+Document the governing research rules.
+
+Include:
+
+1. CAM is authoritative
+2. External evidence is supplementary
+3. Existing CAM relationship + external support = CORROBORATES_CAM
+4. Relationship absent from CAM + defensible external evidence = NEW_TO_BASELINE / proposal
+5. External evidence contradicts CAM = CONFLICTS_WITH_CAM
+6. Co-mention without a defensible economic/credit relationship = MENTION_ONLY / INSUFFICIENT_EVIDENCE
+7. No automatic CAM overwrite
+8. No automatic promotion of proposals to validated internal relationships
+9. Exact evidence and source provenance are mandatory
+10. Findings must remain auditable
+
+Clearly distinguish:
+
+relationship truth
 evidence
-source
 confidence
-reasoning summary
-
-This is especially important for transparency.
-
-Do not execute large portfolio searches from this configuration test.
-
+credit materiality
+review state
 
 ==================================================
-PORTFOLIO ENRICHMENT
+FILE 3
+02_RELATIONSHIP_TAXONOMY.md
 ==================================================
 
-Add a bounded R2D2 enrichment workflow using the existing Lending population.
+Use the EXISTING controlled Lending relationship taxonomy from the current application.
 
-Allow:
+Do not invent a new incompatible taxonomy.
 
-- one client
-- selected clients
-- small controlled batch
+Explain each supported relationship type, including the exact business meaning and inclusion/exclusion criteria.
 
-Do NOT immediately run R2D2 against all 418 names.
+Cover the current relevant families such as:
 
-This phase is about proving the integration and governance first.
+COMMERCIAL
+- Contracted Customer
+- Customer
+- Supplier
+- Critical Supplier
+- Service Provider
+- Strategic Partner
 
-For each selected Lending client:
+OWNERSHIP / CAPITAL
+- Parent Company
+- Subsidiary
+- Sponsor
+- Equity Investor
+- Joint Venture
+- Common Owner where currently supported
 
-1. load canonical entity identity
-2. use configured relationship definitions
-3. query R2D2
-4. parse structured evidence
-5. reconcile entity names
-6. compare against existing CAM relationships
-7. classify as corroboration / proposal / conflict
-8. persist external evidence
-9. send new candidate relationships to review
+CREDIT SUPPORT / FINANCING
+- Guarantor
+- Backleverage Financing
+- Lender
+- Collateral Provider
+- Agent Bank where supported
+
+DEPENDENCY / CONCENTRATION
+- Customer Dependency
+- Revenue Concentration
+- Technology Dependency
+- Infrastructure Dependency
+- Supplier Dependency where supported
+
+MARKET / LEGAL / OTHER
+- Competitor
+- M&A Target
+- Legal Counterparty
+- Regulator
+- Advisor
+
+For each type include:
+
+definition
+what qualifies
+what does NOT qualify
+directionality
+common evidence phrases
+credit relevance
 
 ==================================================
-EXTERNAL DATA MODEL
+FILE 4
+03_SOURCE_AND_EVIDENCE_RULES.md
 ==================================================
 
-Do NOT insert R2D2 output directly into the internal CAM baseline tables as if it were internal truth.
+Define source hierarchy and evidence requirements.
 
-Use separate persistent structures such as:
+Use:
 
-EXTERNAL_RESEARCH_RUNS
-EXTERNAL_EVIDENCE
-RELATIONSHIP_PROPOSALS
+1. Internal CAM / approved Lending evidence — authoritative baseline
+2. SEC filing / regulatory filing evidence
+3. Official corporate sources
+4. High-quality reputable news / public sources
+5. Other credible secondary sources
+6. Weak commentary / blogs / forums — contextual only unless independently corroborated
 
-or equivalent existing models if already available.
+For every external finding require:
 
-A proposal should support:
+source channel
+source name
+source date
+source reference
+exact supporting excerpt
+entity names
+relationship classification
+why the excerpt supports the classification
 
-proposal_id
+Define SEC and Web as separate evidence channels even if they use the same R2D2 Runner framework.
+
+Do not classify a source as SEC merely because a web article mentions an SEC filing.
+
+==================================================
+FILE 5
+04_CONFIDENCE_AND_CROSSCHECK_RULES.md
+==================================================
+
+Create explainable confidence rules.
+
+Confidence must NOT be an arbitrary LLM opinion.
+
+Use factors including:
+
+SOURCE AUTHORITY
+EVIDENCE EXPLICITNESS
+INDEPENDENT CORROBORATION
+ENTITY MATCH CERTAINTY
+RECENCY
+CONTRADICTORY EVIDENCE
+
+Define:
+
+HIGH
+MEDIUM
+LOW
+INSUFFICIENT
+
+Examples:
+
+HIGH:
+- explicit relationship statement
+- strong/authoritative source
+- clear entity identity
+- current evidence
+- ideally independently corroborated
+
+MEDIUM:
+- credible source and reasonable evidence
+- but limited corroboration or some interpretation required
+
+LOW:
+- weak/indirect evidence
+- ambiguous wording
+- uncertain entity resolution
+
+INSUFFICIENT:
+- co-mention only
+- speculation
+- no defensible relationship evidence
+
+Also explain how cross-checking changes confidence.
+
+==================================================
+FILE 6
+05_CREDIT_MATERIALITY_RULES.md
+==================================================
+
+Keep materiality separate from evidence confidence.
+
+Use:
+
+MATERIAL
+POTENTIALLY_MATERIAL
+CONTEXTUAL
+UNKNOWN
+
+Explain factors such as:
+
+- revenue/customer concentration
+- critical supplier dependency
+- financing/support dependency
+- ownership/control
+- limited substitutability
+- strategic infrastructure dependence
+- magnitude/amount/percentage when disclosed
+- potential effect on repayment capacity or credit profile
+
+Do NOT create a numerical credit/risk score.
+
+Every materiality classification must include a concise explanation.
+
+==================================================
+FILE 7
+06_ENTITY_RESOLUTION_RULES.md
+==================================================
+
+Document entity matching rules aligned to the current application.
+
+Use identifiers in this order when available:
+
+- internal identifiers / CAGID
+- legal entity names
+- CIK / LEI or other formal identifiers
+- known aliases
+- company domains
+- normalized names
+
+Do not merge entities purely because names are similar.
+
+Explicitly address:
+
+parent vs subsidiary
+SPV vs operating company
+fund vs manager
+facility vehicle vs borrower
+brand vs legal entity
+
+Ambiguous matches must return:
+
+ENTITY_MATCH_REVIEW_REQUIRED
+
+==================================================
+FILE 8
+07_OUTPUT_SCHEMA.md
+==================================================
+
+THIS IS CRITICAL.
+
+Inspect the existing Lending backend / R2D2 response parser and document the EXACT structured output schema expected by the application.
+
+Do not invent field names when code already defines them.
+
+The output should cover, where expected by current code:
+
 entity_a
 entity_b
-proposed_relationship_type
+relationship_type
 relationship_family
 direction
 state
@@ -390,545 +333,173 @@ source_date
 source_reference
 exact_excerpt
 evidence_confidence
+confidence_factors
 credit_materiality
+materiality_rationale
 discovery_status
-matching_cam_relationship_id
+matching_cam_relationship
+contradictory_evidence
+entity_match_status
 review_state
-created_at
 
-Possible review states:
+Use exact enum/value names from the implementation.
 
-PENDING_REVIEW
-ANALYST_CONFIRMED
-ANALYST_MODIFIED
-ANALYST_REJECTED
+Document allowed values.
 
-Do not automatically convert external proposals into validated CAM relationships.
-
+The preset should be instructed to return ONLY the required structured artifact plus concise evidence-grounded fields — no long free-form essay.
 
 ==================================================
-TRANSPARENCY / CONFIDENCE
+FILE 9
+08_RESEARCH_EXAMPLES.md
 ==================================================
 
-Leslie's core concern is:
+Create realistic but clearly illustrative examples showing how the model should classify:
 
-"How accurate is the data?"
+A. Existing CAM relationship corroborated by Web
+B. Existing CAM relationship corroborated by SEC
+C. New external relationship not present in CAM
+D. External evidence conflicting with CAM
+E. Mention-only / no relationship
+F. Direct relationship
+G. Indirect relationship
+H. Current relationship
+I. Historical relationship
+J. Emerging relationship
+K. High confidence but contextual materiality
+L. Medium confidence but potentially material relationship
 
-Therefore confidence must be explainable.
-
-Do NOT let the LLM produce unexplained:
-
-HIGH
-MEDIUM
-LOW
-
-Store the factors behind confidence.
-
-At minimum evaluate:
-
-SOURCE AUTHORITY
-- regulatory / official company evidence
-- high-quality reputable source
-- secondary source
-- weak commentary
-
-EVIDENCE EXPLICITNESS
-- relationship explicitly stated
-- strongly implied
-- circumstantial only
-
-CORROBORATION
-- multiple independent sources
-- single source
-
-ENTITY MATCH
-- exact legal identity
-- strong alias match
-- ambiguous identity
-
-RECENCY
-- current
-- stale
-- historical
-
-CONTRADICTION
-- conflicting evidence exists / does not exist
-
-
-The UI should be able to say:
-
-Evidence Confidence: HIGH
-
-Why:
-- explicit relationship statement
-- official source
-- independently corroborated
-- entity match confirmed
-- current evidence
-
-Do not expose hidden chain-of-thought.
-Expose concise evidence-based rationale only.
-
+Do not present fabricated examples as actual Citi/CAM evidence.
+Label them as examples.
 
 ==================================================
-CROSS-CHECKING
+FILE 10
+09_EXCLUSIONS_AND_GUARDRAILS.md
 ==================================================
 
-Implement a transparent cross-check mechanism.
+Explicitly prohibit:
 
-For an external candidate:
+- inventing sources
+- inventing excerpts
+- inventing relationship amounts
+- treating co-mention as relationship
+- using pre-trained model knowledge as evidence
+- silently resolving ambiguous entities
+- silently overwriting CAM
+- automatically validating external proposals
+- using unsupported SEC claims
+- conflating confidence with materiality
+- conflating direct/indirect with cross-document discovery
+- calling a relationship historical without temporal evidence
+- calling something NEW merely because a new article exists
 
-Source 1 says:
-A -> B Supplier
+When evidence is insufficient, return:
 
-Source 2 says:
-A -> B Supplier
+INSUFFICIENT_EVIDENCE
 
-This strengthens corroboration.
-
-But:
-
-one blog / weak commentary only
-
-should remain lower confidence.
-
-If sources conflict:
-
-do NOT choose silently.
-
-Mark:
-
-CONFLICT_REVIEW_REQUIRED
-
-and present both pieces of evidence.
-
+rather than forcing a relationship.
 
 ==================================================
-CREDIT MATERIALITY
+PRESET PROMPT RECOMMENDATION
 ==================================================
 
-Keep evidence confidence separate from credit materiality.
+Also create:
 
-These are different concepts.
+10_PRESET_SYSTEM_INSTRUCTION.md
 
-Example:
+This should contain a concise production-ready instruction suitable for pasting into the Stylus preset prompt field.
 
-HIGH evidence confidence
-LOW credit materiality
+It must instruct the preset to:
 
-is possible.
+- research only the requested subject/entity pair/context
+- use approved R2D2 Web and SEC tools
+- retrieve source-grounded evidence
+- cross-check when possible
+- classify relationships using the controlled taxonomy
+- separate confidence from materiality
+- return structured output matching the application schema
+- identify contradictions
+- reject mention-only findings
+- avoid unsupported conclusions
+- preserve CAM authority
+- never overwrite internal truth
 
-Example:
-
-MEDIUM evidence confidence
-POTENTIALLY MATERIAL
-
-is also possible.
-
-Use categories such as:
-
-MATERIAL
-POTENTIALLY_MATERIAL
-CONTEXTUAL
-UNKNOWN
-
-Materiality must have a short explanation.
-
-Do NOT create a numerical risk score.
-
+Keep the prompt complete but concise enough for a production preset.
 
 ==================================================
-MENTION / ASSOCIATION HANDLING
+RUNTIME INPUTS
 ==================================================
 
-Explicitly distinguish:
+DO NOT invent the six runtime input keys.
 
-RELATIONSHIP
+Inspect the current Lending Runner adapter and stylus_preset validation code.
 
-from:
+Create:
 
-MENTION / ASSOCIATION
+11_RUNTIME_INPUTS.md
 
-If NVIDIA and another company appear in one news article with no defensible economic relationship:
+List the EXACT runtime input keys expected by the current implementation.
 
-store it only as research context if useful.
+For every input give:
 
-Do not create a relationship edge.
+- exact key
+- purpose
+- required/optional
+- example value
+- whether it is supplied by the application or manually
 
-This is essential to reduce false positives.
-
-
-==================================================
-CURRENT / HISTORICAL / EMERGING
-==================================================
-
-External evidence may indicate:
-
-CURRENT
-HISTORICAL
-EMERGING
-TERMINATED
-UNKNOWN
-
-These labels require evidence.
-
-"HISTORICAL" requires actual temporal evidence.
-
-"EMERGING" should mean a newly forming or recently announced relationship.
-
-"NEW_TO_BASELINE" means:
-
-not currently present in the internal CAM baseline
-
-It does NOT necessarily mean the relationship itself is newly created in the real world.
-
+If the current code expects six inputs, document exactly those six.
 
 ==================================================
-ENTITY RESOLUTION
+TOOLS / INTEGRATIONS
 ==================================================
 
-Reuse existing Lending entity reconciliation.
+Create:
 
-For R2D2 results consider:
+12_REQUIRED_TOOLS_AND_INTEGRATIONS.md
 
-internal CAGID if mapped
-legal name
-known aliases
-domains
-CIK/LEI or other identifiers where available
+Document exactly which Stylus tools/integrations the preset must enable based on the currently proven RPR configuration.
 
-Do NOT merge entities purely because names look similar.
+Clearly separate:
 
-Ambiguous matches:
+REQUIRED
+OPTIONAL
+NOT SUPPORTED
 
-ENTITY_MATCH_REVIEW_REQUIRED
+For example:
+- Web search / R2D2
+- SEC filing integration if genuinely supported by the existing RPR setup
 
-
-==================================================
-DO NOT TOUCH INTERNAL BASELINE
-==================================================
-
-Hard rule:
-
-LENDING_INTERNAL_BASELINE_V1 remains frozen.
-
-The 767 validated internal relationships remain unchanged by this phase.
-
-R2D2 enrichment lives on top.
-
-Do not mutate CAM relationships.
-
-Do not reinterpret existing CAM classifications merely because external sources use different wording.
-
+Do not claim a tool exists unless it is present in the current proven configuration.
 
 ==================================================
-NO DIRECT PUBLIC WEB CLIENT
+VALIDATION
 ==================================================
 
-Do not create:
-
-requests.get("google...")
-BeautifulSoup public scraping
-random public search APIs
-new external web libraries
-
-All approved external research in this phase must go through the existing RPR-proven R2D2 mechanism.
-
-==================================================
-RUNNER RELIABILITY
-==================================================
-
-Inspect the latest working RPR implementation and reuse its final Runner behavior.
-
-Do not reintroduce historical RPR issues such as:
-
-- indefinite SSE waiting
-- hanging when no model-final event arrives
-- expired-token loops
-- uncontrolled automatic retriggering
-
-Reuse the current proven bounded completion / refresh behavior if present in RPR.
-
-One explicit user action must produce one R2D2 execution.
-
-No automatic reruns on page load/reconnect.
-
-
-==================================================
-ERROR HANDLING
-==================================================
-
-R2D2 failure must not break the Lending application.
-
-Possible outcomes:
-
-SUCCESS
-NO_EVIDENCE
-AUTH_FAILURE
-TIMEOUT
-RUNNER_ERROR
-ENTITY_AMBIGUOUS
-
-Store research-run status.
-
-Show a concise analyst-facing message.
-
-Do not retry endlessly.
-
-Use the proven RPR retry/auth behavior only.
-
-
-==================================================
-NO LOOPS
-==================================================
-
-This is critical.
-
-Do not:
-
-- repeatedly rerun successful R2D2 calls
-- rebuild the internal database
-- revalidate the 767 baseline
-- refactor working code after acceptance
-- produce multiple diagnostic reports
-- keep tuning prompts after tests pass
-
-If something fails:
-
-identify the specific cause
-fix it
-rerun only the affected acceptance test
-
-When all acceptance tests pass:
-
-STOP.
-
-
-==================================================
-ACCEPTANCE TESTS
-==================================================
-
-TEST 1 — RPR PATTERN REUSE
-
-Identify and document the exact RPR files/functions reused for:
-
-authentication
-token refresh
-Runner invocation
-inline preset payload
-stream parsing
-
-Verify no guessed preset-ID mechanism was introduced.
-
-PASS / FAIL
-
-
-TEST 2 — AUTHENTICATION
-
-Perform one controlled R2D2 call through the reused RPR mechanism.
-
-Verify auth/token refresh succeeds.
-
-PASS / FAIL
-
-
-TEST 3 — WEB RESEARCH
-
-Research one real entity pair using R2D2 Web.
-
-Return structured evidence with:
-
-source
-date
-excerpt
-relationship classification
-confidence factors
-
-PASS / FAIL
-
-
-TEST 4 — SEC MODE
-
-If SEC capability exists in the proven RPR preset/configuration:
-
-research one entity through SEC evidence.
-
-Verify SEC evidence remains separately labelled.
-
-If the existing RPR capability does not expose SEC:
-
-report that honestly as an external/configuration blocker.
-
-Do not invent it.
-
-PASS / BLOCKED
-
-
-TEST 5 — CAM CORROBORATION
-
-Choose one existing validated CAM relationship.
-
-Run R2D2.
-
-If corroborating evidence is found:
-
-attach it as external evidence to the existing relationship.
-
-Verify no duplicate canonical relationship is created.
-
-PASS / FAIL
-
-
-TEST 6 — NEW RELATIONSHIP PROPOSAL
-
-Use R2D2 on a controlled case where a relationship not in CAM is supported by external evidence.
-
-Verify:
-
-proposal created
-source retained
-evidence retained
-review state = PENDING_REVIEW
-
-Verify:
-
-internal CAM baseline unchanged.
-
-PASS / FAIL
-
-
-TEST 7 — MENTION ONLY
-
-Test a case where sources merely mention both entities without proving a relationship.
-
-Verify:
-
-no relationship proposal is created.
-
-PASS / FAIL
-
-
-TEST 8 — CONFLICT
-
-Where a controlled conflict can be found:
-
-verify both CAM and external evidence remain visible.
-
-Verify R2D2 does not overwrite CAM.
-
-PASS / FAIL / NOT_APPLICABLE
-
-
-TEST 9 — R2D2 ASSIST
-
-Open relationship configuration.
-
-Use:
-
-Research Relationship
-
-Verify structured result appears.
-
-Use:
-
-Assist Configuration
-
-Verify suggestions do not alter saved configuration until explicitly applied.
-
-PASS / FAIL
-
-
-TEST 10 — TEST CONFIGURATION
-
-Run one configured relationship definition against a small test case.
-
-Verify:
-
-MATCH / NO MATCH / INSUFFICIENT
-
-with rule/evidence explanation.
-
-PASS / FAIL
-
-
-TEST 11 — PERSISTENCE
-
-Verify external research runs, evidence, and proposals persist in the Lending database.
-
-Restart application.
-
-Verify persisted results remain available.
-
-PASS / FAIL
-
-
-TEST 12 — NO BASELINE MUTATION
-
-Before and after this phase:
-
-internal trusted canonical relationships = 767
-
-unless the baseline count was legitimately changed before this task by an explicit approved action.
-
-R2D2 must not change the frozen baseline.
-
-PASS / FAIL
-
-
-==================================================
-IMPLEMENTATION DISCIPLINE
-==================================================
-
-FIRST inspect RPR.
-
-Do not code a new R2D2 client until you have found and understood the proven RPR implementation.
-
-Reuse before creating.
-
-Do not change the RPR project.
-
-Do not create a production architecture.
-
-Do not redesign unrelated UI.
-
-Do not add unrelated features.
-
-Proceed autonomously through the approved scope.
-
-Stop only for a genuine external blocker such as:
-- missing manual Stylus preset
-- unavailable approved R2D2 credentials
-- unavailable SEC capability in the existing RPR configuration
-
-
-==================================================
-FINAL RESPONSE FORMAT
-==================================================
-
-When complete provide ONLY:
-
-1. RPR files/functions reused
-2. R2D2 auth method reused
-3. Runner endpoint/pattern reused
-4. Preset strategy used
-5. Web research status
-6. SEC research status
-7. Existing CAM relationship corroboration result
-8. New proposal result
-9. Mention-only exclusion result
-10. R2D2 Assist result
-11. Persistent tables/models added
-12. Internal baseline before/after
-13. TEST 1–12 PASS / FAIL / BLOCKED
-14. Genuine blockers
-
-No architecture essay.
-
-STOP immediately after acceptance criteria are satisfied.
-
-
-==================================================
-CORE OBJECTIVE
-==================================================
-
-Add R2D2 to the Lending relationship solution by reusing the exact proven RPR authentication + Runner + inline-preset integration pattern, so external Web and SEC evidence can transparently corroborate existing CAM relationships or create reviewable new relationship proposals without ever overwriting the trusted internal Lending baseline.
+Before finishing:
+
+1. Verify all knowledge files exist.
+2. Verify no TODO / pending placeholders remain.
+3. Verify `relationship_research_ready: true` exists exactly.
+4. Verify output schema matches current code.
+5. Verify runtime input keys match current code exactly.
+6. Verify no incompatible taxonomy was invented.
+7. Verify CAM authority is explicit throughout.
+8. Verify no knowledge file instructs the model to fabricate missing evidence.
+
+Do NOT modify application code unless required only to inspect/document the existing schema.
+
+Do NOT configure Stylus.
+Do NOT run the preset.
+Do NOT upload files.
+Do NOT modify RPR.
+
+When complete, report only:
+
+- knowledge folder path
+- files created
+- exact six runtime input keys
+- required Stylus tools/integrations
+- recommended model if already established by the existing proven RPR setup
+- readiness validation PASS / FAIL
+
+Then STOP.
