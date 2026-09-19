@@ -1,128 +1,26 @@
-STOP the current preset-input approach.
+Yes — this is now much cleaner. Luna has successfully separated the Lending relationship-research contract from the RPR business contract.
 
-You have reused RPR BUSINESS INPUTS in the Lending relationship-research preset.
+The important results in your screenshot are all PASS:
 
-That is incorrect.
+RPR contract unchanged
+Lending six-input adapter validated
+Lending Runner routing uses the separate contract
+Lending knowledge files contain no old RPR keys
+Python compilation/diagnostics passed
 
-RPR is a different use case.
-
-We reuse ONLY the proven RPR technical integration pattern:
-
-- browser/Runner authentication
-- token handling
-- POST /runner-service/chat
-- full preset definition inline
-- SSE streaming
-- bounded completion handling
-- structured artifact parsing
-- error handling
-
-We MUST NOT reuse:
-
-- RPR business prompt
-- RPR scenario inputs
-- EventDriven inputs
-- SectorInherent inputs
-- Step 2 / portfolio-review semantics
-- RPR assessment schema
-
-==================================================
-NEW LENDING RELATIONSHIP PRESET INPUT CONTRACT
-==================================================
-
-Replace the inherited RPR six-input schema with a relationship-specific schema.
-
-Use exactly these six case-sensitive preset inputs:
-
-1. SubjectEntity
-2. RelatedEntity
-3. RelationshipScope
-4. SourceChannels
-5. ResearchInstruction
-6. AsOfDate
-
-Definitions:
+And the six correct Lending inputs are now:
 
 SubjectEntity
-Required.
-The principal Lending client/entity being researched.
-The application may serialize name, CAGID, internal entity ID and known aliases into this text field.
-
 RelatedEntity
-Optional.
-A second entity when performing pair research.
-Example:
-NVIDIA Corporation
-If omitted, research may discover relationships around SubjectEntity.
-
 RelationshipScope
-Required.
-Defines which relationship types to research.
-
-Allowed conceptual values:
-ALL
-or selected controlled Lending relationship type IDs.
-
-Do not introduce RPR scenario types.
-
 SourceChannels
-Required.
-
-Allowed:
-R2D2_WEB
-SEC_FILING
-R2D2_WEB,SEC_FILING
-
 ResearchInstruction
-Required.
-
-The analyst/application instruction describing the research objective.
-
-Examples:
-
-"Find all defensible credit-relevant relationships involving the subject."
-
-"Determine the relationship between CoreWeave and NVIDIA."
-
-"Research whether NVIDIA is a critical supplier or technology dependency."
-
 AsOfDate
-Required.
+What to do in Stylus now
 
-Evidence cutoff date in ISO format:
-YYYY-MM-DD
+Because you uploaded the knowledge files before Luna corrected them, replace them. Safest approach: remove all five from the preset and upload the current five files again from lending_relationship_research_knowledge. That guarantees you aren't mixing old RPR-oriented knowledge with the corrected version.
 
-==================================================
-APPLICATION ADAPTER
-==================================================
-
-Update the Lending R2D2 adapter so it supplies these six relationship-specific inputs.
-
-Do NOT force Lending data into the old RPR keys.
-
-The existing RPR project must remain unchanged.
-
-If stylus_preset.py currently validates the old RPR keys globally, separate the contracts cleanly:
-
-RPR preset contract:
-existing RPR inputs remain untouched
-
-Lending relationship preset contract:
-the six new inputs above
-
-Do not create one shared business-input schema.
-
-Reuse shared Runner/auth/streaming infrastructure only.
-
-==================================================
-KNOWLEDGE FILE CORRECTION
-==================================================
-
-Update:
-
-03_STRUCTURED_OUTPUT_AND_RUNTIME_INPUTS.md
-
-Replace the old RPR runtime keys entirely with:
+Then click ADD FIELD six times and create exactly these fields, case-sensitive, in this order:
 
 SubjectEntity
 RelatedEntity
@@ -131,42 +29,13 @@ SourceChannels
 ResearchInstruction
 AsOfDate
 
-Update:
+Do not add the old CompanyConte, ScenarioCont, EventDrivenE, etc.
+
+Then replace the Prompt box with the new PRESET PROMPT TO COPY INTO STYLUS from the updated:
 
 04_EXAMPLES_GUARDRAILS_AND_RESEARCH_BEHAVIOR.md
 
-Remove all references to:
-
-CompanyConte
-ScenarioCont
-EventDrivenE
-SectorInhere
-AssessmentAS
-UserFeedback
-
-Remove any explanation that these are "compatibility inputs."
-
-Rewrite PRESET PROMPT TO COPY INTO STYLUS so it uses ONLY the six Lending relationship inputs.
-
-==================================================
-PRESET PROMPT INTENT
-==================================================
-
-The new prompt should begin conceptually:
-
-"You are the Lending external relationship research component for the Credit Relationship Workbench.
-
-CAM/internal approved Lending evidence is authoritative.
-
-Research the supplied SubjectEntity and optional RelatedEntity using only the requested SourceChannels.
-
-Classify defensible relationships using the controlled Lending relationship taxonomy.
-
-External evidence may corroborate CAM, identify a new reviewable relationship, identify a conflict, or result in insufficient evidence.
-
-Never overwrite CAM."
-
-Then reference:
+That prompt should now reference only:
 
 {{SubjectEntity}}
 {{RelatedEntity}}
@@ -174,75 +43,52 @@ Then reference:
 {{SourceChannels}}
 {{ResearchInstruction}}
 {{AsOfDate}}
+Integrations
 
-==================================================
-IMPORTANT BUSINESS BEHAVIOR
-==================================================
+For this preset, enable:
 
-The preset must support BOTH:
+☑ Web Search
+☑ SEC filings
 
-PAIR RESEARCH
+Leave the other integrations off for now.
 
-Example:
-NVIDIA ↔ Anthropic
+What each field means
 
-and:
+SubjectEntity is the Lending client you are researching, e.g. CoreWeave.
 
-ENTITY DISCOVERY
+RelatedEntity is optional and is used for pair research, e.g. NVIDIA.
 
-Example:
-Find important relationships around CoreWeave.
+RelationshipScope tells it whether to search ALL relationships or only selected relationship types.
 
-It must support:
+SourceChannels tells it to use R2D2_WEB, SEC_FILING, or both.
 
-- direct relationships
-- indirect relationships
-- current
-- emerging
-- historical
-- terminated where explicitly evidenced
-- corroboration
-- new relationship proposals
-- conflicts
-- mention-only exclusion
-- exact source/excerpt/date
-- confidence factors
-- credit materiality
+ResearchInstruction is the actual analyst question, e.g. “Determine all defensible relationships between CoreWeave and NVIDIA and cross-check the evidence.”
 
-Do not introduce portfolio-review scenario analysis.
+AsOfDate controls the evidence cutoff date.
 
-==================================================
-DO NOT CHANGE
-==================================================
+For example, one run could effectively receive:
 
-Do not change:
+SubjectEntity:
+CoreWeave, Inc.
 
-- CAM internal baseline
-- 767 validated relationships
-- RPR project
-- existing RPR preset contract
-- external evidence governance
-- review workflow
+RelatedEntity:
+NVIDIA Corporation
 
-==================================================
-VALIDATE ONCE
-==================================================
+RelationshipScope:
+ALL
 
-After correcting:
+SourceChannels:
+R2D2_WEB,SEC_FILING
 
-1. Verify Lending code no longer references the six RPR business input keys.
-2. Verify the new Lending adapter uses exactly the six relationship inputs.
-3. Verify knowledge files contain exactly the same six inputs.
-4. Verify preset prompt contains exactly the same six placeholders.
-5. Verify RPR remains unchanged.
-6. Do not run the live preset yet.
+ResearchInstruction:
+Find and classify all defensible credit-relevant relationships
+between the two entities. Cross-check the evidence and identify
+whether each relationship is direct or indirect, current,
+historical or emerging.
 
-Report only:
+AsOfDate:
+2026-09-19
 
-- old keys removed
-- new six keys
-- files changed
-- RPR unchanged PASS/FAIL
-- Lending preset contract PASS/FAIL
+This is now actually aligned with the Lending relationship use case.
 
-Then STOP.
+One final point from Luna's output: the preset itself is still correctly reported as not configured, because only you can finish it manually in Stylus. Once you re-upload the corrected five files, add these six fields, paste the corrected prompt, and enable Web + SEC, then you can move to Preview and test one pair before we connect the live application.
