@@ -1,538 +1,934 @@
+You are continuing the Lending Credit Relationship Workbench.
+
+This phase introduces R2D2 external research/enrichment.
+
+This is LENDING ONLY.
+
+Do NOT modify the trusted internal CAM pipeline unless absolutely required for integration.
+Do NOT rebuild the frozen internal baseline.
+Do NOT redesign the application.
+Do NOT introduce another business lane.
+Do NOT use direct public internet calls as a substitute for R2D2.
+
+The current Lending foundation already exists:
+
+- target population control
+- CAM availability/freshness
+- persistent SQLite database
+- document/version ingestion
+- section extraction
+- exact evidence storage
+- validated relationship baseline
+- review-required workflow
+- Lending relationship explorer/map
+
+Treat that foundation as frozen.
+
 ==================================================
-CRITICAL BUSINESS BREAKDOWN — TWO BUSINESS LANES
+MOST IMPORTANT INSTRUCTION — REUSE RPR R2D2
 ==================================================
 
-There are TWO distinct business lanes and they must remain clearly separated.
+DO NOT INVENT A NEW R2D2 INTEGRATION.
 
---------------------------------------------------
-LANE 1 — LENDING BUSINESS
---------------------------------------------------
+There is already a known-working R2D2 integration pattern in the RPR project.
 
-For Lending:
+FIRST locate and inspect the current RPR implementation.
 
-PRIMARY INTERNAL SOURCE:
-- CAM
+Reuse the proven RPR approach for:
 
-ADDITIONAL DISCOVERY / CORROBORATION SOURCE:
-- R2D2 web research
+- authentication
+- OAuth / token handling
+- token refresh
+- environment configuration
+- Runner Service configuration
+- request construction
+- streaming/SSE handling
+- error handling
+- timeout / bounded completion handling
+- response parsing
+- preset payload construction
+- runtime input mapping
 
-Business logic:
+The known RPR pattern uses the Runner Service and sends the FULL PRESET DEFINITION INLINE.
 
-CAM is the authoritative baseline for Lending relationships.
+Do NOT assume or invent a preset UUID API.
 
-R2D2 may be used to:
+The proven conceptual flow is:
 
-- corroborate CAM relationships
-- find additional evidence
-- discover additional relationship types
-- discover additional connected companies
-- identify potential relationships not explicitly present in the currently available CAM data
+OAuth / refresh token
+    ↓
+Runner Service
+    ↓
+POST /runner-service/chat
+    ↓
+full preset definition inline
+    ↓
+runtime inputs
+    ↓
+streamed response
+    ↓
+structured result parsing
 
-However:
+Inspect the actual CURRENT RPR code and reuse the exact working implementation rather than relying only on this description.
+
+Do NOT change the RPR project itself.
+
+==================================================
+IMPORTANT PRESET BOUNDARY
+==================================================
+
+The coding agent does NOT create or manually configure Stylus presets.
+
+Presets are created/configured/tested manually in Stylus Workspaces.
+
+The application code only:
+
+- reuses the proven preset definition/configuration already established
+- sends the captured equivalent full preset definition inline
+- injects runtime company/entity/search inputs
+- invokes the Runner
+- parses the returned result
+
+If a genuinely new manual Stylus preset is required and no existing RPR preset can satisfy the task, report that as a genuine external blocker.
+
+Do NOT fabricate a preset.
+Do NOT guess a preset ID.
+Do NOT create fake preset configuration.
+
+Prefer reuse of the existing proven RPR WEB / SEC+WEB capability where appropriate.
+
+==================================================
+R2D2 ROLE IN THIS LENDING PRODUCT
+==================================================
+
+CAM remains the authoritative internal baseline.
 
 R2D2 must NEVER silently overwrite CAM.
 
-The intended Lending flow is:
+R2D2 has TWO purposes:
 
-CAM relationships
-    ↓
-apply configurable relationship definitions
-    ↓
-R2D2 web discovery / corroboration
-    ↓
-entity reconciliation
-    ↓
-relationship reconciliation
-    ↓
-canonical relationship dataset
-    ↓
-portfolio table / graph / analyst review
+1. CORROBORATION
+Find external evidence supporting an existing CAM relationship.
 
+2. DISCOVERY
+Find a potentially credit-relevant relationship not present in the available CAM baseline.
 
---------------------------------------------------
-LANE 2 — CCR BUSINESS
---------------------------------------------------
-
-CCR is fundamentally different.
-
-For CCR:
-
-CAM IS NOT CURRENTLY AVAILABLE.
-
-Therefore DO NOT assume CAM exists for CCR.
-
-The current CCR source is:
-
-1. The CCR CSV already attached / available inside the project folder
-2. R2D2 web research for relationship discovery
-
-IMPORTANT:
-
-The CCR CSV is the population / counterparty universe.
-
-It is NOT a CAM relationship source.
-
-Use the existing CSV directly from the project folder.
-
-Do NOT:
-
-- convert it
-- replace it
-- create another copy unnecessarily
-- change its structure
-- rewrite the source file
-- manufacture additional rows
-- treat it as relationship evidence
-
-First locate the existing CCR CSV in the repository/project folder.
-
-Inspect its headers and reuse the fields already present.
-
-The CSV should define the CCR companies/entities to analyze.
-
-Use whatever identifiers and metadata already exist in the CSV, for example where available:
-
-- CAGID
-- counterparty / relationship name
-- country
-- risk rating
-- credit classification
-- industry L1
-- industry L2
-- industry L3
-- exposure / OSUC or similar portfolio amount
-
-Do not assume fields that are not actually present.
-
-The CCR CSV is the portfolio universe.
-
-R2D2 is then used to discover relationships among / around those CCR entities.
-
-
-CCR intended flow:
-
-CCR CSV
-    ↓
-load CCR entity universe
-    ↓
-select one or more configured relationship types
-    ↓
-use R2D2 web research
-    ↓
-discover evidence-backed relationships
-    ↓
-entity reconciliation
-    ↓
-relationship reconciliation
-    ↓
-structured CCR relationship dataset
-    ↓
-portfolio table / graph / analyst review
-
-
-==================================================
-IMPORTANT DIFFERENCE BETWEEN LENDING AND CCR
-==================================================
-
-LENDING:
-
-CAM
-+
-R2D2 web
-
-CAM is authoritative.
-
-R2D2 is supplementary.
-
-
-CCR:
-
-CCR CSV
-+
-R2D2 web
-
-There is currently NO CAM baseline.
-
-Therefore CCR relationships discovered through R2D2 should be treated as:
-
-EXTERNAL_PROPOSED
-
-until reviewed or confirmed by an analyst.
-
-Do NOT label CCR relationships as CAM_CONFIRMED.
-
-Do NOT reuse Lending CAM relationships as if they were CCR CAM relationships.
-
-
-==================================================
-UI / BUSINESS LANE BEHAVIOR
-==================================================
-
-Preserve a clear Lending / CCR selector.
-
-When user selects:
-
-LENDING
-
-show:
-
-Source availability:
-[x] CAM
-[x] R2D2 Web
-
-and relationship status can include:
-
-CAM_CONFIRMED
-EXTERNAL_CORROBORATED
-EXTERNAL_PROPOSED
-ANALYST_CONFIRMED
-ANALYST_REJECTED
-
-
-When user selects:
-
-CCR
-
-show:
-
-Source availability:
-[x] CCR CSV population
-[x] R2D2 Web
-
-CAM must NOT appear as an available CCR evidence source.
-
-For CCR:
-
-CSV = population source
-R2D2 = relationship discovery source
-
-
-==================================================
-PORTFOLIO ANALYSIS — LENDING
-==================================================
-
-For Lending allow:
-
-Population:
-- all available CAM clients
-- selected CAM clients
-
-Relationship Types:
-- multi-select configured relationship types
-
-Sources:
-[x] CAM
-[x] R2D2 Web
+These outcomes must remain separate.
 
 Example:
 
-Population:
-Available Lending CAM population
+CAM:
+Company A -> Company B
+Relationship = Supplier
 
-Relationship Types:
-[x] Contracted Customer
-[x] Supplier
-[x] Guarantor
-[ ] Ownership
-[x] Infrastructure Dependency
+R2D2 finds credible external evidence confirming it.
 
-Run Relationship Analysis
+Result:
+
+same canonical CAM relationship
++
+external corroborating evidence
+
+DO NOT create a duplicate economic relationship.
 
 
-==================================================
-PORTFOLIO ANALYSIS — CCR
-==================================================
+Another example:
 
-For CCR:
+CAM has no Company A -> Company C relationship.
 
-Population must come from the existing CCR CSV.
+R2D2 finds strong external evidence of:
+Company A -> Company C
+Relationship = Critical Supplier
 
-Allow:
+Result:
 
-- all CCR CSV entities
-- selected entities
-- filtering using CSV metadata if already available
+EXTERNAL_PROPOSED
 
-Examples of useful filters where supported by the CSV:
-
-- country
-- RRR / rating
-- credit classification
-- industry L1
-- industry L2
-- industry L3
-- exposure / OSUC threshold
-
-Then select relationship types:
-
-[x] Customer Dependency
-[x] Supplier
-[x] Common Owner
-[x] Sponsor
-[x] Technology Dependency
-[x] Infrastructure Dependency
-
-Source:
-
-[x] R2D2 Web
-
-Run Relationship Analysis
+It must NOT automatically become CAM-confirmed or trusted canonical truth.
 
 
 ==================================================
-CCR RELATIONSHIP DISCOVERY
+R2D2 SOURCE MODES
 ==================================================
 
-For every selected CCR entity:
+Use the RPR-proven R2D2 configuration to expose external research in clearly separated evidence channels.
 
-Use:
+Where supported by the actual proven RPR configuration:
 
-- canonical company name
-- CAGID or internal identifier if available
-- country
-- industry
-- other CSV metadata
+A. R2D2 WEB
+Broad credible public research.
 
-to help establish entity identity.
+B. SEC FILINGS
+Regulatory filing evidence.
 
-Then use the configured relationship definition to instruct R2D2 what to search for.
+Even if both technically run through the same R2D2/Runner framework, preserve the distinction in our data model and UI.
 
 Example:
 
-Subject:
-Company X
+source_channel = R2D2_WEB
 
-Relationship Type:
-Critical Supplier
+or:
 
-Objective:
-Identify suppliers whose disruption could materially impact the subject company.
+source_channel = SEC_FILING
 
-Inclusion:
-- major supplier
-- sole source
-- important hardware / infrastructure supplier
-- material dependency
 
-Exclusion:
-- incidental vendor
-- generic partnership
-- speculation
-- unrelated share ownership
+If an SEC document is discovered through a broad web search but the actual filing content is subsequently retrieved and verified, classify the evidence as SEC filing evidence.
 
-Ask R2D2 for evidence.
+Do not claim SEC support merely because a web page mentions an SEC filing.
 
-Return structured candidate relationships only.
+==================================================
+SOURCE PRIORITY
+==================================================
 
-If no sufficient evidence exists:
+For Lending use this conceptual hierarchy:
 
-return no relationship.
+1. CAM / internal approved credit evidence
+2. SEC filing evidence
+3. credible R2D2 Web evidence
 
-Do NOT force a relationship.
+CAM remains authoritative.
+
+External evidence may:
+
+- corroborate
+- supplement
+- add freshness/context
+- propose a new relationship
+- flag a conflict
+
+External evidence may NOT automatically overwrite CAM.
 
 
 ==================================================
-CCR OUTPUT
+R2D2 ASSIST
 ==================================================
 
-For CCR structured output should include:
+Add an R2D2 Assist capability to the existing relationship/correlation configuration experience.
 
-Subject CAGID
-Subject Name
-Related Entity
+Keep it visually separate from the saved business configuration.
+
+The assistant should support two modes:
+
+-----------------------------------------------
+MODE 1 — RESEARCH RELATIONSHIP
+-----------------------------------------------
+
+User can type:
+
+"Find the relationship between NVIDIA and Anthropic"
+
+or any two entities.
+
+R2D2 should research the selected source channels and return STRUCTURED candidate findings.
+
+Return fields such as:
+
+Entity A
+Entity B
 Relationship Type
 Relationship Family
 Direction
-Subject Country
-Subject Industry
-Subject Rating / RRR if available
-Subject Exposure / OSUC if available
-Discovery Source
-Evidence Summary
-Evidence Reference
-Confidence
-Credit Relevance
-Review State
+Current / Historical / Emerging
+Direct / Indirect
+Evidence Confidence
+Potential Credit Materiality
+Source Channel
+Source Name
+Source Date
+Exact Evidence Excerpt
+Source Reference
+Why the evidence supports the classification
+Contradictory Evidence
+Known in CAM? yes/no
+Discovery Status
 
-For CCR:
+Discovery Status values:
 
-Discovery Source = R2D2
+CAM_KNOWN
+CORROBORATES_CAM
+NEW_TO_BASELINE
+CONFLICTS_WITH_CAM
+INSUFFICIENT_EVIDENCE
 
-Initial Review State = EXTERNAL_PROPOSED
 
-unless an analyst explicitly confirms it.
+Do NOT treat co-mention as a relationship.
+
+If two entities are merely mentioned in the same article:
+
+return:
+
+MENTION_ONLY / INSUFFICIENT_EVIDENCE
+
+and do NOT add a relationship proposal.
 
 
-==================================================
-COMMON CONFIGURATION ACROSS BOTH LANES
-==================================================
+-----------------------------------------------
+MODE 2 — ASSIST CONFIGURATION
+-----------------------------------------------
 
-Use ONE relationship-type configuration framework across Lending and CCR.
+When the analyst is configuring a relationship type such as:
 
-Example configured relationship:
-
-NAME:
 Critical Supplier
 
-FAMILY:
-Operational Dependency
+allow R2D2 Assist to suggest:
 
-OBJECTIVE:
-Identify suppliers whose disruption could materially impact operations or credit quality.
+- objective
+- inclusion criteria
+- exclusion criteria
+- evidence characteristics
+- useful terminology
+- examples from credible evidence
 
-INCLUDE:
-- material supplier
-- sole-source dependency
-- infrastructure dependency
-- significant capacity dependency
+BUT:
 
-EXCLUDE:
-- incidental vendor
-- generic partnership
-- weak association
-- unsupported inference
+R2D2 must never silently modify the saved business definition.
 
-APPLICABLE BUSINESS LANES:
+Provide an explicit:
 
-[x] Lending
-[x] CCR
+Apply suggestion
 
-ALLOWED SOURCES:
+action.
 
-Lending:
-[x] CAM
-[x] R2D2
-
-CCR:
-[x] R2D2
-
-The same business relationship definition can therefore be reused across both populations, while the evidence sources differ.
+The business user remains authoritative over the configuration.
 
 
 ==================================================
-VERY IMPORTANT IMPLEMENTATION RULE
+TEST CONFIGURATION
 ==================================================
 
-Do NOT create two completely separate relationship engines.
+Inside the configuration workflow add:
+
+TEST CONFIGURATION
+
+The analyst should be able to test one configured relationship definition against:
+
+- one entity pair
+or
+- a small selected Lending sample
+
+Example:
+
+Relationship:
+Critical Supplier
+
+Test:
+CoreWeave / NVIDIA
+
+Return:
+
+MATCH / NO MATCH / INSUFFICIENT
+
+with:
+
+rules matched
+rules not matched
+evidence
+source
+confidence
+reasoning summary
+
+This is especially important for transparency.
+
+Do not execute large portfolio searches from this configuration test.
+
+
+==================================================
+PORTFOLIO ENRICHMENT
+==================================================
+
+Add a bounded R2D2 enrichment workflow using the existing Lending population.
+
+Allow:
+
+- one client
+- selected clients
+- small controlled batch
+
+Do NOT immediately run R2D2 against all 418 names.
+
+This phase is about proving the integration and governance first.
+
+For each selected Lending client:
+
+1. load canonical entity identity
+2. use configured relationship definitions
+3. query R2D2
+4. parse structured evidence
+5. reconcile entity names
+6. compare against existing CAM relationships
+7. classify as corroboration / proposal / conflict
+8. persist external evidence
+9. send new candidate relationships to review
+
+==================================================
+EXTERNAL DATA MODEL
+==================================================
+
+Do NOT insert R2D2 output directly into the internal CAM baseline tables as if it were internal truth.
+
+Use separate persistent structures such as:
+
+EXTERNAL_RESEARCH_RUNS
+EXTERNAL_EVIDENCE
+RELATIONSHIP_PROPOSALS
+
+or equivalent existing models if already available.
+
+A proposal should support:
+
+proposal_id
+entity_a
+entity_b
+proposed_relationship_type
+relationship_family
+direction
+state
+connectivity
+source_channel
+source_name
+source_date
+source_reference
+exact_excerpt
+evidence_confidence
+credit_materiality
+discovery_status
+matching_cam_relationship_id
+review_state
+created_at
+
+Possible review states:
+
+PENDING_REVIEW
+ANALYST_CONFIRMED
+ANALYST_MODIFIED
+ANALYST_REJECTED
+
+Do not automatically convert external proposals into validated CAM relationships.
+
+
+==================================================
+TRANSPARENCY / CONFIDENCE
+==================================================
+
+Leslie's core concern is:
+
+"How accurate is the data?"
+
+Therefore confidence must be explainable.
+
+Do NOT let the LLM produce unexplained:
+
+HIGH
+MEDIUM
+LOW
+
+Store the factors behind confidence.
+
+At minimum evaluate:
+
+SOURCE AUTHORITY
+- regulatory / official company evidence
+- high-quality reputable source
+- secondary source
+- weak commentary
+
+EVIDENCE EXPLICITNESS
+- relationship explicitly stated
+- strongly implied
+- circumstantial only
+
+CORROBORATION
+- multiple independent sources
+- single source
+
+ENTITY MATCH
+- exact legal identity
+- strong alias match
+- ambiguous identity
+
+RECENCY
+- current
+- stale
+- historical
+
+CONTRADICTION
+- conflicting evidence exists / does not exist
+
+
+The UI should be able to say:
+
+Evidence Confidence: HIGH
+
+Why:
+- explicit relationship statement
+- official source
+- independently corroborated
+- entity match confirmed
+- current evidence
+
+Do not expose hidden chain-of-thought.
+Expose concise evidence-based rationale only.
+
+
+==================================================
+CROSS-CHECKING
+==================================================
+
+Implement a transparent cross-check mechanism.
+
+For an external candidate:
+
+Source 1 says:
+A -> B Supplier
+
+Source 2 says:
+A -> B Supplier
+
+This strengthens corroboration.
+
+But:
+
+one blog / weak commentary only
+
+should remain lower confidence.
+
+If sources conflict:
+
+do NOT choose silently.
+
+Mark:
+
+CONFLICT_REVIEW_REQUIRED
+
+and present both pieces of evidence.
+
+
+==================================================
+CREDIT MATERIALITY
+==================================================
+
+Keep evidence confidence separate from credit materiality.
+
+These are different concepts.
+
+Example:
+
+HIGH evidence confidence
+LOW credit materiality
+
+is possible.
+
+Example:
+
+MEDIUM evidence confidence
+POTENTIALLY MATERIAL
+
+is also possible.
+
+Use categories such as:
+
+MATERIAL
+POTENTIALLY_MATERIAL
+CONTEXTUAL
+UNKNOWN
+
+Materiality must have a short explanation.
+
+Do NOT create a numerical risk score.
+
+
+==================================================
+MENTION / ASSOCIATION HANDLING
+==================================================
+
+Explicitly distinguish:
+
+RELATIONSHIP
+
+from:
+
+MENTION / ASSOCIATION
+
+If NVIDIA and another company appear in one news article with no defensible economic relationship:
+
+store it only as research context if useful.
+
+Do not create a relationship edge.
+
+This is essential to reduce false positives.
+
+
+==================================================
+CURRENT / HISTORICAL / EMERGING
+==================================================
+
+External evidence may indicate:
+
+CURRENT
+HISTORICAL
+EMERGING
+TERMINATED
+UNKNOWN
+
+These labels require evidence.
+
+"HISTORICAL" requires actual temporal evidence.
+
+"EMERGING" should mean a newly forming or recently announced relationship.
+
+"NEW_TO_BASELINE" means:
+
+not currently present in the internal CAM baseline
+
+It does NOT necessarily mean the relationship itself is newly created in the real world.
+
+
+==================================================
+ENTITY RESOLUTION
+==================================================
+
+Reuse existing Lending entity reconciliation.
+
+For R2D2 results consider:
+
+internal CAGID if mapped
+legal name
+known aliases
+domains
+CIK/LEI or other identifiers where available
+
+Do NOT merge entities purely because names look similar.
+
+Ambiguous matches:
+
+ENTITY_MATCH_REVIEW_REQUIRED
+
+
+==================================================
+DO NOT TOUCH INTERNAL BASELINE
+==================================================
+
+Hard rule:
+
+LENDING_INTERNAL_BASELINE_V1 remains frozen.
+
+The 767 validated internal relationships remain unchanged by this phase.
+
+R2D2 enrichment lives on top.
+
+Do not mutate CAM relationships.
+
+Do not reinterpret existing CAM classifications merely because external sources use different wording.
+
+
+==================================================
+NO DIRECT PUBLIC WEB CLIENT
+==================================================
+
+Do not create:
+
+requests.get("google...")
+BeautifulSoup public scraping
+random public search APIs
+new external web libraries
+
+All approved external research in this phase must go through the existing RPR-proven R2D2 mechanism.
+
+==================================================
+RUNNER RELIABILITY
+==================================================
+
+Inspect the latest working RPR implementation and reuse its final Runner behavior.
+
+Do not reintroduce historical RPR issues such as:
+
+- indefinite SSE waiting
+- hanging when no model-final event arrives
+- expired-token loops
+- uncontrolled automatic retriggering
+
+Reuse the current proven bounded completion / refresh behavior if present in RPR.
+
+One explicit user action must produce one R2D2 execution.
+
+No automatic reruns on page load/reconnect.
+
+
+==================================================
+ERROR HANDLING
+==================================================
+
+R2D2 failure must not break the Lending application.
+
+Possible outcomes:
+
+SUCCESS
+NO_EVIDENCE
+AUTH_FAILURE
+TIMEOUT
+RUNNER_ERROR
+ENTITY_AMBIGUOUS
+
+Store research-run status.
+
+Show a concise analyst-facing message.
+
+Do not retry endlessly.
+
+Use the proven RPR retry/auth behavior only.
+
+
+==================================================
+NO LOOPS
+==================================================
+
+This is critical.
+
+Do not:
+
+- repeatedly rerun successful R2D2 calls
+- rebuild the internal database
+- revalidate the 767 baseline
+- refactor working code after acceptance
+- produce multiple diagnostic reports
+- keep tuning prompts after tests pass
+
+If something fails:
+
+identify the specific cause
+fix it
+rerun only the affected acceptance test
+
+When all acceptance tests pass:
+
+STOP.
+
+
+==================================================
+ACCEPTANCE TESTS
+==================================================
+
+TEST 1 — RPR PATTERN REUSE
+
+Identify and document the exact RPR files/functions reused for:
+
+authentication
+token refresh
+Runner invocation
+inline preset payload
+stream parsing
+
+Verify no guessed preset-ID mechanism was introduced.
+
+PASS / FAIL
+
+
+TEST 2 — AUTHENTICATION
+
+Perform one controlled R2D2 call through the reused RPR mechanism.
+
+Verify auth/token refresh succeeds.
+
+PASS / FAIL
+
+
+TEST 3 — WEB RESEARCH
+
+Research one real entity pair using R2D2 Web.
+
+Return structured evidence with:
+
+source
+date
+excerpt
+relationship classification
+confidence factors
+
+PASS / FAIL
+
+
+TEST 4 — SEC MODE
+
+If SEC capability exists in the proven RPR preset/configuration:
+
+research one entity through SEC evidence.
+
+Verify SEC evidence remains separately labelled.
+
+If the existing RPR capability does not expose SEC:
+
+report that honestly as an external/configuration blocker.
+
+Do not invent it.
+
+PASS / BLOCKED
+
+
+TEST 5 — CAM CORROBORATION
+
+Choose one existing validated CAM relationship.
+
+Run R2D2.
+
+If corroborating evidence is found:
+
+attach it as external evidence to the existing relationship.
+
+Verify no duplicate canonical relationship is created.
+
+PASS / FAIL
+
+
+TEST 6 — NEW RELATIONSHIP PROPOSAL
+
+Use R2D2 on a controlled case where a relationship not in CAM is supported by external evidence.
+
+Verify:
+
+proposal created
+source retained
+evidence retained
+review state = PENDING_REVIEW
+
+Verify:
+
+internal CAM baseline unchanged.
+
+PASS / FAIL
+
+
+TEST 7 — MENTION ONLY
+
+Test a case where sources merely mention both entities without proving a relationship.
+
+Verify:
+
+no relationship proposal is created.
+
+PASS / FAIL
+
+
+TEST 8 — CONFLICT
+
+Where a controlled conflict can be found:
+
+verify both CAM and external evidence remain visible.
+
+Verify R2D2 does not overwrite CAM.
+
+PASS / FAIL / NOT_APPLICABLE
+
+
+TEST 9 — R2D2 ASSIST
+
+Open relationship configuration.
 
 Use:
 
-ONE relationship configuration model
-ONE canonical relationship model
-ONE analyst review model
+Research Relationship
 
-but TWO source/population strategies:
+Verify structured result appears.
 
-LENDING STRATEGY:
-CAM + R2D2
+Use:
 
-CCR STRATEGY:
-existing CCR CSV + R2D2
+Assist Configuration
 
+Verify suggestions do not alter saved configuration until explicitly applied.
 
-==================================================
-CSV HANDLING RULE
-==================================================
-
-The CCR CSV already exists in the project folder.
-
-Locate it programmatically.
-
-Inspect it.
-
-Reuse it.
-
-Treat it as READ-ONLY input unless there is a genuine technical reason otherwise.
-
-Do not ask me to upload it again.
-
-Do not create a replacement CSV.
-
-Do not transform the source file as part of this task.
-
-If normalization is needed internally, create an in-memory/internal representation while preserving the original CSV unchanged.
+PASS / FAIL
 
 
-==================================================
-ACCEPTANCE TEST — BUSINESS LANE SEPARATION
-==================================================
+TEST 10 — TEST CONFIGURATION
 
-Test A — Lending
-
-Select Lending.
+Run one configured relationship definition against a small test case.
 
 Verify:
 
-CAM is available.
-R2D2 is available.
+MATCH / NO MATCH / INSUFFICIENT
 
-Run one relationship type.
+with rule/evidence explanation.
 
-Verify:
-
-existing CAM relationship is CAM_CONFIRMED.
-
-R2D2 corroboration attaches evidence rather than creating a duplicate relationship.
+PASS / FAIL
 
 
-Test B — CCR
+TEST 11 — PERSISTENCE
 
-Select CCR.
+Verify external research runs, evidence, and proposals persist in the Lending database.
 
-Load entities from the existing CCR CSV in the project folder.
+Restart application.
 
-Verify:
+Verify persisted results remain available.
 
-CAM is NOT used.
-
-Select a small sample of CCR entities.
-
-Select one configured relationship type.
-
-Use R2D2.
-
-Return evidence-backed proposed relationships.
-
-Verify:
-
-Source = R2D2
-Review State = EXTERNAL_PROPOSED
+PASS / FAIL
 
 
-Test C — Same Configuration
+TEST 12 — NO BASELINE MUTATION
 
-Use the same configured relationship type, e.g.:
+Before and after this phase:
 
-Critical Supplier
+internal trusted canonical relationships = 767
 
-Run it once for Lending and once for CCR.
+unless the baseline count was legitimately changed before this task by an explicit approved action.
 
-Verify:
+R2D2 must not change the frozen baseline.
 
-Lending:
-CAM + R2D2
-
-CCR:
-CSV population + R2D2
-
-Same business definition.
-Different evidence strategy.
+PASS / FAIL
 
 
 ==================================================
-CORE PRODUCT PRINCIPLE
+IMPLEMENTATION DISCIPLINE
 ==================================================
 
-The application supports two portfolio-analysis populations:
+FIRST inspect RPR.
 
-LENDING
-Known internal CAM relationships can be analyzed, enriched and extended using R2D2.
+Do not code a new R2D2 client until you have found and understood the proven RPR implementation.
 
-CCR
-The existing CSV defines the counterparty universe, and R2D2 is used to discover relationships because CAM is not currently available.
+Reuse before creating.
 
-Configuration defines WHAT relationship the credit analyst wants to identify.
+Do not change the RPR project.
 
-The business lane determines WHERE the evidence can come from.
+Do not create a production architecture.
 
-Do not mix these concepts.
+Do not redesign unrelated UI.
+
+Do not add unrelated features.
+
+Proceed autonomously through the approved scope.
+
+Stop only for a genuine external blocker such as:
+- missing manual Stylus preset
+- unavailable approved R2D2 credentials
+- unavailable SEC capability in the existing RPR configuration
+
+
+==================================================
+FINAL RESPONSE FORMAT
+==================================================
+
+When complete provide ONLY:
+
+1. RPR files/functions reused
+2. R2D2 auth method reused
+3. Runner endpoint/pattern reused
+4. Preset strategy used
+5. Web research status
+6. SEC research status
+7. Existing CAM relationship corroboration result
+8. New proposal result
+9. Mention-only exclusion result
+10. R2D2 Assist result
+11. Persistent tables/models added
+12. Internal baseline before/after
+13. TEST 1–12 PASS / FAIL / BLOCKED
+14. Genuine blockers
+
+No architecture essay.
+
+STOP immediately after acceptance criteria are satisfied.
+
+
+==================================================
+CORE OBJECTIVE
+==================================================
+
+Add R2D2 to the Lending relationship solution by reusing the exact proven RPR authentication + Runner + inline-preset integration pattern, so external Web and SEC evidence can transparently corroborate existing CAM relationships or create reviewable new relationship proposals without ever overwriting the trusted internal Lending baseline.
