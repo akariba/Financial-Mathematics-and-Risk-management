@@ -1,139 +1,248 @@
-The Stylus Preset Builder Configure screen is open.
+STOP the current preset-input approach.
 
-IMPORTANT:
-Stylus currently allows only a small number of uploaded knowledge files, so consolidate the relationship-research knowledge package into EXACTLY FIVE Markdown files.
+You have reused RPR BUSINESS INPUTS in the Lending relationship-research preset.
 
-Do NOT configure Stylus.
-Do NOT create the preset.
-Do NOT change application code unless required only to inspect the existing expected runtime schema.
+That is incorrect.
 
-FIRST inspect the current Lending implementation and return the EXACT runtime input field names expected by:
-- the Runner adapter
-- stylus_preset.py
-- R2D2 Assist backend
-- structured response parser
+RPR is a different use case.
 
-Do not invent input names.
+We reuse ONLY the proven RPR technical integration pattern:
 
-Create these five files:
+- browser/Runner authentication
+- token handling
+- POST /runner-service/chat
+- full preset definition inline
+- SSE streaming
+- bounded completion handling
+- structured artifact parsing
+- error handling
 
-1. 00_LENDING_RESEARCH_READINESS_AND_POLICY.md
+We MUST NOT reuse:
 
-Must contain exactly:
-relationship_research_ready: true
+- RPR business prompt
+- RPR scenario inputs
+- EventDriven inputs
+- SectorInherent inputs
+- Step 2 / portfolio-review semantics
+- RPR assessment schema
 
-Also consolidate:
-- CAM authority rule
-- external evidence policy
-- corroboration vs proposal
-- conflict handling
-- review governance
-- no CAM overwrite
-- mention-only exclusion
+==================================================
+NEW LENDING RELATIONSHIP PRESET INPUT CONTRACT
+==================================================
 
-2. 01_LENDING_RELATIONSHIP_TAXONOMY.md
+Replace the inherited RPR six-input schema with a relationship-specific schema.
 
-Consolidate the complete EXISTING Lending controlled taxonomy from the application.
+Use exactly these six case-sensitive preset inputs:
 
-For every supported relationship type include:
-- relationship family
-- definition
-- inclusion criteria
-- exclusion criteria
-- directionality
-- typical evidence language
-- credit relevance
+1. SubjectEntity
+2. RelatedEntity
+3. RelationshipScope
+4. SourceChannels
+5. ResearchInstruction
+6. AsOfDate
 
-Do not invent a new taxonomy.
+Definitions:
 
-3. 02_EVIDENCE_CONFIDENCE_AND_MATERIALITY.md
+SubjectEntity
+Required.
+The principal Lending client/entity being researched.
+The application may serialize name, CAGID, internal entity ID and known aliases into this text field.
 
-Consolidate:
-- source hierarchy
-- R2D2 Web evidence rules
-- SEC evidence rules
-- exact excerpt requirements
-- cross-checking rules
-- confidence factors
-- HIGH / MEDIUM / LOW / INSUFFICIENT
-- credit materiality rules
-- MATERIAL / POTENTIALLY_MATERIAL / CONTEXTUAL / UNKNOWN
-- contradiction handling
-- entity resolution rules
+RelatedEntity
+Optional.
+A second entity when performing pair research.
+Example:
+NVIDIA Corporation
+If omitted, research may discover relationships around SubjectEntity.
 
-Make it explicit that confidence and materiality are separate.
+RelationshipScope
+Required.
+Defines which relationship types to research.
 
-4. 03_STRUCTURED_OUTPUT_AND_RUNTIME_INPUTS.md
+Allowed conceptual values:
+ALL
+or selected controlled Lending relationship type IDs.
 
-THIS FILE MUST MATCH THE CURRENT CODE EXACTLY.
+Do not introduce RPR scenario types.
 
-Document:
-- exact structured output schema expected by the Lending backend
-- exact enum/value names
-- exact runtime input keys expected by the preset
-- which are required vs optional
-- example value for each
-- which are supplied by the application
+SourceChannels
+Required.
 
-Do NOT invent fields.
+Allowed:
+R2D2_WEB
+SEC_FILING
+R2D2_WEB,SEC_FILING
 
-At the top include a clearly visible section:
+ResearchInstruction
+Required.
 
-EXACT RUNTIME INPUT KEYS
+The analyst/application instruction describing the research objective.
 
-and list them in order.
+Examples:
 
-5. 04_EXAMPLES_GUARDRAILS_AND_RESEARCH_BEHAVIOR.md
+"Find all defensible credit-relevant relationships involving the subject."
 
-Consolidate examples for:
-- CAM corroboration
-- new external proposal
-- SEC corroboration
-- Web corroboration
-- conflict
-- mention-only
-- direct relationship
-- indirect relationship
+"Determine the relationship between CoreWeave and NVIDIA."
+
+"Research whether NVIDIA is a critical supplier or technology dependency."
+
+AsOfDate
+Required.
+
+Evidence cutoff date in ISO format:
+YYYY-MM-DD
+
+==================================================
+APPLICATION ADAPTER
+==================================================
+
+Update the Lending R2D2 adapter so it supplies these six relationship-specific inputs.
+
+Do NOT force Lending data into the old RPR keys.
+
+The existing RPR project must remain unchanged.
+
+If stylus_preset.py currently validates the old RPR keys globally, separate the contracts cleanly:
+
+RPR preset contract:
+existing RPR inputs remain untouched
+
+Lending relationship preset contract:
+the six new inputs above
+
+Do not create one shared business-input schema.
+
+Reuse shared Runner/auth/streaming infrastructure only.
+
+==================================================
+KNOWLEDGE FILE CORRECTION
+==================================================
+
+Update:
+
+03_STRUCTURED_OUTPUT_AND_RUNTIME_INPUTS.md
+
+Replace the old RPR runtime keys entirely with:
+
+SubjectEntity
+RelatedEntity
+RelationshipScope
+SourceChannels
+ResearchInstruction
+AsOfDate
+
+Update:
+
+04_EXAMPLES_GUARDRAILS_AND_RESEARCH_BEHAVIOR.md
+
+Remove all references to:
+
+CompanyConte
+ScenarioCont
+EventDrivenE
+SectorInhere
+AssessmentAS
+UserFeedback
+
+Remove any explanation that these are "compatibility inputs."
+
+Rewrite PRESET PROMPT TO COPY INTO STYLUS so it uses ONLY the six Lending relationship inputs.
+
+==================================================
+PRESET PROMPT INTENT
+==================================================
+
+The new prompt should begin conceptually:
+
+"You are the Lending external relationship research component for the Credit Relationship Workbench.
+
+CAM/internal approved Lending evidence is authoritative.
+
+Research the supplied SubjectEntity and optional RelatedEntity using only the requested SourceChannels.
+
+Classify defensible relationships using the controlled Lending relationship taxonomy.
+
+External evidence may corroborate CAM, identify a new reviewable relationship, identify a conflict, or result in insufficient evidence.
+
+Never overwrite CAM."
+
+Then reference:
+
+{{SubjectEntity}}
+{{RelatedEntity}}
+{{RelationshipScope}}
+{{SourceChannels}}
+{{ResearchInstruction}}
+{{AsOfDate}}
+
+==================================================
+IMPORTANT BUSINESS BEHAVIOR
+==================================================
+
+The preset must support BOTH:
+
+PAIR RESEARCH
+
+Example:
+NVIDIA ↔ Anthropic
+
+and:
+
+ENTITY DISCOVERY
+
+Example:
+Find important relationships around CoreWeave.
+
+It must support:
+
+- direct relationships
+- indirect relationships
 - current
-- historical
 - emerging
+- historical
+- terminated where explicitly evidenced
+- corroboration
+- new relationship proposals
+- conflicts
+- mention-only exclusion
+- exact source/excerpt/date
+- confidence factors
+- credit materiality
 
-Also include strict guardrails:
-- no fabricated sources
-- no fabricated excerpts
-- no pretrained-model knowledge used as evidence
-- no co-mention classified as relationship
-- no ambiguous entity merge
-- no automatic CAM mutation
-- no automatic validation of external proposals
-- no unsupported SEC claim
+Do not introduce portfolio-review scenario analysis.
 
-Include the complete recommended production preset instruction at the bottom under:
+==================================================
+DO NOT CHANGE
+==================================================
 
-PRESET PROMPT TO COPY INTO STYLUS
+Do not change:
 
-The prompt must be ready for me to copy/paste directly into the Stylus Prompt field and must reference the exact runtime input fields expected by the existing application.
+- CAM internal baseline
+- 767 validated relationships
+- RPR project
+- existing RPR preset contract
+- external evidence governance
+- review workflow
 
-Also inspect the proven RPR preset configuration and report:
+==================================================
+VALIDATE ONCE
+==================================================
 
-- recommended model
-- required tools/integrations
-- whether Web is required
-- whether SEC filing integration is required
-- any other required integration
+After correcting:
 
-Do NOT use placeholders such as TODO.
-Do NOT leave pending knowledge.
-Do NOT run R2D2.
+1. Verify Lending code no longer references the six RPR business input keys.
+2. Verify the new Lending adapter uses exactly the six relationship inputs.
+3. Verify knowledge files contain exactly the same six inputs.
+4. Verify preset prompt contains exactly the same six placeholders.
+5. Verify RPR remains unchanged.
+6. Do not run the live preset yet.
 
-Final response must contain only:
+Report only:
 
-1. Folder path
-2. Five filenames created
-3. Exact runtime input keys, in order
-4. Exact prompt text location/file
-5. Recommended model from proven RPR setup
-6. Required tools/integrations
-7. Knowledge readiness PASS/FAIL
+- old keys removed
+- new six keys
+- files changed
+- RPR unchanged PASS/FAIL
+- Lending preset contract PASS/FAIL
 
-STOP.
+Then STOP.
