@@ -1,105 +1,72 @@
-Continue from the restored Lending route.
+The previous validation result is incorrect.
 
-SCOPE: /lending ONLY.
+Visual evidence shows that:
 
-Do not modify:
-- CCR page
-- CCR routes
-- CCR components
-- CCR data
-- Customer_latest.parquet
-- frozen CAM baseline
-- working R2D2 Web/SEC integration
-- caching/reconciliation/review workflow
+http://127.0.0.1:5173/lending
 
-GOAL
+is still rendering the CCR Correlations page.
 
-Improve ONLY the existing Lending page into the senior-credit relationship intelligence page.
+This is a FAIL.
 
-Use the existing Lending data and existing working backend.
+Fix route/component separation only.
 
-Implement on /lending:
+Requirements:
 
-1. Portfolio summary KPIs
-- Lending clients
-- validated CAM relationships
-- current relationships
-- hidden/indirect relationships
-- historical relationships
-- pending external proposals
-- high-confidence/material relationships
+1. /lending must render the Lending relationship application.
+2. /lending must NOT render:
+   - CCR CORRELATIONS
+   - CCR CLIENTS ONLY
+   - CCR client lookup
+   - GFCID search
+   - Customer_latest.parquet
+   - CCR snapshot statistics
+   - any CCR-specific component or data source
 
-2. Large Lending relationship network as the main visual
-- Lending clients as primary nodes
-- external/non-client related entities visible
-- CAM edges clearly trusted
-- approved external relationships as separate overlay
-- pending proposals dashed/distinct
-- direct vs indirect distinguishable
-- click node = pivot around that entity
-- click edge = open relationship evidence
+3. Inspect:
+   - App.tsx
+   - routing logic
+   - Layout.tsx
+   - Lending page/component imports
+   - CCR page/component imports
 
-3. Selected entity panel
-Show:
-- name
-- CAGID if available
-- relationship count
-- direct/indirect counts
-- relationship families
-- current/emerging/historical
-- material dependencies/concentrations
-- CAM vs external evidence
+4. Restore the existing Lending RelationshipDatabase / Lending relationship page to /lending.
 
-4. Credit-focused filters
-Use only real available data:
-- critical supplier
-- customer dependency
-- technology dependency
-- infrastructure dependency
-- revenue concentration
-- guarantor
-- sponsor/ownership
-- lender/backleverage
-- strategic partner
-- contracted customer
+5. Preserve all existing Lending backend functionality:
+   - CAM database
+   - 767 validated relationships
+   - R2D2 Web + SEC
+   - caching
+   - reconciliation
+   - review workflow
+   - external overlay
 
-5. External intelligence panel
-Keep the working:
-- Research Web
-- Deep Validation Web + SEC
-- cached/live status
-- confidence
-- materiality
-- exact excerpts
-- source links
-- proposal/review status
+6. Do not modify the CCR page.
+7. Do not modify CCR data.
+8. Do not modify the frozen CAM baseline.
+9. Do not redesign anything.
+10. Do not report PASS based only on code inspection.
 
-6. Do not run R2D2 automatically.
+VALIDATION MUST INCLUDE ACTUAL HTTP/UI CHECK:
 
-7. Do not add World Map or AI Ecosystem yet.
-First make the core Lending page and end-to-end network excellent and stable.
+Open:
+http://127.0.0.1:5173/lending
 
-8. No redesign loops.
-One implementation cycle only.
+Confirm visible page contains Lending terminology and does NOT contain:
+"CCR CORRELATIONS"
+"CCR CLIENTS ONLY"
+"Customer_latest.parquet"
 
-Acceptance test:
-- /lending uses Lending data only
-- network loads from validated CAM database
-- node pivot works
-- edge evidence works
-- external overlay works
-- R2D2 panel still works
-- CAM baseline unchanged
-- CCR unchanged
+Then open the CCR route separately and confirm CCR still works.
 
 Return only:
-- Lending page PASS/FAIL
-- network PASS/FAIL
-- node pivot PASS/FAIL
-- evidence drilldown PASS/FAIL
-- external overlay PASS/FAIL
-- R2D2 preserved PASS/FAIL
-- CAM unchanged PASS/FAIL
-- CCR unchanged PASS/FAIL
+
+- /lending renders Lending UI PASS/FAIL
+- no CCR content on /lending PASS/FAIL
+- Lending data source PASS/FAIL
+- Lending backend preserved PASS/FAIL
+- CCR route unchanged PASS/FAIL
+- CAM baseline unchanged PASS/FAIL
+
+If any check fails, report FAIL.
 
 Then STOP.
