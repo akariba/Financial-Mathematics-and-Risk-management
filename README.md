@@ -1,48 +1,148 @@
-SubjectEntity: CoreWeave
-RelatedEntity: NVIDIA
-RelationshipScope: ALL
-SourceChannels: R2D2_WEB,SEC_FILING
-ResearchInstruction: Find explicit credit-relevant relationships between the two entities.
-AsOfDate: 2026-09-20
+Continue the Lending relationship solution from the now-working R2D2 Web + SEC integration.
 
+LENDING ONLY.
 
-The manually created Lending Stylus preset is now producing a successful live JSON artifact.
+Do not modify:
+- the frozen CAM/internal Lending baseline;
+- the manually created Stylus preset;
+- the six-input preset contract;
+- the RPR implementation.
 
-Do not modify the preset.
+GOAL
 
-Wire the Lending application to consume this exact returned JSON.
+Turn the working external research integration into a practical analyst workflow.
 
-After parsing each finding:
+Implement the following:
 
-1. Resolve SubjectEntity and RelatedEntity against the existing Lending/CAM entity database using exact canonical name, aliases and CAGID where available.
+1. ON-DEMAND RESEARCH ONLY
+R2D2 research must run only after an explicit analyst action.
+Never run automatically on:
+- page load;
+- entity selection;
+- graph click;
+- reconnect;
+- refresh.
 
-2. Compare the returned entity pair + relationship_type against the validated CAM relationships.
+2. RESEARCH MODES
 
-3. If exact pair/type exists in CAM:
-   classify as CAM_CORROBORATION and attach the external Web/SEC evidence to that CAM relationship without modifying CAM.
+Provide:
+- Web Research — R2D2_WEB only
+- Deep Validation — R2D2_WEB + SEC_FILING
 
-4. If the pair/type does not exist:
-   keep it as EXTERNAL_PROPOSAL_PENDING_REVIEW.
+Default to Web Research.
 
-5. If external evidence explicitly contradicts CAM:
-   classify as CONFLICT_REVIEW_REQUIRED.
+SEC must not run unless explicitly selected by the analyst.
 
-6. Preserve Web and SEC evidence separately.
+3. CACHE RESULTS
 
-7. Never modify, replace, reclassify or delete CAM records.
+Persist successful research results.
 
-8. Do not require Stylus to provide internal CAGIDs or entity IDs. Resolve those locally after the response.
+Before calling Runner, check whether the same research already exists for:
 
-Run ONE bounded live test using the existing CoreWeave ↔ NVIDIA case.
+- SubjectEntity
+- RelatedEntity
+- RelationshipScope
+- SourceChannels
+- AsOfDate
+
+If a valid completed result exists, load it immediately instead of executing R2D2 again.
+
+Provide an explicit “Refresh research” action if the analyst wants a new run.
+
+Never silently refresh cached evidence.
+
+4. RECONCILIATION
+
+For every external finding:
+
+- resolve the related entity locally;
+- compare entity pair + relationship_type with CAM;
+- exact CAM match → CAM_CORROBORATION;
+- new supported relationship → EXTERNAL_PROPOSAL_PENDING_REVIEW;
+- explicit contradiction → CONFLICT_REVIEW_REQUIRED;
+- mention without relationship support → MENTION_ONLY.
+
+CAM remains unchanged.
+
+5. ANALYST REVIEW
+
+External proposals must have review states:
+
+PENDING_REVIEW
+APPROVED_EXTERNAL
+REJECTED
+CONFLICT_REVIEW_REQUIRED
+
+Approval must NOT modify the frozen CAM database.
+
+Approved external relationships remain a separate reviewed external layer.
+
+6. UI
+
+For the selected Lending client show a compact External Research panel with:
+
+- Research Web
+- Deep Validation (Web + SEC)
+- last researched timestamp
+- cached/live indicator
+- research status
+- number of corroborations
+- number of new proposals
+- conflicts
+- mention-only findings
+
+For each finding show:
+
+relationship type
+related entity
+confidence
+credit materiality
+Web / SEC source badges
+exact source excerpt
+source link/reference
+review state
+
+7. GRAPH
+
+CAM relationships remain the trusted graph.
+
+Reviewed external proposals may be shown as a visually distinct overlay.
+
+Pending proposals must never look identical to CAM-confirmed relationships.
+
+8. PERFORMANCE / SAFETY
+
+- no automatic reruns;
+- no loops;
+- no polling loops;
+- bounded Runner timeout;
+- failed/partial Runner responses must not be persisted as successful research;
+- preserve Web and SEC evidence separately;
+- do not rerun an identical completed request unless Refresh research is explicitly selected.
+
+Do not redesign unrelated parts of the Lending application.
+
+TEST ONCE
+
+Use CoreWeave ↔ NVIDIA.
+
+Verify:
+1. first Web research can execute live;
+2. repeating the identical request returns cached results without Runner execution;
+3. Deep Validation can separately invoke Web + SEC;
+4. findings reconcile against CAM correctly;
+5. external proposals remain separate from CAM;
+6. CAM baseline hash/count remains unchanged.
 
 Return only:
 
-- preset JSON parse PASS/FAIL
-- entity resolution PASS/FAIL
+- on-demand execution PASS/FAIL
+- Web-only mode PASS/FAIL
+- Web+SEC mode PASS/FAIL
+- caching PASS/FAIL
 - CAM reconciliation PASS/FAIL
-- Web evidence persistence PASS/FAIL
-- SEC evidence persistence PASS/FAIL
+- review workflow PASS/FAIL
+- external graph overlay PASS/FAIL
 - CAM baseline unchanged PASS/FAIL
-- end-to-end Lending test PASS/FAIL
 
 Then STOP.
