@@ -1,72 +1,120 @@
-The previous validation result is incorrect.
+The Lending route is now correctly restored.
 
-Visual evidence shows that:
+Do NOT add AI Ecosystem, world map, news bubbles, or any new visualization yet.
 
-http://127.0.0.1:5173/lending
+LENDING ONLY.
 
-is still rendering the CCR Correlations page.
+Perform one focused usability/data-consistency correction pass on the existing /lending page.
 
-This is a FAIL.
+DO NOT modify:
+- frozen CAM baseline
+- R2D2 Web/SEC integration
+- preset
+- caching
+- reconciliation
+- review workflow
+- CCR application or CCR data
 
-Fix route/component separation only.
+FIX THESE SPECIFIC ISSUES:
 
-Requirements:
+1. STRICT LENDING SOURCE ISOLATION
 
-1. /lending must render the Lending relationship application.
-2. /lending must NOT render:
-   - CCR CORRELATIONS
-   - CCR CLIENTS ONLY
-   - CCR client lookup
-   - GFCID search
-   - Customer_latest.parquet
-   - CCR snapshot statistics
-   - any CCR-specific component or data source
+The Lending source inventory must not display or ingest files from backend/data/ccr or any CCR-specific source.
 
-3. Inspect:
-   - App.tsx
-   - routing logic
-   - Layout.tsx
-   - Lending page/component imports
-   - CCR page/component imports
+I can currently see SQL-1 (4).csv identified as CCR data in the Lending source inventory.
 
-4. Restore the existing Lending RelationshipDatabase / Lending relationship page to /lending.
+Exclude CCR-folder files completely from:
+- Lending source inventory
+- Lending document counts
+- Lending evidence search
+- Lending relationship extraction
 
-5. Preserve all existing Lending backend functionality:
-   - CAM database
-   - 767 validated relationships
-   - R2D2 Web + SEC
-   - caching
-   - reconciliation
-   - review workflow
-   - external overlay
+Do not delete the CCR files themselves.
 
-6. Do not modify the CCR page.
-7. Do not modify CCR data.
-8. Do not modify the frozen CAM baseline.
-9. Do not redesign anything.
-10. Do not report PASS based only on code inspection.
+2. SELECTED-ENTITY METRIC CONSISTENCY
 
-VALIDATION MUST INCLUDE ACTUAL HTTP/UI CHECK:
+For the selected Lending entity, reconcile all displayed metrics from the same validated CAM relationship set.
 
-Open:
-http://127.0.0.1:5173/lending
+If the selected entity has 27 trusted relationships, then:
+- connected-entity count
+- direct/indirect counts
+- relationship-family counts
+- current/historical counts
+- CAM evidence/source-document counts
 
-Confirm visible page contains Lending terminology and does NOT contain:
-"CCR CORRELATIONS"
-"CCR CLIENTS ONLY"
-"Customer_latest.parquet"
+must be internally consistent with those relationships.
 
-Then open the CCR route separately and confirm CCR still works.
+Do not show 27 trusted links while displaying misleading zero relationship metrics unless zero is genuinely correct and explicitly explained.
+
+3. FILTER BEHAVIOR
+
+Entity selection must not accidentally leave incompatible filters active and produce an apparently empty client.
+
+When a new entity is selected:
+- preserve analyst filters only where they remain applicable;
+- otherwise clearly indicate that active filters hide relationships;
+- provide one-click “Show all relationships for this entity”.
+
+Never silently make a connected entity look like it has no relationships.
+
+4. NETWORK READABILITY
+
+Keep the complete validated network available, but make the default selected-entity view usable.
+
+Default:
+- selected entity in center
+- first-degree relationships visible
+- second-degree relationships available on expansion
+- no arbitrary deletion/truncation
+- analyst can expand/pivot through the full network
+
+Do not render the entire 767-edge network as an unreadable hairball by default.
+
+5. FIRST-PAGE PRIORITY
+
+Keep:
+- summary KPIs
+- search/filter
+- R2D2 Assist
+- network
+- entity profile
+- relationship/evidence table
+
+Move the full Source Inventory into a collapsed:
+“Data provenance / source inventory”
+section or drawer.
+
+The senior credit analyst should not need to scroll through dozens of source filenames during normal analysis.
+
+6. RELATIONSHIP TABLE
+
+For the selected entity, default the table to its validated relationships.
+
+Clicking a network edge must:
+- select the atomic relationship;
+- show exact CAM provenance;
+- show source document;
+- show exact excerpt/location where available.
+
+7. DO NOT REDESIGN THE WHOLE PAGE.
+
+Make only these corrections.
+
+TEST ONCE using CAVALRY PARENT LP and one other well-connected Lending client.
 
 Return only:
 
-- /lending renders Lending UI PASS/FAIL
-- no CCR content on /lending PASS/FAIL
-- Lending data source PASS/FAIL
-- Lending backend preserved PASS/FAIL
-- CCR route unchanged PASS/FAIL
+- CCR source isolation PASS/FAIL
+- selected-entity metric consistency PASS/FAIL
+- filter behavior PASS/FAIL
+- network readability PASS/FAIL
+- relationship table PASS/FAIL
+- provenance drilldown PASS/FAIL
 - CAM baseline unchanged PASS/FAIL
-
-If any check fails, report FAIL.
+- R2D2 preserved PASS/FAIL
+- CCR application unchanged PASS/FAIL
 
 Then STOP.
+
+No loops.
+No additional features.
