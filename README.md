@@ -1,148 +1,197 @@
-Continue the Lending relationship solution from the now-working R2D2 Web + SEC integration.
+The Lending relationship research backend is now validated end-to-end.
+
+All acceptance tests passed.
+
+FREEZE the working backend behavior:
+- CAM baseline
+- R2D2 Web/SEC integration
+- caching
+- reconciliation
+- review workflow
+- external overlay
+- six-input preset contract
+
+Do not refactor or redesign those components.
+
+NEXT GOAL:
+Build the main Lending Relationship Intelligence page for senior credit / portfolio analysis.
 
 LENDING ONLY.
 
-Do not modify:
-- the frozen CAM/internal Lending baseline;
-- the manually created Stylus preset;
-- the six-input preset contract;
-- the RPR implementation.
+The page must make the network useful immediately, not look like a technical database screen.
 
-GOAL
+FIRST VIEW
 
-Turn the working external research integration into a practical analyst workflow.
+1. TOP SUMMARY
+Show concise portfolio intelligence:
+- Lending clients
+- validated CAM relationships
+- current relationships
+- hidden / indirect relationships
+- historical relationships
+- pending external proposals
+- material/high-confidence relationships
+- highly connected entities
 
-Implement the following:
+Use real existing data only.
 
-1. ON-DEMAND RESEARCH ONLY
-R2D2 research must run only after an explicit analyst action.
-Never run automatically on:
-- page load;
-- entity selection;
-- graph click;
-- reconnect;
-- refresh.
+2. PRIMARY NETWORK MAP
+Make the relationship network the dominant visual.
 
-2. RESEARCH MODES
+Requirements:
+- portfolio Lending clients as primary nodes
+- related/non-client entities also visible
+- node size based on a meaningful available metric such as connectivity, or exposure only if actual exposure data exists
+- clearly distinguish Lending clients from external entities
+- CAM relationships = primary/trusted edges
+- approved external relationships = distinct overlay
+- pending external proposals = visually distinct/dashed
+- direct/indirect relationships distinguishable
+- clicking any node pivots the network around that entity
+- clicking an edge opens evidence and relationship details
+- support end-to-end traversal through non-client entities
+- never truncate the network arbitrarily
 
-Provide:
-- Web Research — R2D2_WEB only
-- Deep Validation — R2D2_WEB + SEC_FILING
+3. CREDIT INSIGHT PANEL
+When a node is selected show:
+- entity name / CAGID if available
+- relationship count
+- direct vs indirect
+- relationship families
+- current / emerging / historical
+- material relationships
+- concentration/dependency indicators
+- source coverage
+- CAM vs external evidence
 
-Default to Web Research.
+4. RELATIONSHIP INTELLIGENCE
+Surface the relationships most useful to a senior credit analyst:
+- critical supplier
+- customer dependency
+- revenue concentration
+- technology dependency
+- infrastructure dependency
+- guarantor
+- sponsor / ownership
+- lender / backleverage financing
+- strategic partner
+- major contracted customer
+- legal/regulatory relationship
 
-SEC must not run unless explicitly selected by the analyst.
+Do not create synthetic risk scores.
 
-3. CACHE RESULTS
+5. AI ECOSYSTEM / BUBBLE VIEW
+Add a useful “AI Ecosystem” view using existing relationship data.
 
-Persist successful research results.
+Allow analysts to isolate:
+- AI / model companies
+- hyperscalers
+- semiconductors / hardware
+- infrastructure / data centers
+- investors / lenders
+- enterprise customers
 
-Before calling Runner, check whether the same research already exists for:
+Use actual entity classifications available in the database.
+Do not invent categories where data cannot support them.
 
-- SubjectEntity
-- RelatedEntity
-- RelationshipScope
-- SourceChannels
-- AsOfDate
+6. WORLD MAP
+Add a secondary geographic relationship view if reliable entity geography exists.
 
-If a valid completed result exists, load it immediately instead of executing R2D2 again.
+Show:
+- Lending clients
+- connected entities
+- geographic concentrations
+- selected relationship paths across locations
 
-Provide an explicit “Refresh research” action if the analyst wants a new run.
+Do not fabricate locations.
+If geographic data is missing, clearly show coverage limitations.
 
-Never silently refresh cached evidence.
-
-4. RECONCILIATION
-
-For every external finding:
-
-- resolve the related entity locally;
-- compare entity pair + relationship_type with CAM;
-- exact CAM match → CAM_CORROBORATION;
-- new supported relationship → EXTERNAL_PROPOSAL_PENDING_REVIEW;
-- explicit contradiction → CONFLICT_REVIEW_REQUIRED;
-- mention without relationship support → MENTION_ONLY.
-
-CAM remains unchanged.
-
-5. ANALYST REVIEW
-
-External proposals must have review states:
-
-PENDING_REVIEW
-APPROVED_EXTERNAL
-REJECTED
-CONFLICT_REVIEW_REQUIRED
-
-Approval must NOT modify the frozen CAM database.
-
-Approved external relationships remain a separate reviewed external layer.
-
-6. UI
-
-For the selected Lending client show a compact External Research panel with:
+7. EXTERNAL INTELLIGENCE
+Integrate the existing R2D2 workflow into the page:
 
 - Research Web
-- Deep Validation (Web + SEC)
-- last researched timestamp
+- Deep Validation: Web + SEC
 - cached/live indicator
-- research status
-- number of corroborations
-- number of new proposals
-- conflicts
-- mention-only findings
+- source badges
+- exact excerpts
+- confidence
+- credit materiality
+- CAM corroboration / external proposal / conflict / mention-only
 
-For each finding show:
+Do not run research automatically.
 
-relationship type
-related entity
-confidence
-credit materiality
-Web / SEC source badges
-exact source excerpt
-source link/reference
-review state
+8. MENTIONS / NEWS
+Add a compact external-intelligence area for relevant relationship mentions.
 
-7. GRAPH
+Separate:
+- evidence supporting an actual relationship
+- mention-only/context
+- emerging/new relationship evidence
 
-CAM relationships remain the trusted graph.
+Mention-only information must never appear as a confirmed network edge.
 
-Reviewed external proposals may be shown as a visually distinct overlay.
+9. CITI / INTERNAL RISK DATA
+Inspect the existing internal data already in the repository.
 
-Pending proposals must never look identical to CAM-confirmed relationships.
+If genuine Lending exposure, OSUC, distribution-risk, facility, drawn/unfunded, or similar fields exist, add them as optional overlays/filters.
 
-8. PERFORMANCE / SAFETY
+Do NOT infer or invent these fields.
 
-- no automatic reruns;
-- no loops;
-- no polling loops;
-- bounded Runner timeout;
-- failed/partial Runner responses must not be persisted as successful research;
-- preserve Web and SEC evidence separately;
-- do not rerun an identical completed request unless Refresh research is explicitly selected.
+Examples:
+- node sizing by exposure
+- OSUC filter
+- distribution-risk filter
+- facility/exposure detail
 
-Do not redesign unrelated parts of the Lending application.
+Only implement what the actual source data supports.
 
-TEST ONCE
+10. UX
+Most important information must be visible on the first page.
 
-Use CoreWeave ↔ NVIDIA.
+Avoid a long configuration form as the main experience.
+
+Target layout:
+
+[ Portfolio summary KPIs ]
+
+[             LARGE RELATIONSHIP NETWORK              ]
+[ Filters / views                      Selected entity ]
+
+[ Credit concentrations / dependencies / key links   ]
+
+[ AI Ecosystem ] [ Geographic Map ] [ External Intel ]
+
+[ Detailed relationship/evidence table ]
+
+Keep drill-down available, but make the first screen immediately informative.
+
+Do not add decorative charts with no credit purpose.
+
+TEST
+Use real existing Lending entities and relationships.
 
 Verify:
-1. first Web research can execute live;
-2. repeating the identical request returns cached results without Runner execution;
-3. Deep Validation can separately invoke Web + SEC;
-4. findings reconcile against CAM correctly;
-5. external proposals remain separate from CAM;
-6. CAM baseline hash/count remains unchanged.
+- network uses validated database
+- non-client entity pivot works
+- CAM/external distinction works
+- evidence drill-down works
+- AI ecosystem filtering works where data exists
+- geographic view uses only genuine locations
+- internal risk overlays use only genuine source fields
+- CAM baseline remains unchanged
+
+Do one implementation/validation cycle only.
+No loops.
+No repeated redesign.
 
 Return only:
-
-- on-demand execution PASS/FAIL
-- Web-only mode PASS/FAIL
-- Web+SEC mode PASS/FAIL
-- caching PASS/FAIL
-- CAM reconciliation PASS/FAIL
-- review workflow PASS/FAIL
-- external graph overlay PASS/FAIL
+- main Lending page PASS/FAIL
+- end-to-end network PASS/FAIL
+- credit insight panel PASS/FAIL
+- AI ecosystem view PASS/FAIL
+- geographic view PASS/FAIL
+- external intelligence integration PASS/FAIL
+- internal risk overlay PASS/FAIL
 - CAM baseline unchanged PASS/FAIL
 
 Then STOP.
