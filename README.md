@@ -1,99 +1,191 @@
-V3 TARGETED BLOCKER RESOLUTION — PROJECT MINER ONLY
+EXTERNAL RELATIONSHIP RESEARCH — SOURCE AND EVIDENCE GOVERNANCE
 
-The V3 precision-first extraction is complete.
+PURPOSE
 
-Do NOT rerun V3.
-Do NOT change extraction logic.
-Do NOT change relationship thresholds.
-Do NOT modify any other document subject.
-Do NOT touch the 13 canonical relationships unless Project Miner directly requires a change.
-Do NOT call SEC, R2D2, Web, or external research.
-Do NOT touch CCR, UI, V1, V2, or V5 relationship policy.
+Research external evidence for the requested entity relationship.
 
-There is exactly one remaining external-corroboration readiness blocker:
+External research is supplemental to CAM/internal Lending evidence.
 
-PROJECT MINER document subject is unresolved.
+External evidence must NEVER silently overwrite, replace, or become CAM-authoritative truth.
 
-Your task is ONLY to resolve or formally classify this one document-subject exception.
+SOURCE PRIORITY
 
-Use local authoritative evidence in this order:
+TIER 1 — PRIMARY / AUTHORITATIVE
+Prefer these whenever available:
 
-1. authoritative Lending control/tracker workbook
-2. explicit CAGID in the physical Project Miner source document
-3. first-page/header/table legal entity identity
-4. authoritative Masterfile/control mapping
-5. filename/project-name mapping only when corroborated by the above
+- SEC filings
+- company investor-relations disclosures
+- company official press releases
+- company regulatory filings
+- stock-exchange filings
+- government/regulatory sources
+- official transaction/financing disclosures
+- rating-agency publications when directly relevant
 
-Review carefully the prior ambiguity involving:
-- PROJECT MINER
-- PROJECT JACKRABBIT
-- RED CHILES CAMPUS
-- any borrower/project entity explicitly named in the physical document
+TIER 2 — HIGH-QUALITY SECONDARY
+Allowed when primary evidence is unavailable or for corroboration:
 
-Do not infer subject identity merely because another entity is prominently mentioned as:
-- tenant
-- customer
-- supplier
-- concentration
-- sponsor
-- parent
-- counterparty
+- Reuters
+- Bloomberg
+- Financial Times
+- Wall Street Journal
+- S&P
+- Moody's
+- Fitch
+- other established institutional financial/business publications
 
-The document SUBJECT must be the actual controlled CAM/credit subject.
+TIER 3 — SPECIALIST / TRADE SOURCES
+May be used only as supplemental corroboration when clearly attributable and reputable.
 
-Return one of only three outcomes:
+DO NOT USE AS RELATIONSHIP PROOF
 
-A. RESOLVED
-Provide:
-- source file
-- canonical subject legal name
-- CAGID
-- exact resolution basis
-- supporting local source
-- confidence
-- any V3 relationships affected
+- personal blogs
+- anonymous blogs
+- SEO/content-farm sites
+- article aggregators
+- scraped/reposted content
+- forums
+- Reddit/social-media posts
+- AI-generated summaries
+- generic company-profile websites
+- Wikipedia as final evidence
+- unsourced claims
 
-B. REVIEW_REQUIRED
-Use this when evidence genuinely conflicts.
-Provide:
-- competing identities
-- CAGIDs
-- exact conflict
-- why deterministic resolution is impossible
+RELATIONSHIP EVIDENCE RULE
 
-C. EXCLUDED_FROM_V3_SUBJECT-COVERAGE
-Use only if the document cannot be reliably assigned to a controlled Lending subject and therefore should not contribute canonical relationship evidence.
-Preserve it for manual review.
+Do not report a relationship merely because two entities are mentioned together.
 
-If outcome A:
-update ONLY the V3 subject reconciliation and directly dependent V3 records, then rerun V3 validation.
+A relationship finding requires:
 
-If outcome B or C:
-do NOT manufacture a resolution.
-Keep all Project Miner-dependent relationships outside canonical truth and rerun the readiness check.
+1. clearly identified entities;
+2. explicit relationship semantics;
+3. an evidence excerpt directly supporting the relationship;
+4. source URL/reference;
+5. publication/filing date when available;
+6. source tier;
+7. relationship type;
+8. evidence-strength classification.
 
-At the end report:
+Do not infer relationships from:
+- co-mention;
+- same industry;
+- geographic proximity;
+- common market theme;
+- generic ecosystem association;
+- similar products;
+- proximity in an article.
 
-PROJECT MINER SUBJECT STATUS:
-RESOLVED / REVIEW_REQUIRED / EXCLUDED
+EVIDENCE STRENGTH
 
-Resolved subject:
-CAGID:
-Resolution basis:
+HIGH
 
-V3 canonical relationships before:
-V3 canonical relationships after:
+Use only when:
+- an authoritative primary source explicitly supports the relationship;
+OR
+- two independent high-quality sources explicitly support the same relationship.
 
-V3 review-required before:
-V3 review-required after:
+MEDIUM
 
-Other V3 records changed:
-0 / <explain>
+Use when:
+- one strong reputable source explicitly supports the relationship;
+- entity identity and relationship semantics are clear;
+- no material conflicting evidence exists.
 
-Full V3 validation:
-PASS / FAIL
+INSUFFICIENT
 
-V3 CAM DATA READY FOR EXTERNAL CORROBORATION:
-YES / NO
+Use when:
+- evidence is vague;
+- relationship is inferred;
+- source quality is weak;
+- only co-mention exists;
+- entity identity is uncertain;
+- material contradiction exists.
 
-Then STOP.
+INSUFFICIENT findings must not be presented as validated external relationships.
+
+CAM CORROBORATION
+
+When the requested relationship already exists in CAM:
+
+classify external result as one of:
+
+CAM_CORROBORATION
+CONFLICT_REVIEW_REQUIRED
+NO_EXTERNAL_CORROBORATION
+
+External evidence does not modify CAM automatically.
+
+NEW EXTERNAL RELATIONSHIPS
+
+When external research finds a relationship not present in CAM:
+
+classify it as:
+
+EXTERNAL_PROPOSAL_PENDING_REVIEW
+
+Never classify an externally discovered relationship as CAM-confirmed.
+
+HIDDEN / INDIRECT RELATIONSHIPS
+
+A hidden relationship requires a complete evidence-backed path.
+
+Example:
+
+A → B → C
+
+A → B must have explicit acceptable evidence.
+B → C must have explicit acceptable evidence.
+
+For every hop provide:
+- subject
+- related entity
+- relationship type
+- source
+- source tier
+- evidence excerpt
+- evidence strength
+
+If any hop is INSUFFICIENT:
+
+do not validate A → C as a hidden relationship.
+
+Overall hidden-path strength cannot exceed the weakest hop.
+
+RESEARCH DISCIPLINE
+
+Prefer precision over breadth.
+
+Do not attempt to discover every conceivable connection.
+
+Focus on:
+- material corporate relationships
+- ownership
+- parent/subsidiary
+- investors/sponsors
+- guarantees
+- lenders/financing
+- customers
+- suppliers
+- strategic partners
+- material technology dependencies
+- infrastructure dependencies
+- joint ventures
+- acquisitions
+- significant contractual relationships
+
+Return fewer strong findings rather than many speculative findings.
+
+Always respect the requested AsOfDate.
+
+SOURCE CHANNELS
+
+If SourceChannels = R2D2_WEB:
+use Web research only.
+
+If SourceChannels = SEC_FILING:
+use SEC filing research only.
+
+If both are supplied:
+use both and distinguish the evidence channel for every finding.
+
+Do not substitute one channel for another silently.
