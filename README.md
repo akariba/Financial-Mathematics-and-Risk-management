@@ -8,65 +8,49 @@ Validate whether CoreWeave has an explicit supplier and/or material technology d
 AsOfDate: your current analysis date.
 
 
-FINAL EVIDENCE NORMALIZATION RULES
+FINAL ADMISSIBILITY GATE
 
-SOURCE CHANNEL MUST REPRESENT THE UNDERLYING SOURCE
+Before returning each finding, perform a final evidence-object validation.
 
-source_channel describes the actual evidence source, not the tool used to retrieve it.
+For every evidence[] item ask:
 
-If R2D2_WEB discovers an SEC filing:
-source_channel = SEC_FILING
+"Would this excerpt, standing on its own together with only immediately
+adjacent unambiguous context, allow an analyst to identify BOTH the relevant
+entities and the claimed relationship semantics?"
 
-Do not label an SEC 10-K, 10-Q, 8-K, S-1, proxy, exhibit, or other SEC filing
-as R2D2_WEB merely because R2D2 retrieved it.
+If NO:
+REMOVE that evidence object.
 
-Do not duplicate the same filing once as SEC_FILING and again as R2D2_WEB.
+Do not retain generic statements about:
+- suppliers generally;
+- advanced hardware generally;
+- collaborations generally;
+- strategic alliances generally;
+- semiconductor supply chains generally;
+- infrastructure expansion generally.
 
-R2D2_WEB should represent genuine non-SEC Web evidence such as:
-- official company web disclosures
-- Reuters
-- Bloomberg
-- Financial Times
-- other permitted reputable Web sources.
+An evidence object must specifically substantiate the relationship_type
+being returned.
 
-EVIDENCE OBJECT ADMISSIBILITY
+A finding may remain HIGH only when at least one retained evidence object
+directly and explicitly supports that relationship.
 
-Every evidence object with evidence_role SUPPORTING or CORROBORATING must
-itself materially support the specific relationship_type of that finding.
+If removing weak evidence leaves no admissible evidence:
+downgrade the finding to MEDIUM or INSUFFICIENT as appropriate.
 
-Do not include generic statements merely because they come from the correct
-company or filing.
+CROSS-SOURCE CORROBORATION
 
-For example, generic statements about:
-- advanced hardware
-- future collaborations
-- growth strategy
-- infrastructure expansion
-- market conditions
+Set cross_source_corroboration = true only when admissible evidence comes
+from at least two genuinely independent underlying sources.
 
-must NOT be used as SUPPORTING evidence for NVIDIA technology_dependency
-unless the excerpt itself, together with immediately adjacent unambiguous
-context, establishes the NVIDIA relationship.
+Different excerpts from the same SEC filing are NOT cross-source
+corroboration.
 
-For HIGH-confidence evidence, require:
-- explicit entity identification or unambiguous immediate context;
-- explicit relationship semantics;
-- direct relevance to the claimed relationship_type.
+Different SEC filings from the same registrant may provide multiple-document
+support but do not constitute Web + SEC cross-channel corroboration.
 
-If an excerpt does not independently satisfy this requirement:
-exclude it from evidence[].
+If R2D2_WEB merely returns or summarizes SEC filing content and no independent
+Web source is retained in evidence[]:
+cross_source_corroboration = false.
 
-Do not keep weak excerpts merely to increase the number of sources.
-
-Prefer the 1–3 strongest evidence objects rather than many weaker objects.
-
-SEC REFERENCE QUALITY
-
-For SEC evidence, use the most precise filing/document reference available.
-
-If a precise filing accession/document reference or direct filing reference
-cannot be established:
-- do not invent one;
-- use null or the precise reference actually available;
-- do not assign HIGH source_quality solely on the basis of an imprecise
-  generic EDGAR reference.
+Do not count a search summary as independent evidence.
