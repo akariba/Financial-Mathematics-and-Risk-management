@@ -1,19 +1,20 @@
-NEW INPUT FILE ANALYSIS — READ ONLY
+V5 CAGID FILE ANALYSIS — READ ONLY
 
-I have added two new files to the Lending project:
+I added two files to the Lending project:
 
 1. v5-All-CAGIDs.xlsx
 2. v5-All-CAGIDs.json
 
-Before using either file anywhere, perform a COMPLETE READ-ONLY ANALYSIS of both files.
+Your task is to analyze these files completely before they are used anywhere.
+
+THIS IS READ-ONLY ANALYSIS ONLY.
 
 DO NOT:
 - modify either file;
 - modify SQLite;
-- modify the canonical relationship dataset;
+- modify any canonical relationship dataset;
 - modify the frozen baseline;
 - modify source CAM/PDF/DOCX files;
-- modify the 418-client population;
 - rebuild relationships;
 - change entity resolution yet;
 - call R2D2;
@@ -22,12 +23,12 @@ DO NOT:
 - touch CCR;
 - touch the frontend.
 
-The purpose of this task is ONLY to understand exactly what these two new files contain and whether they can safely help resolve the current Lending entity/CAGID problems.
-
-Proceed autonomously and complete the full analysis.
+Proceed autonomously.
+Do not ask for confirmation.
+Do not stop until the full analysis and statistics report are complete.
 
 ==================================================
-1. IDENTIFY THE FILES
+1. IDENTIFY BOTH FILES
 ==================================================
 
 For each file report:
@@ -36,39 +37,39 @@ For each file report:
 - file type
 - file size
 - SHA256
-- creation/modification metadata if available
-- sheet names for XLSX
+- modification metadata if available
+- XLSX sheet names
 - JSON top-level structure
 - total rows / objects
 - total columns / fields
-- column names / JSON keys
+- all column names / JSON keys
 - data types
 - null counts
 - unique counts
 
-Determine whether the XLSX and JSON represent:
+Determine whether XLSX and JSON represent:
 - exactly the same dataset;
 - approximately the same dataset;
 - different versions;
 - different scopes.
 
-Compare them record-by-record where possible.
+Compare record-by-record where possible.
 
 Report:
 - records only in XLSX
 - records only in JSON
-- records differing between XLSX and JSON
-- duplicate records
+- differing records
+- duplicate rows
 - duplicate CAGIDs
 - duplicate names
 
 ==================================================
-2. DETERMINE WHAT THE DATA REPRESENTS
+2. DETERMINE WHAT THESE FILES ACTUALLY ARE
 ==================================================
 
-Do not infer from the filename.
+Do NOT infer only from the filename.
 
-Inspect the contents and determine whether this is:
+Inspect the contents and determine whether they are:
 
 - a customer master;
 - CAGID mapping file;
@@ -77,21 +78,23 @@ Inspect the contents and determine whether this is:
 - Lending population;
 - CAM population;
 - relationship population;
-- broad Citi customer universe;
+- broad customer universe;
 - manually curated mapping;
 - derived artifact;
-- or something else.
+- earlier AI-generated output;
+- cached data;
+- something else.
 
-Explain exactly what evidence supports the conclusion.
+Explain the evidence supporting your conclusion.
 
-Determine whether each row/object represents:
+Determine what one row/object represents:
 - one legal entity;
 - one client relationship;
 - one alias;
 - one CAGID;
 - one customer;
 - one account;
-- something else.
+- other.
 
 ==================================================
 3. CAGID ANALYSIS
@@ -117,60 +120,71 @@ Report:
 - valid-looking CAGIDs
 - missing CAGIDs
 - malformed CAGIDs
-- CAGID appearing against multiple names
-- names appearing against multiple CAGIDs
+- CAGIDs associated with multiple names
+- names associated with multiple CAGIDs
 - exact duplicate name+CAGID pairs
-- normalized-name collisions
+- normalized-name collision groups
 
-Do NOT assume a CAGID is authoritative solely because it is present.
+Do NOT assume that a CAGID is authoritative just because it is present.
 
 ==================================================
-4. COMPARE AGAINST CURRENT LENDING POPULATION
+4. COMPARE TO THE 418 LENDING BENCHMARK CLIENTS
 ==================================================
 
-Compare these files against the authoritative 418-client Lending benchmark.
+Use the current authoritative Lending benchmark population.
+
+Compare v5 against the 418 clients.
 
 Report:
 
-- 418 benchmark clients found by exact CAGID
-- 418 benchmark clients not found
-- extra CAGIDs not in the 418 population
+- exact CAGID matches
+- benchmark clients not found
+- extra v5 CAGIDs outside the 418 population
 - CoreAI 75 coverage
 - Technology 343 coverage
 - CoreAI tracker 72 coverage
 - CAM Data 346 coverage
 
-For unmatched clients report:
+For each unmatched benchmark client report:
 
 CAGID
-benchmark name
-possible match in v5 file
-match method
+benchmark_name
+possible_v5_match
+match_method
 confidence
 reason
 
-Do not fuzzy-match silently.
+Do not perform silent fuzzy matching.
 
 ==================================================
-5. COMPARE AGAINST THE 42 CAM SUBJECT CLIENTS
+5. COMPARE TO THE 42 PHYSICAL CAM SUBJECT CLIENTS
 ==================================================
 
-Compare against the 42 unique clients represented by the supplied CAM/credit documents.
+This is a critical section.
+
+Compare v5 against the 42 unique client companies represented by the supplied CAM/credit narrative documents.
 
 Report:
 
 - exact CAGID matches
 - exact legal-name matches
-- aliases found
+- alias matches
 - unmatched CAM subjects
 - conflicting CAGID assignments
 - multiple candidate matches
 
-This is particularly important.
+Create a table:
 
-Determine whether the new files can help resolve the known document-subject mismatches.
+CAM_CLIENT
+CURRENT_CAGID
+V5_CAGID
+V5_NAME
+MATCH_TYPE
+MATCH_CONFIDENCE
+CONFLICT
+NOTES
 
-Check specifically the previously problematic subjects such as:
+Specifically inspect the known problematic document subjects, including:
 
 - Compass Creek
 - Bridge Data Centres Malaysia / Coral II
@@ -182,15 +196,15 @@ Check specifically the previously problematic subjects such as:
 - Project Indigo / CoreWeave Compute Acquisition
 - Amidala
 
-For each, show exactly what v5 contains.
+For each, show exactly what v5 contains and whether it can safely resolve the identity.
 
 ==================================================
-6. COMPARE AGAINST SQLITE ENTITY UNIVERSE
+6. COMPARE TO CURRENT SQLITE ENTITIES
 ==================================================
 
-Current SQLite contains approximately 31k entity records.
+Current Lending SQLite contains approximately 31k entity records.
 
-Compare the new v5 data against those entities.
+Compare v5 against the existing entity universe.
 
 Report:
 
@@ -198,52 +212,49 @@ Report:
 - SQLite entities matched by exact normalized legal name
 - SQLite entities not found
 - v5 entities not present in SQLite
-- current name-only SQLite entities that can now be safely CAGID-resolved
-- current ambiguous entities where v5 gives multiple possibilities
-- current entity collisions that v5 could help resolve
+- name-only SQLite entities that could be safely resolved using v5
+- ambiguous SQLite entities where v5 gives multiple candidates
+- entity collisions that v5 may help resolve
 
-IMPORTANT:
+Do NOT automatically assign any CAGIDs.
 
-Do not automatically assign CAGIDs yet.
-
-This task is analysis only.
+Analysis only.
 
 ==================================================
-7. TEST AGAINST THE 767 CURRENT CANONICAL RELATIONSHIPS
+7. TEST POTENTIAL IMPACT ON CURRENT CANONICAL RELATIONSHIPS
 ==================================================
 
-Analyze how much these files could improve endpoint resolution.
+Use the existing relationship data only for diagnostic comparison.
 
-Report:
+Report current:
 
-BEFORE:
 - canonical rows with both endpoints CAGID-backed
-- one endpoint CAGID-backed
-- zero endpoints CAGID-backed
+- canonical rows with one CAGID-backed endpoint
+- canonical rows with zero CAGID-backed endpoints
 
-POTENTIAL AFTER USING V5:
+Then calculate POTENTIAL improvement using v5 ONLY where mapping is deterministic and defensible:
+
 - both endpoints CAGID-backed
 - one endpoint CAGID-backed
 - zero endpoints CAGID-backed
 
-But ONLY count a potential resolution where the mapping is deterministic and defensible.
+Do NOT count fuzzy or ambiguous mappings as resolved.
 
-Do not count fuzzy/ambiguous guesses.
+Create a table for every current name-only endpoint that can be deterministically resolved:
 
-List:
-- relationships potentially resolvable using v5
-- relationships still unresolved
-- relationships where v5 creates a conflict
+RELATIONSHIP_ID
+CURRENT_ENTITY_NAME
+V5_CANONICAL_NAME
+V5_CAGID
+MATCH_BASIS
+SAFE_TO_RESOLVE
 
 ==================================================
-8. DETECT WHETHER V5 CONTAINS RELATIONSHIPS
+8. CHECK WHETHER V5 ITSELF CONTAINS RELATIONSHIPS
 ==================================================
 
-Very important:
+Determine whether either file contains fields representing:
 
-Determine whether either file itself contains relationship facts.
-
-Look for:
 - parent/subsidiary
 - ownership
 - customer
@@ -254,23 +265,24 @@ Look for:
 - investor
 - affiliate
 - facility linkage
-- related-party fields
+- related party
+- counterparty linkage
 
-If such fields exist, classify them carefully as:
+Classify these fields carefully as:
 
 A. identity/reference metadata
 or
-B. actual relationship information.
+B. actual relationship facts.
 
-DO NOT promote anything from these files into CAM relationship truth during this analysis.
+DO NOT promote any relationship information from v5 into CAM relationship truth.
 
-The supplied narrative CAM/PDF/DOCX documents remain the authoritative relationship-evidence source unless explicitly established otherwise later.
+CAM/PDF/DOCX narrative documents remain the authoritative relationship evidence source for this analysis.
 
 ==================================================
 9. PROVENANCE / TRUST ASSESSMENT
 ==================================================
 
-Determine whether the files themselves contain provenance such as:
+Inspect whether the files contain:
 
 - source system
 - extraction date
@@ -280,23 +292,22 @@ Determine whether the files themselves contain provenance such as:
 - confidence
 - validation flag
 - mapping method
+- generation metadata
 
-Assess whether these files appear to be:
+Determine whether each file appears to be:
 
 - authoritative internal master data;
 - manually curated mapping;
-- derived output from earlier code;
+- derived code output;
 - cached artifact;
-- prior AI-generated entity mapping;
+- previous AI-generated mapping;
 - unknown provenance.
 
-This matters greatly.
-
-If provenance cannot be established, state:
+If provenance cannot be established, report:
 
 PROVENANCE = UNKNOWN
 
-Do not call the file authoritative merely because it has many CAGIDs.
+Do not classify the files as authoritative merely because they contain many CAGIDs.
 
 ==================================================
 10. IDENTIFY DANGEROUS RECORDS
@@ -308,15 +319,16 @@ Look for:
 - partial legal names
 - truncated names
 - generic terms
-- aliases incorrectly promoted as separate entities
-- one CAGID assigned to clearly different companies
+- aliases incorrectly represented as separate entities
+- one CAGID assigned to unrelated companies
 - one company assigned several CAGIDs
 - corrupted identifiers
 - blank legal names
-- duplicate entries
 - placeholder values
+- duplicate entries
 
-Examples of suspicious names:
+Explicitly check for suspicious names similar to:
+
 - as of Company
 - subject to Corp
 - which is Company
@@ -324,13 +336,13 @@ Examples of suspicious names:
 - with each bank
 - by the Group
 
-Report whether these appear in v5.
+Report whether any such patterns occur.
 
 ==================================================
-11. DETERMINE SAFE USE CASE
+11. SAFE-USE CLASSIFICATION
 ==================================================
 
-At the end classify each file as one of:
+Classify each file separately as one of:
 
 A. SAFE AS AUTHORITATIVE CAGID REFERENCE
 B. SAFE AS SUPPLEMENTAL ENTITY RESOLUTION REFERENCE
@@ -338,17 +350,13 @@ C. SAFE ONLY FOR ALIAS MATCHING
 D. USE ONLY FOR MANUAL REVIEW
 E. DO NOT USE
 
-Do this independently for:
-- v5-All-CAGIDs.xlsx
-- v5-All-CAGIDs.json
-
-Explain why.
+Explain the reason for each classification.
 
 ==================================================
 12. REQUIRED STATISTICS REPORT
 ==================================================
 
-Generate a concise but complete report with:
+Produce a clear report with:
 
 V5 FILE SUMMARY
 
@@ -371,7 +379,7 @@ CAM Data 346 coverage:
 SQLite entities exact-CAGID matched:
 SQLite entities exact-name matched:
 
-Current canonical endpoints potentially resolved:
+Current canonical endpoints potentially resolvable:
 Still unresolved:
 Conflicting mappings:
 
@@ -390,31 +398,7 @@ Provenance:
 AUTHORITATIVE / DERIVED / UNKNOWN
 
 ==================================================
-13. REQUIRED OUTPUT TABLE — IMPORTANT
-==================================================
-
-Produce a table specifically for the 42 CAM-subject clients:
-
-CAM_CLIENT
-CURRENT_CAGID
-V5_CAGID
-V5_NAME
-MATCH_TYPE
-MATCH_CONFIDENCE
-CONFLICT
-NOTES
-
-Then a second table containing every current canonical name-only endpoint that can be deterministically resolved using v5:
-
-RELATIONSHIP_ID
-CURRENT_ENTITY_NAME
-V5_CANONICAL_NAME
-V5_CAGID
-MATCH_BASIS
-SAFE_TO_RESOLVE
-
-==================================================
-14. FINAL DECISION
+13. FINAL DECISION
 ==================================================
 
 Finish with exactly:
@@ -437,7 +421,7 @@ YES / NO
 CAN BE USED AS RELATIONSHIP EVIDENCE:
 YES / NO
 
-SAFE TO INTEGRATE INTO V2 REMEDIATION:
+SAFE TO INTEGRATE INTO FUTURE V3 EXTRACTION:
 YES / NO / ONLY WITH CONDITIONS
 
 If conditional, list the precise conditions.
