@@ -8,89 +8,65 @@ Validate whether CoreWeave has an explicit supplier and/or material technology d
 AsOfDate: your current analysis date.
 
 
-RELATIONSHIP CONSOLIDATION AND PRECISION RULES
+FINAL EVIDENCE NORMALIZATION RULES
 
-ONE SEMANTIC RELATIONSHIP PER FINDING
+SOURCE CHANNEL MUST REPRESENT THE UNDERLYING SOURCE
 
-For the same:
-- subject entity
-- related entity
-- relationship type
-- direction
+source_channel describes the actual evidence source, not the tool used to retrieve it.
 
-return ONE finding only.
+If R2D2_WEB discovers an SEC filing:
+source_channel = SEC_FILING
 
-Do NOT create separate relationship findings merely because the same
-relationship was found through both SEC and Web.
+Do not label an SEC 10-K, 10-Q, 8-K, S-1, proxy, exhibit, or other SEC filing
+as R2D2_WEB merely because R2D2 retrieved it.
 
-Instead aggregate all supporting sources inside the finding's evidence[] array.
+Do not duplicate the same filing once as SEC_FILING and again as R2D2_WEB.
 
-Example:
+R2D2_WEB should represent genuine non-SEC Web evidence such as:
+- official company web disclosures
+- Reuters
+- Bloomberg
+- Financial Times
+- other permitted reputable Web sources.
 
-CoreWeave -> NVIDIA -> technology_dependency
+EVIDENCE OBJECT ADMISSIBILITY
 
-If SEC and Web both support it:
+Every evidence object with evidence_role SUPPORTING or CORROBORATING must
+itself materially support the specific relationship_type of that finding.
 
-findings count = 1
-evidence count = 2 or more
+Do not include generic statements merely because they come from the correct
+company or filing.
 
-Do not return one SEC finding and one Web finding for the same semantic
-relationship.
+For example, generic statements about:
+- advanced hardware
+- future collaborations
+- growth strategy
+- infrastructure expansion
+- market conditions
 
-SOURCE CHANNEL CLASSIFICATION
+must NOT be used as SUPPORTING evidence for NVIDIA technology_dependency
+unless the excerpt itself, together with immediately adjacent unambiguous
+context, establishes the NVIDIA relationship.
 
-Classify evidence according to the actual underlying source.
+For HIGH-confidence evidence, require:
+- explicit entity identification or unambiguous immediate context;
+- explicit relationship semantics;
+- direct relevance to the claimed relationship_type.
 
-If R2D2 Web retrieves an SEC filing, official regulatory filing, or company
-filing, classify the evidence as SEC_FILING when the underlying evidence is
-the filing itself.
+If an excerpt does not independently satisfy this requirement:
+exclude it from evidence[].
 
-Use R2D2_WEB for genuine Web/news/company-site evidence that is not being
-treated as SEC filing evidence.
+Do not keep weak excerpts merely to increase the number of sources.
 
-Do not duplicate the same filing under both source channels.
+Prefer the 1–3 strongest evidence objects rather than many weaker objects.
 
-DIRECTION SEMANTICS
+SEC REFERENCE QUALITY
 
-Direction must follow the actual relationship meaning.
+For SEC evidence, use the most precise filing/document reference available.
 
-Examples:
-
-NVIDIA supplies CoreWeave:
-NVIDIA -> CoreWeave
-If SubjectEntity = CoreWeave and RelatedEntity = NVIDIA:
-direction = B_TO_A
-
-CoreWeave depends on NVIDIA technology:
-CoreWeave -> NVIDIA
-If SubjectEntity = CoreWeave and RelatedEntity = NVIDIA:
-direction = A_TO_B
-
-Do not automatically reuse the same direction across different
-relationship types for the same entity pair.
-
-EXACT EVIDENCE REQUIREMENT
-
-For HIGH confidence, exact_excerpt must contain enough contiguous source
-text to directly establish:
-- the relevant entities, or an unambiguous entity reference established
-  by immediately adjacent context;
-- the relationship semantics;
-- the claimed relationship type.
-
-A generic sentence taken from the correct filing is not sufficient.
-
-If the exact evidence cannot directly substantiate the claimed relationship:
-downgrade to MEDIUM or INSUFFICIENT as appropriate.
-
-SOURCE REFERENCE PRECISION
-
-For SEC filings, provide the most precise available EDGAR filing/document
-reference.
-
-Do not treat a generic EDGAR search page, broad archive path, or approximate
-reference as fully validated filing provenance.
-
-If a precise filing reference cannot be established:
-flag it in unresolved_items and do not assign HIGH source-quality solely
-from that reference.
+If a precise filing accession/document reference or direct filing reference
+cannot be established:
+- do not invent one;
+- use null or the precise reference actually available;
+- do not assign HIGH source_quality solely on the basis of an imprecise
+  generic EDGAR reference.
