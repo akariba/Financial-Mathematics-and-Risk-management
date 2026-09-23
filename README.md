@@ -1,356 +1,428 @@
 LENDING RELATIONSHIP INTELLIGENCE
-PROMPT 3B — CANONICAL CONTRACT ACCEPTANCE AND TRUSTED-READ VERIFICATION
+PROMPT 3C — CLOSE PROMPT-4 BLOCKERS
 
 Continue in the CURRENT Lending repository.
 
-This is a READ-ONLY / TEST-ONLY verification of Prompt 3.
+Read first:
+
+LENDING_FOUNDATION_AUDIT.md
+LENDING_CANONICAL_RELATIONSHIP_CONTRACT_REPORT.md
+LENDING_PROMPT3_ACCEPTANCE_REPORT.md
+
+Also inspect the implementation produced by Prompt 3.
+
+This task exists ONLY because Prompt 3B concluded:
+
+PASS WITH CONDITIONS
 
 Do not redesign the UI.
-Do not create new architecture.
-Do not change relationship policy unless an actual Prompt-3 defect is proven.
-Do not perform CCR or customer-master work.
+Do not start Prompt 4 visual work.
+Do not perform CCR/customer-master work.
 Do not call SEC, web, Stylus, or external providers.
-
-Use as authoritative inputs:
-
-- LENDING_FOUNDATION_AUDIT.md
-- LENDING_CANONICAL_RELATIONSHIP_CONTRACT_REPORT.md
-- the Prompt-3 implementation
-- the existing benchmark/golden-sample fixtures
+Do not rebuild the architecture.
+Do not change CAM/V3 source truth.
+Do not broaden V2 into a global relationship universe.
 
 OBJECTIVE
 
-Verify that the new common relationship contract and unified Lending read
-model are semantically safe before the executive UI, network visualization,
-external-intelligence automation, and AI assistant are built on top of it.
+Resolve only the conditions/blockers identified in
+LENDING_PROMPT3_ACCEPTANCE_REPORT.md that prevent the common Lending
+relationship contract from safely supporting:
 
-The Prompt-3 completion reported a trusted read of:
+- executive relationship counts
+- semantic relationship grouping
+- network visualization
+- explainability
+- future external intelligence
+- future AI interaction
 
-808 total
-41 CAM_V3
-767 NORMALIZED_JSON
+The goal is NOT to increase relationship counts.
 
-Explain and prove exactly what those numbers mean.
-
-==================================================
-1. TRUSTED READ COMPOSITION
-==================================================
-
-Inspect the default unified trusted read.
-
-Report exact counts by:
-
-- source_lane
-- authority_class
-- quality_status
-- review_status
-- publication_status
-- relationship_family
-- relationship_type
-- state
-- connectivity
-
-Specifically prove whether the 767 NORMALIZED_JSON rows are:
-
-- validated/canonical only
-- review-required
-- rejected
-- or a mixture
-
-The default trusted read MUST NOT silently include rejected normalized rows.
-
-If review-required rows are included, explain the declared policy and why.
+The goal is to make the existing common contract semantically safe and
+unambiguous for Prompt 4.
 
 ==================================================
-2. CROSS-LANE DUPLICATION
+1. EXTRACT THE CONDITIONS
 ==================================================
 
-Determine how many of the 808 assertions represent the same semantic
-real-world relationship in more than one source lane.
+From LENDING_PROMPT3_ACCEPTANCE_REPORT.md, list every reason the result was
+PASS WITH CONDITIONS.
 
-Compute and report:
+Classify each one as:
 
-A. total relationship assertions
-B. distinct source relationship IDs
-C. distinct semantic relationship groups
-D. distinct endpoint pairs
-E. endpoint pairs with multiple relationship types
-F. semantic groups supported by multiple source lanes
-G. exact duplicate assertions, if any
+A. MUST FIX BEFORE PROMPT 4
+B. SAFE TO DEFER
+C. INFORMATIONAL ONLY
 
-Do NOT delete legitimate multi-source assertions.
+For each condition provide:
 
-We need to distinguish:
+- problem
+- affected API/store/model
+- consequence if not fixed
+- proposed smallest safe remediation
 
-SOURCE ASSERTION COUNT
-
-from
-
-DISPLAY RELATIONSHIP COUNT.
+Do not implement anything until this classification is complete.
 
 ==================================================
-3. DISPLAY GROUPING CONTRACT
+2. SEMANTIC RELATIONSHIP GROUPING
 ==================================================
 
-Verify that the implementation has a safe way for a future UI to render:
+The acceptance report identified relationship assertions and endpoint-pair
+reconciliation.
 
-one semantic relationship
-    +
-multiple source assertions/evidence lanes
+We now need a stable distinction between:
 
-without losing provenance.
+SOURCE ASSERTION
 
-For a semantic group expose, at minimum:
+and
 
-- display/group key
-- subject
-- related entity
+SEMANTIC DISPLAY RELATIONSHIP.
+
+Do NOT delete or overwrite source assertions.
+
+Implement the minimum safe grouping capability required for a future UI.
+
+A semantic relationship group must preserve:
+
+- subject entity identity
+- related entity identity
 - atomic relationship type
-- direction
-- state
-- source lanes supporting it
-- authority classes
-- assertion count
-- evidence count
-- independent source count where meaningful
-- conflict indicator
-- review indicator
+- normalized direction
+- relationship state where material
+- connectivity
+- all contributing source assertion IDs
+- all source lanes
+- all authority classes
+- evidence IDs/counts
+- review states
+- conflict indicators
+- lineage availability
 
-If the backend does not currently expose such grouping, DO NOT implement a
-large redesign.
+Do NOT group merely because two rows have the same endpoint pair.
 
-Instead identify the smallest required addition for Prompt 4.
+Examples that MUST remain separate:
 
-==================================================
-4. AUTHORITY VERIFICATION
-==================================================
+Lambda → NVIDIA : supplier
 
-Prove the authority semantics for each active lane.
+Lambda ↔ NVIDIA : strategic_partner
 
-Expected conceptual behavior:
+Project Indigo → CoreWeave : parent_company
 
-CAM_V3
-    authoritative CAM assertion
+Project Indigo → CoreWeave : guarantor
 
-NORMALIZED_CAM / NORMALIZED_JSON
-    governed derived assertion
+BO Westover → Blue Owl : backleverage_financing
 
-EXTERNAL
-    supplemental
+BO Westover → Blue Owl : guarantor
 
-AI_PUBLISHED
-    governed AI assertion
-
-V2_FALLBACK
-    compatibility fallback only
-
-Verify that no normalized/external/AI operation can silently overwrite or
-masquerade as CAM authority.
+Same endpoints do not imply same semantic relationship.
 
 ==================================================
-5. V2 VERIFICATION
+3. STABLE DISPLAY GROUP KEY
 ==================================================
 
-Prove that V2 remains conditional.
+Create a deterministic semantic display/group identifier.
+
+It must be derived from governed identity and relationship semantics, not
+frontend labels.
+
+It should safely account for:
+
+- canonical subject identity
+- canonical related identity
+- relationship type
+- normalized direction semantics
+- material lifecycle/state distinctions where required
+
+Do not use mutable display names as the primary identity.
+
+Do not collapse unresolved entities into resolved ones.
+
+Document the algorithm.
+
+==================================================
+4. ASSERTION VERSUS GROUP COUNTS
+==================================================
+
+Extend the common read contract so the API can return separately:
+
+- assertion_count
+- semantic_relationship_count
+- endpoint_pair_count
+- connected_entity_count
+- review_required_count
+- conflict_count
+
+Never make one count masquerade as another.
+
+The existing 808 trusted-read assertions must remain explainable.
+
+Do not silently change the historical source-row count merely to improve
+display metrics.
+
+==================================================
+5. GROUPED READ MODEL
+==================================================
+
+Add a minimal grouped relationship read suitable for Prompt 4.
+
+It may be:
+
+- a grouped mode on the existing common relationship endpoint
+
+OR
+
+- a clearly related read endpoint
+
+Choose the smallest architecture-consistent solution.
+
+Each grouped relationship should expose at minimum:
+
+group_id
+subject
+related_entity
+relationship_type
+relationship_family
+direction
+state
+connectivity
+
+assertion_count
+source_lanes
+authority_classes
+
+evidence_count
+source_count
+independent_source_count where legitimately measurable
+
+has_review_required
+has_conflict
+has_external_support
+has_ai_support
+
+primary_assertion_id or equivalent
+supporting_assertion_ids
+
+lineage_status
+
+Do not infer unsupported fields.
+
+==================================================
+6. AUTHORITY PRESERVATION
+==================================================
+
+Grouping MUST NOT flatten source authority.
+
+A grouped relationship may contain:
+
+CAM_V3 assertion
++
+NORMALIZED assertion
++
+EXTERNAL corroboration
++
+AI published assertion
+
+but the API must still make clear which source supplied which assertion.
+
+A supplemental/external/AI source cannot become CAM authority simply
+because it belongs to the same semantic group.
+
+Preserve source lane and authority on every supporting assertion.
+
+==================================================
+7. REVIEW AND CONFLICT SEMANTICS
+==================================================
+
+A semantic group may contain assertions with different quality/review
+states.
+
+Do NOT solve this by declaring the whole group canonical.
+
+Expose a deterministic group summary such as:
+
+trusted CAM assertion exists
+trusted governed normalized assertion exists
+review-required assertion exists
+external proposal exists
+external conflict exists
+AI-published assertion exists
+
+The raw assertion statuses must remain available.
+
+The future UI must be able to distinguish:
+
+CONFIRMED RELATIONSHIP
+
+SUPPORTED BY ADDITIONAL SOURCES
+
+REVIEW REQUIRED
+
+CONFLICTING EVIDENCE
+
+PROPOSED EXTERNALLY
+
+AI-GOVERNED
+
+without altering underlying source truth.
+
+==================================================
+8. 376 ENDPOINT-PAIR ANALYSIS
+==================================================
+
+The Prompt 3B report references 376 endpoint-pair reconciliation.
+
+Verify exactly what 376 represents.
 
 Report:
 
-- whether V2 rows appear in the default global trusted read
-- whether they can appear only for client-specific fallback
-- how the source lane is labelled
-- whether a client with V3 relationships can accidentally receive V2 rows
+- endpoint-pair count
+- semantic relationship-group count
+- assertion count
+- number of endpoint pairs with one semantic type
+- number with multiple semantic types
+- number supported by more than one source lane
+- number containing review-required assertions
+- number containing conflicts
 
-Expected result:
-
-V2 is NOT a global relationship universe.
-
-==================================================
-6. REVIEW / REJECTED VERIFICATION
-==================================================
-
-Verify separately:
-
-- CAM V3 canonical
-- CAM V3 review-required
-- normalized validated
-- normalized review-required
-- normalized rejected
-- external pending/review/conflict
-- AI draft
-- AI published
-
-State which are visible in:
-
-A. default trusted relationship read
-B. explicit review read
-C. relationship detail
-D. network-ready read
-
-No lifecycle state may be silently promoted.
+Do not use 376 as an executive “relationship” count unless the semantics
+actually justify it.
 
 ==================================================
-7. LINEAGE VERIFICATION
+9. EXPLAINABILITY CONTRACT
 ==================================================
 
-Select examples representing:
+For a grouped relationship, future UI must support:
 
-- fully persisted new lineage
-- historical incomplete lineage
-- taxonomy substitution
-- entity-resolution issue
-- evidence-gate failure
-- direction/state issue
-- multi-source semantic relationship
+WHY AM I SEEING THIS?
 
-For each show the actual returned lineage.
+Return or link deterministically to:
 
-Prove that missing historical stages return an explicit:
+- source assertions
+- authority of each assertion
+- source documents
+- evidence records
+- source location/page where available
+- exact excerpt where available
+- identity-resolution information
+- taxonomy mapping
+- review status
+- conflicts
+- lineage
+
+If historical lineage is incomplete, expose:
 
 LINEAGE_INCOMPLETE
 
-or equivalent.
-
-The implementation must not manufacture intermediate history.
+Do not manufacture missing historical stages.
 
 ==================================================
-8. BENCHMARK TRACES
+10. NETWORK CONTRACT
 ==================================================
 
-Run the common-contract/detail/lineage APIs against available benchmark
-cases including:
+Prepare, but do NOT build, the graph contract.
+
+Define:
+
+NODE_ID
+ASSERTION_EDGE_ID
+DISPLAY_EDGE_ID
+
+The future graph should normally render DISPLAY_EDGE_ID.
+
+Selecting an edge must allow drill-down to all ASSERTION_EDGE_ID records.
+
+Specify how graph styling can safely reflect:
+
+- CAM authority
+- additional source support
+- external corroboration
+- review requirement
+- conflict
+- AI-published status
+
+without converting presentation state into source truth.
+
+==================================================
+11. BENCHMARK REGRESSION
+==================================================
+
+Re-run the benchmark cases after remediation:
 
 - Lambda / NVIDIA
 - Project Indigo / CoreWeave
 - Applied Digital / CoreWeave
 - Serverfarm / Meta
 - BO Westover / Blue Owl
-- OpenAI relationship cases
+- OpenAI cases
 - Hut 8
 - Cavalry / CyrusOne
 
-For every case report:
+Prove specifically that grouping does NOT collapse distinct semantics.
 
-- endpoint identity
-- relationship type
-- source lane
-- authority
-- review status
-- taxonomy mapping if any
-- evidence availability
-- lineage completeness
-- whether it would appear in default trusted read
-- whether it would appear in a future grouped display
+Examples:
 
-Do not change benchmark truth.
+supplier != strategic_partner
+
+parent_company != guarantor
+
+guarantor != backleverage_financing
+
+contracted_customer != service_provider
 
 ==================================================
-9. EXPLAINABILITY RESPONSE
+12. API ACCEPTANCE TESTS
 ==================================================
 
-Call the new relationship-detail/read logic directly for representative
-records.
+Add tests covering:
 
-Confirm that a future frontend can answer:
-
-WHY AM I SEEING THIS RELATIONSHIP?
-
-using one response or a deterministic linked response set.
-
-Verify availability of:
-
-- identity
-- relationship semantics
-- authority
-- source lane
-- source documents
-- source location
-- representative evidence/excerpt where available
-- evidence count
-- quality/review status
-- entity-resolution state
-- taxonomy-resolution state
-- lineage
-- conflict
-- supporting source assertions
-
-Clearly identify any field that remains unavailable.
-
-Do not synthesize missing facts.
+1. assertion read remains stable
+2. grouped read deterministic
+3. same pair / different type stays separate
+4. same semantic relationship / multiple lanes groups correctly
+5. authority remains assertion-level
+6. review status is not silently promoted
+7. rejected rows do not enter trusted default
+8. V2 remains conditional
+9. external proposals do not become CAM
+10. AI-published rows do not become CAM
+11. lineage incomplete is explicit
+12. pagination/filtering produce consistent counts
+13. group IDs are stable across repeated reads
 
 ==================================================
-10. NETWORK SAFETY CHECK
-==================================================
-
-Before Prompt 4 builds a sophisticated graph, report what the graph should
-use as:
-
-NODE IDENTITY
-
-EDGE ASSERTION IDENTITY
-
-EDGE DISPLAY/GROUP IDENTITY
-
-EDGE STRENGTH / SUPPORT METRICS
-
-Do not implement visualization yet.
-
-Specifically explain how the network should avoid:
-
-- duplicate edges caused only by multiple source lanes
-- collapsing supplier and strategic-partner semantics
-- collapsing parent and guarantor semantics
-- turning review-required relationships into accepted facts
-- making external proposals look like CAM facts
-- making AI relationships look like CAM facts
-
-==================================================
-11. EXECUTIVE COUNT CONTRACT
-==================================================
-
-Define which numbers future executive cards should display.
-
-Distinguish:
-
-relationship assertions
-semantic relationships
-connected entities
-relationships requiring review
-externally corroborated relationships
-external proposals
-conflicts
-AI-published relationships
-
-Never place different denominators under one label.
-
-==================================================
-12. OUTPUT
+13. REPORT
 ==================================================
 
 Create:
 
-LENDING_PROMPT3_ACCEPTANCE_REPORT.md
+LENDING_PROMPT3C_REMEDIATION_REPORT.md
 
 Include:
 
-1. trusted-read composition
-2. exact 808-row explanation
-3. source/assertion/group counts
-4. duplicate and multi-source analysis
-5. authority verification
-6. V2 verification
-7. review/rejection verification
-8. lineage verification
-9. benchmark traces
-10. explainability readiness
-11. network identity recommendations
-12. executive count contract
-13. remaining Prompt-3 defects, if any
-14. blockers for Prompt 4
-15. PASS / PASS WITH CONDITIONS / FAIL readiness conclusion
+- original PASS WITH CONDITIONS items
+- what was fixed
+- what was intentionally deferred
+- assertion count
+- endpoint-pair count
+- semantic group count
+- multi-source group count
+- multi-type pair count
+- authority verification
+- review/conflict behavior
+- network contract
+- explainability contract
+- benchmark results
+- test results
+- remaining blockers
 
-Do not alter the UI.
+Conclude with exactly one of:
 
-If a genuine Prompt-3 implementation defect is discovered, document it
-rather than silently redesigning the architecture.
+READY FOR PROMPT 4
 
-At the end STOP.
+or
+
+NOT READY FOR PROMPT 4
+
+Do not begin Prompt 4.
+
+STOP when complete.
