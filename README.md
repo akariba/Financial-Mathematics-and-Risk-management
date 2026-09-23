@@ -1,792 +1,313 @@
-LENDING RELATIONSHIP INTELLIGENCE
-PROMPT 3 — CANONICAL RELATIONSHIP CONTRACT + UNIFIED LINEAGE FOUNDATION
+CCR FOUNDATION — PHASE-2 FINGERPRINT REGRESSION RECONCILIATION
 
-Continue in the CURRENT Lending repository and use the completed:
+Work only in the CURRENT CCR repository.
 
-- Common Operating Contract
-- Prompt 1 final architecture and lineage audit
-- Prompt 2 outputs
-- LENDING_FOUNDATION_AUDIT.md
+The Relationship Research Orchestrator was implemented successfully, but the
+full backend suite currently reports:
 
-as the authoritative baseline.
+41 passed
+7 failed
+8 errors
 
-IMPORTANT SCOPE
+The reported cause is an existing Phase-2 exposure-record / foundation
+metadata fingerprint mismatch.
 
-This is LENDING ONLY.
+DO NOT start live external relationship research yet.
 
-Do NOT use, inspect, migrate, join, reference, or design around:
+No SEC calls.
+No GLEIF calls.
+No Web calls.
+No Helix/AI calls.
+No frontend work.
+No production relationship creation.
 
-- Customer_latest.parquet
-- the ~3.67M customer population
-- CCR customer-master logic
-- CCR exposure populations
-- CCR databases
-- CCR entity models
-- CCR routes
-- any non-Lending customer-master concept
+IMPORTANT
 
-Customer_latest.parquet belongs exclusively to CCR.
+Do NOT blindly rebaseline protected fingerprints.
 
-Do not re-open that question.
+Do NOT modify source data merely to make tests pass.
 
-==================================================
+Do NOT overwrite Phase-2 protected business data.
+
 OBJECTIVE
-==================================================
 
-The current Lending application exposes several legitimate but separate
-relationship universes:
-
-1. CAM / V3
-2. conditional V2 fallback
-3. normalized governed workbench
-4. external research / V3-aware external overlay
-5. published AI relationship instances
-
-The architecture audit established that these currently have:
-
-- different IDs
-- different entity representations
-- different review states
-- different quality semantics
-- different publication rules
-- different API projections
-- incomplete cross-lane lineage
-
-DO NOT solve this by flattening all stores into one physical table.
-
-DO NOT make every source equal authority.
-
-Instead, implement the COMMON CONTRACT that allows every relationship-like
-object to participate in one governed Lending intelligence experience while
-preserving:
-
-- source lane
-- authority
-- provenance
-- quality
-- review state
-- lifecycle
-- publication state
-- evidence
-- lineage
-
-The resulting architecture should support the future user experience:
-
-PORTFOLIO
-    ↓
-CLIENT / ENTITY
-    ↓
-RELATIONSHIP
-    ↓
-EVIDENCE
-    ↓
-WHY IT EXISTS
-    ↓
-WHAT SOURCE SUPPORTS IT
-    ↓
-WHAT THE SYSTEM DID WITH IT
-    ↓
-CURRENT TRUST / REVIEW STATE
+Determine exactly why the Phase-2 protected fingerprint tests now disagree
+with the current database and repair only the metadata/test/migration issue
+that is genuinely responsible.
 
 ==================================================
-1. READ BEFORE MODIFYING
+1. REPRODUCE FAILURES
 ==================================================
 
-Read and reconcile at minimum:
+Run the full backend suite.
 
-- LENDING_FOUNDATION_AUDIT.md
+List every:
 
-Backend modules identified by the audit for:
+FAILED test
+ERROR test
 
-- Lending portfolio APIs
-- V3 relationship projection
-- V2 fallback
-- normalized relationship database
-- entity handling
-- external research
-- V3-aware external overlay
-- AI relationship definitions / instances
-- review queue
-- relationship explorer
-- network projection
+For each report:
 
-Frontend files identified by the audit for:
+test name
+expected value
+actual value
+table/artifact involved
+first failing assertion
 
-- Portfolio Analytics
-- Client Detail
-- Network
-- Relationship Explorer
-- External Research
-- Review Queue
-- AI Create Relationship
-- Lending workbench / intelligence views
-
-Inspect existing database schemas before adding anything.
-
-Reuse existing structures where possible.
-
-Do not duplicate tables merely because names differ.
+Group failures by root cause.
 
 ==================================================
-2. DEFINE THE CANONICAL RELATIONSHIP CONTRACT
+2. INSPECT PROTECTED PHASE-2 BASELINE
 ==================================================
 
-Create one explicit backend contract representing a relationship exposed
-to the Lending intelligence layer.
+Read the Phase-2 foundation report and tests.
 
-The contract must support at least:
+Identify the protected fingerprint inputs.
 
-relationship_id
-stable_relationship_key if deterministically available
+Determine exactly what the fingerprint covers:
 
-source_lane
-source_system
-authority_class
+business rows
+schema
+metadata
+table ordering
+row ordering
+generated timestamps
+migration metadata
+other
 
-subject_entity_id
-subject_cagid where applicable
-subject_display_name
-
-related_entity_id
-related_cagid where applicable
-related_display_name
-
-relationship_type
-relationship_family
-relationship_label
-
-direction
-direction_basis
-
-connectivity
-
-state
-state_basis
-
-quality_status
-review_status
-publication_status
-
-confidence
-confidence_basis
-
-evidence_count
-source_count
-independent_source_count
-
-discovery_origin
-discovery_basis
-
-source_document_ids
-evidence_ids
-supporting_relationship_ids
-
-exact_excerpt / representative_claim where contractually available
-
-source_location
-source_subject
-
-amount
-currency
-percentage
-materiality_context
-only where supported
-
-valid_from
-valid_to
-as_of_date
-observed_at
-created_at
-updated_at
-where available
-
-entity_resolution_status
-
-taxonomy_resolution_status
-
-conflict_status
-
-lineage_status
-
-The contract must clearly distinguish:
-
-FACTS PERSISTED FROM SOURCE
-
-from
-
-SYSTEM / AI INTERPRETATIONS
-
-from
-
-UI-DERIVED DISPLAY VALUES.
-
-Do not silently convert one into another.
+Do not assume.
 
 ==================================================
-3. SOURCE-LANE ENUMERATION
+3. COMPARE CURRENT VS BASELINE
 ==================================================
 
-Implement an explicit source-lane vocabulary.
+For each protected table compare:
 
-At minimum support:
+row count
+business columns
+business values
+primary/business keys
+ordering assumptions
+metadata-only columns
+migration-added columns
 
-CAM_V3
-V2_FALLBACK
-NORMALIZED_CAM
-EXTERNAL_RESEARCH
-EXTERNAL_OVERLAY
-AI_PUBLISHED
+Determine whether:
 
-If actual existing implementation requires additional sublanes, preserve
-them but map them into this common contract.
+A. protected business data changed
 
-Every relationship returned to a unified reader must identify its lane.
+or
 
-==================================================
-4. AUTHORITY MODEL
-==================================================
+B. only additive schema/metadata changed
 
-Implement an explicit authority model.
+or
 
-CAM/V3 remains authoritative for the CAM relationship layer.
+C. fingerprint logic incorrectly includes mutable/additive metadata
 
-Do NOT allow:
+or
 
-- external findings
-- AI-published relationships
-- normalized workbench review actions
-
-to silently rewrite the frozen CAM/V3 source artifact.
-
-Represent authority explicitly.
-
-Suggested semantics:
-
-AUTHORITATIVE_CAM
-GOVERNED_DERIVED
-SUPPLEMENTAL_EXTERNAL
-GOVERNED_AI
-COMPATIBILITY_FALLBACK
-
-Use the repository's existing semantics where stronger names already exist.
-
-Do not invent false equivalence between sources.
+D. baseline itself is stale/inconsistent.
 
 ==================================================
-5. COMMON ENTITY ENDPOINT CONTRACT
+4. EXPOSURE RECORDS
 ==================================================
 
-Relationships must use explicit endpoint identity.
+Pay special attention to:
 
-Create/reuse a common endpoint structure that supports:
+exposure_records
 
-- internal entity ID where available
-- CAGID where available
-- legal/display name
-- aliases if available
-- entity-resolution status
-- original extracted name
-- canonical resolved name
-- source of resolution
+The canonical migration preserved all:
 
-Do NOT require every related entity to have a CAGID.
+25,000 rows
 
-External entities must remain representable.
+Prove whether the actual business payload is unchanged.
 
-Do NOT collapse distinct legal entities merely because names are similar.
+Compare business fields row-for-row using stable keys/order.
 
-Preserve unresolved endpoints explicitly.
+Do not rely only on one aggregate hash.
 
 ==================================================
-6. RELATIONSHIP IDENTITY
+5. FOUNDATION METADATA
 ==================================================
 
-Define and implement rules for:
+Inspect Phase-2 metadata/fingerprint tables.
 
-A. source relationship identity
-B. cross-source semantic identity
-C. display grouping identity
+Determine whether later additive migrations changed fields such as:
 
-These are NOT necessarily the same thing.
+schema version
+migration version
+generated_at
+row metadata
+semantic metadata
+new nullable linkage fields
 
-For example:
+If such additive metadata is causing the mismatch, separate:
 
-Lambda → NVIDIA / strategic_partner
-Lambda → NVIDIA / supplier
+PROTECTED_PHASE2_BUSINESS_FINGERPRINT
 
-must remain distinct relationship assertions even when they have the
-same entity pair.
+from:
 
-Likewise:
+CURRENT_SCHEMA/MIGRATION_METADATA
 
-same pair + different direction
-same pair + different state
-same pair + different source
-same pair + different type
-
-must not be blindly deduplicated.
-
-Document the deterministic key strategy.
+Do not redefine the old Phase-2 business data.
 
 ==================================================
-7. TAXONOMY PRESERVATION
+6. CANONICAL MIGRATION IMPACT
 ==================================================
 
-Do NOT collapse relationship semantics into broad generic families.
+Inspect:
 
-The audit demonstrated cases such as:
+migrate_ccr_canonical_data_model.py
 
-- supplier vs strategic partner
-- guarantor vs backleverage financing
-- customer vs internal affiliate
-- parent vs M&A target
+and later relationship-policy/orchestrator migrations.
 
-Implement:
+Confirm whether they altered any Phase-2 protected table values.
 
-relationship_type
-relationship_family
+Expected:
 
-as separate concepts.
+business values unchanged.
 
-Preserve the atomic semantic type.
-
-Family exists for portfolio analysis and grouping.
-
-Type exists for meaning.
-
-Add explicit taxonomy mapping metadata when one representation is mapped
-to another.
-
-A mapped/substituted taxonomy must be visible as a substitution, not
-presented as if it were the original extracted type.
+If they added columns/links, determine whether those are legitimately outside
+the original protected business fingerprint.
 
 ==================================================
-8. LINEAGE LEDGER
+7. FIX PRINCIPLE
 ==================================================
 
-This is CRITICAL.
+Preferred fix:
 
-Create/reuse a persisted lineage mechanism allowing the system to explain:
+make fingerprint validation compare the immutable Phase-2 business payload,
+not unrelated additive migration metadata.
 
-SOURCE OBSERVATION
-    ↓
-EVIDENCE
-    ↓
-CANDIDATE
-    ↓
-ENTITY RESOLUTION
-    ↓
-TAXONOMY RESOLUTION
-    ↓
-QUALITY / EVIDENCE GATE
-    ↓
-STATE / DIRECTION GATE
-    ↓
-DEDUP / RECONCILIATION
-    ↓
-SCOPE / PUBLICATION
-    ↓
-FINAL REPRESENTATION
+Only if actual business data changed should the migration be corrected.
 
-Do not fabricate historical transitions that were never persisted.
+Do NOT simply replace the expected hash with the current hash.
 
-For old records where the intermediate history does not exist, report:
-
-LINEAGE_INCOMPLETE
-
-or equivalent.
-
-Do not infer a causal history merely from current-state tables.
-
-New processing going forward must persist sufficient transition data.
-
-Each transition should support, where applicable:
-
-- event ID
-- relationship/candidate ID
-- previous representation
-- resulting representation
-- stage
-- decision
-- reason code
-- rule/policy
-- actor/process
-- timestamp
-- supporting evidence IDs
-- source lane
-- version
+Do NOT weaken tests.
 
 ==================================================
-9. REASON-CODE MODEL
+8. REGRESSION
 ==================================================
 
-Preserve structured reasons.
+After the fix run:
 
-Do not compress all failures into "rejected."
+Phase-2 tests
+Phase-3 tests
+canonical-model tests
+relationship-universe tests
+evidence/path tests
+research-orchestrator tests
+full backend suite
 
-Support distinctions such as:
+Expected:
 
-ENTITY_RESOLUTION
-TAXONOMY_SUBSTITUTION
-EVIDENCE_GATE
-CONFIDENCE_GATE
-STATE_DIRECTION
-DEDUPLICATION
-SCOPE_POLICY
-API_PUBLICATION
-MALFORMED_REPRESENTATION
-INSUFFICIENT_EVIDENCE
-
-Use existing repository reason codes where available.
-
-Create a mapping layer rather than renaming historical data destructively.
+0 failed
+0 errors
 
 ==================================================
-10. REVIEW STATE
+9. SAFETY VALIDATION
 ==================================================
 
-Do not pretend the application already has one universal Review Queue.
+Confirm:
 
-Create one common review-state contract capable of representing:
+CCR subjects = 16,769
 
-- CAM V3 review-required
-- normalized workbench review
-- external proposal review
-- external conflict
-- entity-match review
-- insufficient-evidence review
-- AI definition governance
+Canonical entities = 16,767
 
-But preserve the action semantics of each lane.
+Exposure rows = 25,000
 
-The common contract should allow the UI eventually to show:
+Production relationships = 0
 
-WHY THIS NEEDS ATTENTION
+Production claims = 0
 
-without implying that every review item can be approved through the same
-mutation endpoint.
+External entities = 0
 
-==================================================
-11. EXTERNAL RESEARCH CONTRACT
-==================================================
+Candidates promoted = 0
 
-Preserve external research as supplemental.
+Source files unchanged
 
-Its findings must expose:
+External calls = 0
 
-- research run ID
-- subject
-- related entity
-- relationship type
-- channel
-- source URL/reference
-- source date
-- evidence
-- entity match state
-- corroboration/proposal/conflict status
-- confidence where legitimately available
+SQLite integrity = PASS
 
-External research must NEVER silently become a CAM fact.
-
-It may:
-
-CORROBORATE
-PROPOSE
-CONFLICT
-SUPPLY ADDITIONAL EVIDENCE
-RETURN INSUFFICIENT EVIDENCE
+Foreign keys = PASS
 
 ==================================================
-12. AI RELATIONSHIP CONTRACT
-==================================================
-
-Preserve the existing:
-
-DESCRIBE
-→ CONFIGURE
-→ DRAFT
-→ PREVIEW
-→ APPROVE
-→ PUBLISH
-
-governance lifecycle.
-
-Published AI instances must use the common relationship contract for
-read/display purposes.
-
-But preserve:
-
-source_lane = AI_PUBLISHED
-
-and the definition/version that produced the instance.
-
-Persist/expose:
-
-AI definition ID
-definition version
-publication event
-supporting relationship IDs
-supporting evidence IDs
-AI inference fields
-deterministic rule fields
-
-Never make an AI-published instance indistinguishable from CAM.
-
-==================================================
-13. UNIFIED READ MODEL
-==================================================
-
-Build a READ MODEL / SERVICE, not a destructive merge.
-
-Create a backend service capable of returning relationships across
-selected lanes through the common contract.
-
-Example conceptual API:
-
-GET /api/lending/intelligence/relationships
-
-Filters should support at least:
-
-subject/entity
-related entity
-CAGID
-relationship type
-relationship family
-source lane
-authority class
-state
-review status
-quality status
-connectivity
-country/region where supported
-sector where supported
-minimum evidence
-minimum confidence where meaningful
-as-of date
-publication state
-
-Default behavior must be explicit and safe.
-
-Do not silently include V2 noisy candidates.
-
-Do not silently promote rejected normalized rows.
-
-Do not silently include unpublished AI drafts.
-
-Define the default trusted read.
-
-==================================================
-14. RELATIONSHIP DETAIL / EXPLAINABILITY API
-==================================================
-
-Create a relationship-detail API capable of powering a future:
-
-"Why am I seeing this?"
-
-panel.
-
-For one relationship, return:
-
-- canonical common-contract record
-- endpoint identities
-- source lane
-- authority
-- exact relationship semantic
-- family
-- direction
-- state
-- evidence summary
-- source summary
-- representative evidence
-- review/quality state
-- taxonomy mapping
-- entity-resolution information
-- conflict information
-- lineage events
-- supporting relationships
-- supporting AI definition/version if applicable
-- external corroboration/proposals if applicable
-
-Do not require the frontend to reconstruct this explanation by joining
-multiple unrelated APIs.
-
-==================================================
-15. DATA QUALITY / PROVENANCE FLAGS
-==================================================
-
-Expose explicit flags for incomplete information.
-
-Examples:
-
-identity_complete
-taxonomy_complete
-direction_complete
-state_complete
-evidence_complete
-lineage_complete
-source_location_complete
-
-Do not fill unknown values with guesses.
-
-UNKNOWN must remain a valid state.
-
-==================================================
-16. NO UI REDESIGN IN THIS PROMPT
-==================================================
-
-Do NOT perform the major new visual redesign yet.
-
-Do not rebuild the map.
-
-Do not add animation.
-
-Do not build the executive AI assistant yet.
-
-Do not redesign Overview.
-
-Do not redesign Client Detail.
-
-This prompt establishes the data contract required for those screens.
-
-Minimal developer/debug surfaces are acceptable if needed for validation.
-
-==================================================
-17. MIGRATION SAFETY
-==================================================
-
-Before schema modification:
-
-- inspect existing tables
-- reuse tables where possible
-- make migrations additive
-- preserve current IDs
-- preserve current V3 artifacts
-- preserve normalized history
-- preserve external research history
-- preserve AI history
-
-No destructive migrations.
-
-No replacement of source artifacts.
-
-Back up SQLite files before migration if any persistent SQLite schema is
-modified.
-
-==================================================
-18. TESTS
-==================================================
-
-Add automated tests covering at minimum:
-
-A. same entity pair, different relationship type remains distinct
-
-B. same semantic relationship from multiple sources can be grouped without
-losing source assertions
-
-C. non-CAGID external endpoint remains valid
-
-D. unresolved endpoint remains explicit
-
-E. taxonomy substitution remains visible
-
-F. CAM authority is not overwritten by external research
-
-G. AI publication remains a separate source lane
-
-H. review-required CAM rows remain visible according to the declared
-trusted-read policy
-
-I. normalized rejected rows are not silently promoted
-
-J. V2 fallback remains conditional and does not become a global source
-
-K. relationship-detail response contains source/evidence/explainability data
-
-L. incomplete historical lineage is reported as incomplete rather than
-invented
-
-==================================================
-19. BENCHMARK REGRESSION
-==================================================
-
-Use the previously established benchmark relationships as regression
-fixtures where available, including examples involving:
-
-- Lambda / NVIDIA
-- Project Indigo / CoreWeave
-- Applied Digital / CoreWeave
-- Serverfarm / Meta
-- BO Westover / Blue Owl
-- OpenAI relationships
-- Hut 8 relationships
-- Cavalry / CyrusOne
-
-Do NOT alter expected source facts merely to make tests pass.
-
-The point is to verify representation.
-
-==================================================
-20. DELIVERABLE REPORT
+10. REPORT
 ==================================================
 
 Create:
 
-LENDING_CANONICAL_RELATIONSHIP_CONTRACT_REPORT.md
+backend/data/CCR_PHASE2_FINGERPRINT_RECONCILIATION_REPORT.md
 
-Report:
+Include:
 
-1. files changed
-2. schemas/tables added or reused
-3. migrations performed
-4. common relationship contract
-5. source-lane model
-6. authority model
-7. endpoint identity model
-8. relationship identity/key model
-9. taxonomy model
-10. lineage model
-11. reason-code model
-12. review-state model
-13. external contract
-14. AI contract
-15. unified read API
-16. relationship explainability API
-17. default trusted-read policy
-18. test results
-19. benchmark results
-20. unresolved limitations
-21. exact next implementation step
+failing tests
+root cause
+protected fingerprint definition
+actual business-data comparison
+metadata/schema difference
+fix made
+before/after hashes where relevant
+full regression results
 
-==================================================
-21. ACCEPTANCE CRITERIA
-==================================================
+FINAL RESPONSE:
 
-Prompt 3 is complete only when:
+CCR PHASE-2 FINGERPRINT RECONCILIATION: PASS / FAIL
 
-- Lending has one documented relationship contract
-- all active relationship lanes can map into it
-- authority remains explicit
-- source lane remains explicit
-- entity endpoints are explicit
-- relationship semantics remain atomic
-- taxonomy substitutions remain visible
-- review semantics are not falsely collapsed
-- external research remains supplemental
-- AI remains separately governed
-- a unified read service exists
-- a relationship explainability/detail service exists
-- new processing can persist lineage
-- historical missing lineage is explicitly marked incomplete
-- no CCR dependency was introduced
-- no Customer_latest.parquet dependency exists
-- tests pass
-- existing Lending behavior is not silently broken
+ROOT CAUSE:
+<concise explanation>
 
-At the end, STOP.
+PROTECTED BUSINESS DATA CHANGED:
+YES / NO
 
-Do not begin the portfolio UI redesign.
-Do not begin the new network visualization.
-Do not begin the AI executive assistant.
-Do not begin automated SEC/web expansion.
+EXPOSURE BUSINESS ROWS CHANGED:
+YES / NO
 
-Return the implementation report and wait for the next prompt.
+FAILURES BEFORE:
+7
+
+ERRORS BEFORE:
+8
+
+FAILURES AFTER:
+actual
+
+ERRORS AFTER:
+actual
+
+PHASE-2:
+PASS / FAIL
+
+PHASE-3:
+PASS / FAIL
+
+CANONICAL MODEL:
+PASS / FAIL
+
+RELATIONSHIP UNIVERSE:
+PASS / FAIL
+
+EVIDENCE/PATH POLICY:
+PASS / FAIL
+
+RESEARCH ORCHESTRATOR:
+PASS / FAIL
+
+FULL BACKEND:
+passed:
+failed:
+errors:
+
+SOURCE FILES MODIFIED:
+0 / FAIL
+
+PRODUCTION RELATIONSHIPS:
+0 / FAIL
+
+EXTERNAL CALLS:
+0 / FAIL
+
+REPORT:
+backend/data/CCR_PHASE2_FINGERPRINT_RECONCILIATION_REPORT.md
+
+STOP.
