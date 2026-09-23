@@ -1,115 +1,36 @@
-Apply the engineering operating contract.
+IMPORTANT SCOPE CORRECTION — LENDING ONLY
 
-TASK: WRITE THE TARGET CANONICAL ARCHITECTURE
+This task is part of the Lending Relationship Intelligence application.
 
-No production implementation yet.
+Do NOT use, inspect, migrate, reference, join, or design around:
 
-Read:
-- LENDING_FOUNDATION_AUDIT.md
-- LENDING_CUSTOMER_MASTER_RECONCILIATION.md
-- existing benchmark/loss-attribution reports
-- current schemas
+- Customer_latest.parquet
+- the ~3.67 million customer population
+- CCR customer-master logic
+- CCR exposure populations
+- CCR databases, schemas, routes, or entity models
 
-PURPOSE
+Customer_latest.parquet belongs exclusively to the CCR workstream.
 
-Define ONE canonical intelligence architecture while retaining distinct source authorities.
+For Lending, preserve the currently established Lending portfolio/exposure
+population and Lending entity/relationship sources.
 
-The target conceptual flow must be:
+The Lending relationship intelligence architecture must be based on the
+Lending sources already identified in the architecture/lineage audit:
 
-PORTFOLIO / EXPOSURE SUBJECT
-        ↓
-CANONICAL ENTITY
-        ↔
-CANONICAL RELATIONSHIP
-        ↔
-CANONICAL / EXTERNAL ENTITY
+- Lending portfolio/exposure population
+- CAM / V3 evidence
+- governed normalized Lending relationship data
+- external SEC/web research
+- Stylus where explicitly invoked
+- external-overlay findings
+- governed AI-defined relationships
+- review/governance state
 
-and:
+Do not introduce a new customer-master dependency into Lending.
 
-SOURCE
-↓
-DOCUMENT / RECORD
-↓
-OBSERVATION
-↓
-ENTITY RESOLUTION
-↓
-RELATIONSHIP CANDIDATE
-↓
-TAXONOMY RECONCILIATION
-↓
-EVIDENCE / QUALITY ASSESSMENT
-↓
-DECISION
-↓
-CANONICAL / REVIEW / REJECTED
-↓
-PUBLICATION PROJECTION
+All previous findings involving Customer_latest.parquet must be treated as
+CCR-only findings and ignored for this Lending task.
 
-Design exact contracts for:
-
-1. entity
-2. entity identifier
-3. entity alias
-4. customer-master linkage
-5. portfolio membership
-6. exposure facts
-7. source
-8. document
-9. observation
-10. entity mention
-11. evidence
-12. relationship candidate
-13. canonical relationship
-14. relationship observation support
-15. relationship taxonomy
-16. taxonomy mapping/substitution
-17. relationship decision
-18. transition/lineage ledger
-19. review state
-20. external finding
-21. AI relationship definition/version/instance
-22. event
-23. signal
-24. entity-event link
-25. relationship-event link
-26. impact assessment
-
-For every object specify:
-- key
-- stable identity
-- required fields
-- optional fields
-- foreign keys
-- lifecycle
-- source authority
-- immutable fields
-- mutable fields
-- audit fields
-
-Define relationship identity carefully.
-
-The same entity pair may legitimately have:
-- multiple relationship types
-- multiple source observations
-- multiple states over time
-
-Therefore do not deduplicate solely by endpoint pair.
-
-Define how bidirectional relationships work.
-
-Define how temporal states work.
-
-Define source precedence but NEVER by destructive overwrite.
-
-Define unified read projection semantics.
-
-Define review semantics separately from source truth.
-
-Create:
-
-backend/data/LENDING_TARGET_CANONICAL_ARCHITECTURE.md
-
-Include a migration map from all existing stores into the target concepts.
-
-STOP.
+Continue with Prompt 3 using the results of Prompt 1 and Prompt 2 as the
+authoritative Lending baseline.
