@@ -1,456 +1,355 @@
-CCR EXTERNAL RESEARCH — SEC IDENTITY + APPROVED WEB ACTIVATION
+LENDING — PLAN REBASELINE AND IMPLEMENTATION STATE RECONCILIATION
 
-Work only in the CURRENT CCR repository.
+Work only in the CURRENT Lending repository.
 
-Read first:
+THIS IS A READ-ONLY REBASELINE TASK.
 
-backend/data/CCR_WINDOWS_NETWORK_TRANSPORT_REPORT.md
-backend/data/CCR_PROVIDER_CONNECTIVITY_EVIDENCE_REPORT.md
-backend/data/CCR_RESEARCH_ORCHESTRATOR_REPORT.md
-backend/data/CCR_RELATIONSHIP_EVIDENCE_PATH_POLICY.md
-
-The Windows enterprise network route is now operational.
-
-Known state:
-
-GLEIF:
-READY
-HTTP 200
-verified official identity payload
-
-SEC:
-READY
-HTTP 200
-official reference endpoint reachable
-but the bounded subject returned governed NOT_FOUND because no unique SEC
-identity mapping was accepted.
-
-Web:
-adapter code exists but approved Web execution is not yet operational.
-
-Regression:
-56 passed
-0 failed
-0 errors
-
-Do NOT change the working Windows proxy/TLS solution.
-
-Do NOT disable TLS verification.
-
-Do NOT perform broad external research.
-
-Do NOT create CONFIRMED relationships.
+Do not implement Prompt 4D.
+Do not modify frontend behavior.
+Do not modify backend behavior.
+Do not modify data.
+Do not modify databases.
+Do not run migrations.
+Do not call SEC, GLEIF, Web, Stylus, Helix, AI, or any external provider.
+Do not modify CCR files.
+Do not use Customer_latest.parquet or any CCR customer-master asset.
+Do not attempt to "fix" inconsistencies during this task.
 
 OBJECTIVE
 
-Complete the external provider readiness layer by:
+The Lending implementation has progressed through several planned prompts,
+but some additional work and cross-project prompts may have been executed
+between planned stages.
 
-1. making SEC entity/CIK resolution robust and governed;
-2. activating one approved high-quality Web research adapter;
-3. proving both with bounded verified-source retrievals.
+Reconstruct the ACTUAL current Lending state from repository evidence and
+re-establish the authoritative implementation plan before any further work.
 
-==================================================
-1. PRESERVE WORKING TRANSPORT
-==================================================
+The purpose is to answer:
 
-Reuse the existing approved ZSATunnel / proxy transport.
-
-Do not:
-
-change DNS
-invent another proxy
-disable certificates
-bypass enterprise controls
-
-Confirm provider calls inherit the current approved transport.
+1. What from Prompt 4A is actually implemented?
+2. What from Prompt 4B is actually implemented?
+3. What from Prompt 4C is actually implemented?
+4. Has ANY Prompt 4D work actually begun?
+5. What additional/unplanned work exists?
+6. Did any CCR-specific concept or asset accidentally enter Lending?
+7. What exists locally versus what is deployed?
+8. What is the exact safe starting point for the next planned prompt?
 
 ==================================================
-2. SEC IDENTITY RESOLUTION
+A. READ THE EXISTING LENDING REPORTS
 ==================================================
 
-Inspect current SEC identity mapping logic.
+Locate and read all relevant Lending reports, including where present:
 
-The provider can already retrieve:
+- LENDING_FOUNDATION_AUDIT.md
+- LENDING_CANONICAL_RELATIONSHIP_CONTRACT_REPORT.md
+- LENDING_PROMPT3_ACCEPTANCE_REPORT.md
+- LENDING_PROMPT3C_REMEDIATION_REPORT.md
+- LENDING_PROMPT4A_EXECUTIVE_HOME_REPORT.md
+- LENDING_PROMPT4B_PORTFOLIO_CLIENT_REPORT.md
+- LENDING_PROMPT4C_NETWORK_REPORT.md
+- any Prompt 4C deployment report
+- any Prompt 4D report
+- any later Lending implementation report
+- any deployment or SHA verification report
 
-www.sec.gov/files/company_tickers_exchange.json
+Do not assume the reports are mutually consistent.
 
-but the previous CCR subject could not be uniquely mapped.
-
-Build a deterministic SEC identity-resolution process.
-
-Possible authoritative inputs:
-
-existing local CIK
-verified ticker
-exact official legal name
-known former legal name
-SEC company ticker reference data
-SEC submissions metadata
-
-Do not use fuzzy name matching alone.
-
-Resolution outputs:
-
-SEC_IDENTITY_RESOLVED
-SEC_IDENTITY_AMBIGUOUS
-SEC_IDENTITY_NOT_FOUND
-SEC_NOT_APPLICABLE
+Use repository/source state as final evidence where reports conflict.
 
 ==================================================
-3. SEC RESOLUTION QUALITY
+B. RECONSTRUCT THE PLANNED PRODUCT SEQUENCE
 ==================================================
 
-For each SEC identity candidate capture:
+The intended Lending product sequence is:
 
-entity_key
-CCR/master legal name
+PROMPT 4A
+Executive Home + common Lending shell
 
-candidate CIK
-SEC registered name
-ticker if available
-exchange if available
+PROMPT 4B
+Portfolio + Client Detail
 
-match_basis
-identity_quality
+PROMPT 4C
+Network
 
-Allowed strong match bases include combinations such as:
+PROMPT 4D
+Relationship Explorer
 
-existing verified CIK
+PROMPT 4E
+Governed Intelligence / AI relationship-definition experience
 
-exact normalized legal name + compatible country/entity context
+PROMPT 4F
+External Research / supplemental evidence experience
 
-verified ticker + compatible legal name
+PROMPT 4G
+Review / analyst decision workflow
 
-authoritative alias + corroborating identity field
+PROMPT 4H
+Cross-route hardening, accessibility, performance,
+regression validation, and release readiness
 
-Do not resolve merely because names are similar.
+Confirm whether the repository still reflects this decomposition.
 
-==================================================
-4. FIND A VALID SEC PILOT SUBJECT
-==================================================
-
-From the CCR population identify ONE entity that is:
-
-research_allowed = true
-high identity quality
-clearly SEC applicable
-uniquely resolvable to a CIK
-
-Do not hardcode a famous company if the database can select one dynamically.
-
-Report:
-
-CCR entity
-legal name
-GFCID
-LEI
-CIK
-SEC registered name
-resolution method
+Do not redefine the plan.
 
 ==================================================
-5. BOUNDED SEC DOCUMENT RETRIEVAL
+C. INVENTORY CURRENT ROUTES AND UI
 ==================================================
 
-For the selected entity retrieve only a small bounded set.
+Inspect the active Lending frontend routes and determine the current
+implementation status of:
 
-Prefer:
+/lending
+/lending/clients
+/lending/client/{cagid}
+/lending/network
+/lending/relationships
+/lending/workbench
+/lending/external-research
+/lending/review
 
-latest 10-K / 20-F / 10-Q as applicable
+For each route classify:
 
-or another relevant official filing.
+NOT STARTED
+LEGACY ONLY
+PARTIALLY REFINED
+PLANNED PROMPT COMPLETE
+EXTRA / OUT-OF-SEQUENCE ENHANCEMENT
 
-Maximum:
-
-3 SEC filing documents.
-
-Store:
-
-accession
-filing type
-filing date
-official source URL
-retrieved_at
-source tier
-
-Tier must be:
-
-TIER_1_AUTHORITATIVE_EXTERNAL
-
-No relationship inference required yet.
+Also identify the shared Lending shell and navigation currently in use.
 
 ==================================================
-6. WEB ADAPTER ACTIVATION
+D. INVENTORY BACKEND CONTRACTS
 ==================================================
 
-Inspect the existing Web adapter implementation created during the previous
-connectivity task.
+Inspect all Lending backend APIs used by the above routes.
 
-If it is Reuters-specific, determine the actual approved configuration needed.
+For each relevant endpoint identify:
 
-Do NOT invent credentials, provider URLs, or undocumented APIs.
+- source lane;
+- source population;
+- authority;
+- filtering;
+- pagination;
+- limit behavior;
+- offset behavior;
+- whether it reads bounded V3/CAM data;
+- whether it reads normalized history;
+- whether it reads external proposals;
+- whether it reads AI instances;
+- whether it can invoke a provider;
+- whether it mutates anything.
 
-If Reuters cannot be legitimately configured from the current environment,
-use another already-approved Web/search mechanism available in the repository
-or workstation.
+Pay particular attention to the Prompt 4C Network changes.
 
-The Web layer must support discovery across:
+Confirm whether the backend currently supports:
 
-official corporate sites
-investor-relations sites
-regulatory/government sites
-established financial/business publications
-approved specialist publications
-
-The Web layer must NOT be tied exclusively to one publisher if the product is
-intended for holistic research.
-
-==================================================
-7. WEB SOURCE POLICY
-==================================================
-
-Every retrieved Web document must be classified as:
-
-TIER_1_AUTHORITATIVE_EXTERNAL
-TIER_2_HIGH_QUALITY_SECONDARY
-TIER_3_CORROBORATIVE
-INADMISSIBLE
-
-Tier 1 examples:
-
-official company
-official investor relations
-regulator
-government
-stock exchange
-
-Tier 2:
-
-approved major financial/business journalism
-
-Tier 3:
-
-approved specialist corroboration
-
-Search snippets are:
-
-DISCOVERY_ONLY
-
-never evidence.
+- bounded relationship pagination;
+- offset;
+- explicit supplemental/external inclusion;
+- CAM/V3-first default loading;
+- no automatic AI/provider/external execution.
 
 ==================================================
-8. WEB DOCUMENT CONTRACT
+E. DETECT CROSS-PROJECT CONTAMINATION
 ==================================================
 
-Store for each retrieved document:
+Search the CURRENT Lending implementation for accidental dependencies on:
 
-URL
-domain
-publisher
-title
-publication date if known
-retrieval date
+- Customer_latest.parquet
+- CCR customer master
+- CCR population logic
+- CCR exposure logic
+- CCR relationship database
+- CCR canonical entity model
+- CCR-specific GFICD population rules
+- CCR-specific migration scripts
+- CCR-specific provider orchestration
 
-source tier
-source type
-admissibility
-admissibility reason
+Distinguish:
 
-content fingerprint
+1. files merely coexisting in the monorepo;
+2. references in documentation only;
+3. actual Lending runtime dependency.
 
-Do not store search-result snippets as evidence snippets.
+Only #3 is a Lending contamination problem.
 
-==================================================
-9. WEB BOUNDED TEST
-==================================================
-
-Using the SAME SEC pilot entity:
-
-retrieve at most:
-
-1 official company/IR document
-
-and
-
-1 high-quality secondary document
-
-if legitimately available.
-
-If no approved Tier-2 provider is configured:
-
-report:
-
-TIER_2_PROVIDER_NOT_CONFIGURED
-
-Do not lower standards.
+Do not delete anything.
 
 ==================================================
-10. GLEIF CROSS-CHECK
+F. IDENTIFY OUT-OF-SEQUENCE WORK
 ==================================================
 
-If the selected entity has an LEI:
+Identify work performed outside the formal 4A–4H order.
 
-perform one bounded GLEIF identity lookup.
+Examples may include:
 
-Use it only to cross-check identity.
+- map fly-lines;
+- animation;
+- visual indicators;
+- deployment-only changes;
+- extra CSS;
+- experimental graph behavior;
+- additional API optimizations;
+- partial Relationship Explorer work.
 
-Do not automatically create a parent relationship.
+Classify every such change as:
 
-==================================================
-11. UNIFIED EXTERNAL IDENTITY
-==================================================
+SAFE ENHANCEMENT
+KEEP BUT ISOLATE
 
-Demonstrate that one CCR entity can now have a governed identifier set such as:
+RELEVANT TO LATER PROMPT
+KEEP AND CONSUME LATER
 
-GFCID
-CAGID
-LEI
-CIK
-ticker
-official domain
+PLAN CONFLICT
+MUST BE CORRECTED BEFORE CONTINUING
 
-with provenance per identifier.
+UNKNOWN
+NEEDS INVESTIGATION
 
-Do not treat all identifiers as equally authoritative.
-
-==================================================
-12. PROVIDER READINESS STATES
-==================================================
-
-Provider diagnostics should now distinguish:
-
-READY
-READY_NO_IDENTITY_MATCH
-NOT_APPLICABLE
-NOT_CONFIGURED
-DNS_ERROR
-PROXY_ERROR
-TLS_ERROR
-HTTP_ERROR
-RATE_LIMITED
-ERROR
-
-Do not report a reachable SEC provider as UNAVAILABLE merely because an entity
-was not found.
+Do NOT revert safe enhancements simply because they were out of sequence.
 
 ==================================================
-13. NO RELATIONSHIP CREATION YET
+G. AUTHORITY MODEL CHECK
 ==================================================
 
-This task proves identity + evidence retrieval only.
+Confirm the Lending authority rules remain:
 
-Expected production relationship observations:
+CAM/V3
+= authoritative Lending relationship truth.
 
-0
+V2
+= conditional fallback/history only.
 
-Expected confirmed relationships:
+Normalized workbench
+= separately governed projection.
 
-0
+External research
+= supplemental evidence/proposals only.
 
-Expected synthetic edges:
+Published AI instances
+= separate governed analytical projection.
 
-0
+Portfolio and ordinary Network analytics
+= read-only.
 
-Identity/source documents are allowed.
+No universal relationship denominator is to be invented.
+
+No cross-lane composite relationship score is to be invented.
+
+No external or AI result may silently become CAM truth.
+
+No UI-derived "credit meaning" may be represented as a persisted source fact.
 
 ==================================================
-14. REGRESSION
+H. COUNT RECONCILIATION
 ==================================================
 
-Run full backend tests.
+Collect the important current counts but DO NOT force them to match.
 
-Expected:
+For each count record:
 
-0 failed
-0 errors
+- population;
+- source lane;
+- endpoint;
+- filter;
+- route;
+- meaning.
 
-Protected source hashes and Phase-2 fingerprint must remain unchanged.
+Include where available:
+
+portfolio clients
+reported OSUC
+CAM-covered clients
+V3 canonical relationships
+V3 review-required relationships
+bounded Network relationships
+relationship groups
+connected entities
+external proposals
+external conflicts
+AI instances
+
+If values such as:
+
+41 total V3 rows
+13 canonical
+28 review-required
+37 relationships
+
+appear in different screens or reports, explain their scopes rather than
+assuming one is wrong.
 
 ==================================================
-15. REPORT
+I. LOCAL VERSUS DEPLOYED STATE
+==================================================
+
+Determine, from available repository/deployment evidence:
+
+- which Prompt 4A files were deployed;
+- which Prompt 4B files were deployed;
+- which Prompt 4C frontend files were deployed;
+- whether Prompt 4C backend files were deployed;
+- whether local and remote versions are known to match.
+
+If deployment truth cannot be established from repository evidence, state:
+
+DEPLOYMENT STATE UNKNOWN
+
+Do not infer successful deployment.
+
+==================================================
+J. PROMPT 4D READINESS
+==================================================
+
+Evaluate only whether the repository is ready to START Prompt 4D.
+
+Do not implement it.
+
+Prompt 4D should only begin if:
+
+- 4A is stable;
+- 4B is stable;
+- 4C Network contract is stable;
+- CAM/V3 authority remains intact;
+- bounded relationship APIs are available;
+- no accidental CCR runtime dependency exists;
+- no partial incompatible 4D implementation needs reconciliation first.
+
+If there is a blocker, identify the smallest remediation needed.
+
+==================================================
+K. CREATE THE REBASELINE REPORT
 ==================================================
 
 Create:
 
-backend/data/CCR_EXTERNAL_PROVIDER_READINESS_REPORT.md
+backend/data/LENDING_IMPLEMENTATION_REBASELINE.md
 
-Include:
+Use these sections:
 
-SEC identity algorithm
-selected SEC pilot subject
-SEC filing retrieval
-Web adapter/configuration
-Web source-tier enforcement
-GLEIF identity cross-check
-identifier provenance
-provider readiness
-limitations
+1. Executive conclusion
+2. Current product architecture
+3. Prompt 4A actual status
+4. Prompt 4B actual status
+5. Prompt 4C actual status
+6. Prompt 4D actual status
+7. Out-of-sequence enhancements
+8. CCR contamination check
+9. Authority-model verification
+10. Current API/population matrix
+11. Count reconciliation
+12. Local versus deployed state
+13. Technical debt carried forward
+14. Exact next action
 
-==================================================
-16. FINAL RESPONSE
-==================================================
+End with EXACTLY one of:
 
-Return:
+READY FOR PROMPT 4D
 
-CCR EXTERNAL PROVIDER READINESS: PASS / FAIL
+or
 
-TRANSPORT
-Approved Windows route:
-PASS / FAIL
+REMEDIATION REQUIRED BEFORE PROMPT 4D: <short reason>
 
-GLEIF
-Connectivity:
-Identity lookup:
-Status:
-
-SEC
-Connectivity:
-Resolvable CCR subjects found:
-Pilot subject:
-CIK:
-Resolution basis:
-Official filing documents retrieved:
-Status:
-
-WEB
-Adapter:
-Configured:
-Official company document:
-Tier-2 document:
-Search snippets used as evidence:
-0 / FAIL
-Status:
-
-UNIFIED IDENTITY
-GFCID:
-LEI:
-CIK:
-Ticker:
-Domain:
-Identity quality:
-
-SAFETY
-Relationships created:
-0 / FAIL
-
-Confirmed relationships:
-0 / FAIL
-
-Synthetic edges:
-0 / FAIL
-
-AI evidence:
-0 / FAIL
-
-TLS verification disabled:
-0 / FAIL
-
-REGRESSION
-passed:
-failed:
-errors:
-
-REPORT:
-backend/data/CCR_EXTERNAL_PROVIDER_READINESS_REPORT.md
-
-STOP.
+Do not perform the remediation.
+Do not start Prompt 4D.
