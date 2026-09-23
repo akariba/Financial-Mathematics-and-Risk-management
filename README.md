@@ -1,127 +1,115 @@
 Apply the engineering operating contract.
 
-TASK: CUSTOMER MASTER + EXPOSURE POPULATION FOUNDATION
+TASK: WRITE THE TARGET CANONICAL ARCHITECTURE
 
-READ-ONLY ANALYSIS FIRST.
+No production implementation yet.
 
-Primary sources:
-
-backend/Customer_latest.parquet
-backend/thousandClients.csv
-
-Customer_latest.parquet is believed to contain approximately 3.6M master customer rows.
-thousandClients.csv originated from an exposure population.
-
-Do NOT assume those statements are perfectly correct. Validate them.
-
-Do not modify the two files.
+Read:
+- LENDING_FOUNDATION_AUDIT.md
+- LENDING_CUSTOMER_MASTER_RECONCILIATION.md
+- existing benchmark/loss-attribution reports
+- current schemas
 
 PURPOSE
 
-Determine the correct distinction between:
+Define ONE canonical intelligence architecture while retaining distinct source authorities.
 
-MASTER CUSTOMER UNIVERSE
+The target conceptual flow must be:
+
 PORTFOLIO / EXPOSURE SUBJECT
+        ↓
 CANONICAL ENTITY
-RELATIONSHIP COUNTERPARTY
+        ↔
+CANONICAL RELATIONSHIP
+        ↔
+CANONICAL / EXTERNAL ENTITY
 
-These must not be collapsed into one concept.
+and:
 
-==================================================
-1. PROFILE BOTH FILES
-==================================================
+SOURCE
+↓
+DOCUMENT / RECORD
+↓
+OBSERVATION
+↓
+ENTITY RESOLUTION
+↓
+RELATIONSHIP CANDIDATE
+↓
+TAXONOMY RECONCILIATION
+↓
+EVIDENCE / QUALITY ASSESSMENT
+↓
+DECISION
+↓
+CANONICAL / REVIEW / REJECTED
+↓
+PUBLICATION PROJECTION
 
-Report:
-- rows
-- columns
-- types
-- null rates
-- cardinality
-- identifier candidates
-- duplicate rates
-- sample values
-- status/date fields
-- names
-- countries
-- industries
-- organizational hierarchy fields
-- customer lifecycle fields
-- exposure fields
+Design exact contracts for:
 
-Use memory-efficient/chunked processing where appropriate.
+1. entity
+2. entity identifier
+3. entity alias
+4. customer-master linkage
+5. portfolio membership
+6. exposure facts
+7. source
+8. document
+9. observation
+10. entity mention
+11. evidence
+12. relationship candidate
+13. canonical relationship
+14. relationship observation support
+15. relationship taxonomy
+16. taxonomy mapping/substitution
+17. relationship decision
+18. transition/lineage ledger
+19. review state
+20. external finding
+21. AI relationship definition/version/instance
+22. event
+23. signal
+24. entity-event link
+25. relationship-event link
+26. impact assessment
 
-==================================================
-2. LINKAGE ANALYSIS
-==================================================
+For every object specify:
+- key
+- stable identity
+- required fields
+- optional fields
+- foreign keys
+- lifecycle
+- source authority
+- immutable fields
+- mutable fields
+- audit fields
 
-Determine how thousandClients rows can map to Customer_latest.
+Define relationship identity carefully.
 
-Test in order:
-- exact CAGID/customer identifier
-- other governed IDs
-- normalized legal name
-- name + country
-- other deterministic combinations
+The same entity pair may legitimately have:
+- multiple relationship types
+- multiple source observations
+- multiple states over time
 
-Do NOT use fuzzy matching as proof.
+Therefore do not deduplicate solely by endpoint pair.
 
-Report:
-- exact matches
-- one-to-many matches
-- many-to-one matches
-- unmatched exposure subjects
-- duplicate master identifiers
-- master records with conflicting attributes
+Define how bidirectional relationships work.
 
-==================================================
-3. ACTIVE / INACTIVE
-==================================================
+Define how temporal states work.
 
-Determine whether Customer_latest really contains active/inactive customers.
+Define source precedence but NEVER by destructive overwrite.
 
-Identify the exact fields and value meanings.
+Define unified read projection semantics.
 
-Do not infer status only from filenames or missing exposure.
-
-==================================================
-4. HIERARCHY
-==================================================
-
-Identify any fields supporting:
-- legal entity
-- ultimate parent
-- immediate parent
-- branch
-- subsidiary
-- group
-- booking entity
-- relationship/customer level
-
-Determine whether these are identities, attributes, or relationships.
-
-==================================================
-5. TARGET MODEL RECOMMENDATION
-==================================================
-
-Recommend conceptual roles for:
-- master customer record
-- canonical entity
-- portfolio/exposure membership
-- exposure measurement
-- aliases
-- identifiers
-- historical customer state
-
-Do not create tables yet.
-
-==================================================
-6. OUTPUT
-==================================================
+Define review semantics separately from source truth.
 
 Create:
 
-backend/data/LENDING_CUSTOMER_MASTER_RECONCILIATION.md
+backend/data/LENDING_TARGET_CANONICAL_ARCHITECTURE.md
 
-Include SQL/model implications for the next migration.
+Include a migration map from all existing stores into the target concepts.
 
 STOP.
