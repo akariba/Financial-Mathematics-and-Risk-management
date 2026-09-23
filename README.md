@@ -1,448 +1,791 @@
-CCR RELATIONSHIP INTELLIGENCE — PROVIDER CONNECTIVITY + EVIDENCE ACQUISITION
+LENDING RELATIONSHIP INTELLIGENCE
+PROMPT 4A — EXECUTIVE INTELLIGENCE HOME + PRODUCT SHELL
 
-Work only in the CURRENT CCR repository.
+Work only in the CURRENT Lending repository.
+
+Prompt 3C is complete.
 
 Read first:
 
-backend/data/CCR_LIVE_RELATIONSHIP_PILOT_REPORT.md
-backend/data/CCR_RESEARCH_ORCHESTRATOR_REPORT.md
-backend/data/CCR_RELATIONSHIP_EVIDENCE_PATH_POLICY.md
-backend/data/CCR_PHASE3A_CONNECTIVITY_REPORT.md if present
+LENDING_FOUNDATION_AUDIT.md
+LENDING_CANONICAL_RELATIONSHIP_CONTRACT_REPORT.md
+LENDING_PROMPT3_ACCEPTANCE_REPORT.md
+LENDING_PROMPT3C_REMEDIATION_REPORT.md
 
-Inspect existing provider code for:
+Treat the Prompt 3C conclusion READY FOR PROMPT 4 as the authoritative
+foundation.
 
-GLEIF
-SEC
-Web
-Helix/internal gateway helpers
-certificate/proxy/network configuration
+Also inspect the CURRENT frontend before changing anything.
 
-IMPORTANT
+IMPORTANT:
 
-The previous bounded pilot proved the orchestrator works, but:
+This is Lending only.
 
-GLEIF failed DNS resolution
-SEC failed DNS resolution
-Web had no approved adapter configured
+Do not touch CCR.
+Do not use Customer_latest.parquet.
+Do not redesign backend authority rules.
+Do not rewrite CAM/V3.
+Do not call SEC.
+Do not call web.
+Do not call Stylus.
+Do not perform live external research.
+Do not build the advanced relationship graph yet.
+Do not build final AI orchestration yet.
 
-Do NOT broaden the pilot.
-Do NOT lower evidence standards.
-Do NOT create relationships merely to prove the pipeline works.
-Do NOT change canonical data.
-Do NOT fabricate evidence.
-
-OBJECTIVE
-
-Make the external evidence acquisition layer operational on this Windows
-workstation for:
-
-GLEIF
-SEC
-APPROVED HIGH-QUALITY WEB
-
-Then prove each provider can retrieve one bounded, verifiable document/result.
+This prompt establishes the new product shell and executive home experience.
 
 ==================================================
-1. DIAGNOSE CURRENT CONNECTIVITY
+BUSINESS VISION
 ==================================================
 
-Reproduce the current failures separately from the research orchestrator.
+The Lending application is evolving from a collection of analytical pages
+into a senior-user Relationship Intelligence platform.
 
-For GLEIF report:
+The target users include:
 
-hostname used
-DNS resolution result
-TCP connection result
-TLS result
-HTTP result
-proxy behavior if applicable
-safe error category
+- senior credit officers
+- portfolio managers
+- relationship managers
+- senior risk managers
+- management stakeholders
 
-For SEC report the same.
+These users should NOT need to understand:
 
-Do not print credentials or sensitive headers.
+- database lanes
+- V2/V3 internals
+- normalized stores
+- candidate stores
+- API contracts
+- extraction internals
+- taxonomy implementation details
 
-Determine whether failures are caused by:
+The product must translate those technical foundations into an intuitive,
+high-confidence analytical experience.
 
-Windows DNS
-corporate proxy
-certificate trust
-provider hostname/config
-Python networking
-environment variables
-application configuration
-other
+The first screen must answer immediately:
 
-Do not guess.
+1. What matters in my lending portfolio?
+2. Where is our largest exposure?
+3. What relationships could transmit risk?
+4. What has changed or deserves attention?
+5. Which clients should I investigate?
+6. Why is the system showing me this?
+7. What can I ask the AI next?
 
-==================================================
-2. CHECK EXISTING WORKSTATION NETWORK PATTERN
-==================================================
+This is not merely a dashboard.
 
-Inspect the current environment/repository for approved working outbound
-network patterns already used elsewhere.
-
-Look for:
-
-HTTP_PROXY
-HTTPS_PROXY
-NO_PROXY
-
-enterprise certificate bundle
-REQUESTS_CA_BUNDLE
-SSL_CERT_FILE
-
-internal gateway helpers
-Helix/R2D2 approved network wrappers
-existing provider transport abstraction
-
-Reuse approved enterprise configuration.
-
-Do not disable certificate verification.
-
-Do not hardcode personal machine paths if avoidable.
+It should feel like an intelligence workstation.
 
 ==================================================
-3. GLEIF PROVIDER
+1. PRESERVE THE DATA CONTRACT
 ==================================================
 
-Verify the configured official GLEIF endpoint.
+All portfolio relationship reads must use the common governed Lending
+relationship contract established in Prompt 3.
 
-Perform one bounded identity lookup using an existing known-valid local LEI.
+Do not create another relationship universe.
 
-Expected:
+Distinguish clearly:
 
-network works
-response is official GLEIF data
-response is cached according to current policy
-source tier = TIER_1_AUTHORITATIVE_EXTERNAL
+- assertions
+- semantic relationships
+- endpoint pairs
+- connected entities
 
-Do not yet create a relationship.
+Do not display 808 assertions as though they are 808 unique counterparties
+or 808 unique endpoint pairs.
 
-Store/retrieve only enough information to prove provider functionality.
+The current trusted-read metrics are approximately:
 
-==================================================
-4. SEC PROVIDER
-==================================================
+808 assertions
+808 semantic groups
+376 endpoint pairs
+255 connected entities
+28 review-required assertions
+3 conflict assertions
 
-Verify official SEC provider configuration.
+Use live API results when available instead of hard-coding these values.
 
-Inspect:
-
-User-Agent
-headers
-request pacing
-endpoint paths
-CIK discovery behavior
-
-Use only official SEC endpoints already permitted by source policy.
-
-Perform one bounded request against a CCR entity that has a defensible SEC
-identity.
-
-Expected:
-
-one official SEC response/document retrieved
-source tier = TIER_1_AUTHORITATIVE_EXTERNAL
-
-Respect SEC request-rate expectations.
-
-No broad filing crawl.
+Every displayed metric must have a defined denominator and semantic meaning.
 
 ==================================================
-5. WEB ADAPTER
+2. FRONTEND TECHNICAL DIRECTION
 ==================================================
 
-The prior pilot produced:
+Inspect the current frontend stack first.
 
-Web network attempts = 0
+If the application already uses React/TypeScript, preserve and improve it.
 
-because no approved adapter was configured.
+Do NOT introduce a second frontend framework.
 
-Implement/configure ONE approved Web research adapter.
+Build reusable components rather than page-specific duplicated components.
 
-Its job is discovery + retrieval of admissible Web sources.
+Prefer:
 
-It must support source quality classification.
+- React
+- TypeScript
+- existing routing conventions
+- existing API client conventions
+- reusable hooks
+- reusable cards/panels
+- reusable filter controls
+- responsive CSS/layout primitives
 
-Allowed targets:
+Use the existing design system where practical but materially improve the
+visual experience.
 
-official company site
-official investor relations
-official regulatory/government site
-major established financial/business publication
-approved specialist source
+Avoid unnecessary new dependencies.
 
-Reject:
-
-SEO pages
-anonymous sites
-content farms
-AI-generated sites
-scraped mirrors
-search snippets as evidence
-
-Search snippets may identify a candidate URL but cannot become evidence.
+If a new library is required, document why before adding it.
 
 ==================================================
-6. WEB SOURCE CLASSIFICATION
+3. DESIGN LANGUAGE
 ==================================================
 
-Every Web result must carry:
+The application should become:
 
-URL
-domain
-publisher
-title
-published date if available
-retrieved_at
+LIGHT
+PREMIUM
+INSTITUTIONAL
+CALM
+INFORMATION-DENSE
+INTERACTIVE
 
-source_tier
+Do not use a dark cyberpunk aesthetic.
 
-TIER_1_AUTHORITATIVE_EXTERNAL
-TIER_2_HIGH_QUALITY_SECONDARY
-TIER_3_CORROBORATIVE
-INADMISSIBLE
+Use a primarily light canvas with:
 
-admissibility_reason
+- white / near-white surfaces
+- restrained grey borders
+- subtle depth
+- generous spacing
+- dark navy/charcoal typography
+- controlled use of teal / blue / green
+- amber for review attention
+- red only for genuine conflicts/severe attention
 
-Do not rely on domain name alone when source type is ambiguous.
+The interface should feel credible for institutional credit professionals.
 
-==================================================
-7. HELIX ROLE
-==================================================
+Avoid:
 
-If Helix is already working, it may help classify:
+- excessive gradients
+- excessive glowing
+- decorative animations
+- meaningless gauges
+- excessive rounded cards
+- visual noise
 
-document type
-publisher type
-relationship relevance
-candidate evidence passage
+Use motion only to communicate:
 
-But AI may NOT determine source admissibility by itself.
-
-Deterministic/source-policy rules remain authoritative.
-
-AI output is not evidence.
-
-==================================================
-8. PROVIDER NORMALIZATION
-==================================================
-
-Ensure all three adapters return the orchestrator's normalized result contract:
-
-provider
-status
-
-documents_found
-claims_found
-identity_candidates
-evidence_candidates
-
-network_requests
-cache_hits
-
-error_category
-safe_error_message
-
-Statuses:
-
-SUCCESS
-NOT_FOUND
-NOT_APPLICABLE
-UNAVAILABLE
-ERROR
+- selection
+- filtering
+- relationship activation
+- AI analysis
+- drill-down
+- new attention signals
 
 ==================================================
-9. SAFE CONNECTIVITY STATUS
+4. NEW PRODUCT SHELL
 ==================================================
 
-Update provider diagnostics so the application can distinguish:
+Redesign the Lending application shell while keeping existing routes working.
 
-DNS_ERROR
-PROXY_ERROR
-TLS_ERROR
-AUTH_ERROR
-HTTP_ERROR
-RATE_LIMITED
-CONFIGURATION_INCOMPLETE
-NOT_CONFIGURED
-READY
+Create a clearer navigation hierarchy.
 
-Do not collapse all failures into UNAVAILABLE.
+Recommended top-level information architecture:
 
-==================================================
-10. EVIDENCE ACQUISITION TEST
-==================================================
+HOME
+PORTFOLIO
+NETWORK
+RELATIONSHIPS
+INTELLIGENCE
+REVIEW
 
-Run exactly three bounded tests:
+Do not expose technical implementation terminology in primary navigation.
 
-A. one GLEIF lookup
-B. one SEC retrieval
-C. one approved Web retrieval
+Existing routes may remain underneath these labels.
 
-For each prove:
+Provide an unobtrusive product identity:
 
-successful network acquisition
-source tier
-document provenance
-cache behavior
-no sensitive information logged
+LENDING
+Relationship Intelligence
 
-Do not create production relationships during these tests.
+Top navigation should also provide:
 
-==================================================
-11. RE-RUN SMALL RELATIONSHIP TEST
-==================================================
+- global client/entity search
+- AI entry point
+- data/source status indicator
+- review attention count
+- current analytical scope
 
-Only after all usable providers are functioning:
+Do not fake functionality.
 
-take ONE of the previously selected high-quality CCR entities.
-
-Run at most:
-
-3 relationship questions.
-
-Use the existing orchestrator.
-
-Objective:
-
-prove real evidence can flow:
-
-provider
-→ source document
-→ evidence snippet
-→ discovered claim
-→ governed outcome
-
-Allowed outcome:
-
-PROPOSAL_PENDING_REVIEW
-INSUFFICIENT_EVIDENCE
-NOT_FOUND
-CONFLICT
-
-Do not force a proposal.
+If an action is not yet implemented, visually indicate that it is coming
+later or do not expose it.
 
 ==================================================
-12. VALIDATION
+5. GLOBAL INTELLIGENCE COMMAND BAR
 ==================================================
 
-Report:
+Create a prominent but elegant global command/search interaction.
 
-GLEIF connectivity:
-SEC connectivity:
-Web connectivity:
+The user should be able to enter things such as:
 
-GLEIF verified documents:
-SEC verified documents:
-Web verified documents:
+CoreWeave
+NVIDIA
+Show my largest AI infrastructure exposures
+Which clients depend on NVIDIA?
+Show relationships requiring review
+Where are my largest concentrations?
+Explain this relationship
 
-SOURCE_NOT_VERIFIED documents newly produced:
-should be 0 unless genuine reason exists
+For Prompt 4A:
 
-Relationship questions:
-<= 3
+DO NOT connect these natural-language commands to a live LLM.
 
-Claims discovered:
-actual
+Implement the visual shell and deterministic routing/search behavior only
+where existing application data permits it.
 
-Proposals:
-actual
+Provide a clean placeholder for the future AI orchestration contract.
 
-Confirmed relationships:
-0
+Suggested prompt chips may include deterministic routes such as:
 
-Synthetic edges:
-0
+Largest exposures
+Relationship concentrations
+Review required
+Explore network
+Clients without CAM coverage
 
-AI evidence:
-0
-
-==================================================
-13. FULL REGRESSION
-==================================================
-
-Run the backend suite.
-
-Expected:
-
-0 failed
-0 errors
-
-Confirm protected counts and hashes unchanged.
+Clearly mark future AI-generated actions separately from existing
+deterministic analytics.
 
 ==================================================
-14. REPORT
+6. EXECUTIVE HOME
+==================================================
+
+Transform the current Overview into an Executive Intelligence Home.
+
+It should tell a coherent story rather than displaying unrelated widgets.
+
+Recommended page structure:
+
+A. EXECUTIVE HEADER
+
+Title:
+Portfolio Intelligence
+
+Subtitle:
+A short institutional description of exposure, relationships, concentration,
+and emerging attention.
+
+Provide context such as:
+
+portfolio population
+reported exposure
+CAM coverage
+relationship coverage
+review attention
+
+Do not overfill this area.
+
+--------------------------------------------------
+B. ATTENTION STRIP
+--------------------------------------------------
+
+Create an executive attention strip immediately below the header.
+
+This should surface a small number of deterministic signals.
+
+Examples based on existing data:
+
+Largest exposure concentration
+Largest sector concentration
+Clients with review-required relationships
+Relationship conflicts
+High-exposure clients without CAM
+High-exposure clients without relationship intelligence
+
+Each signal should be clickable.
+
+Do not infer unsupported credit risk conclusions.
+
+Use language such as:
+
+Attention
+Coverage gap
+Relationship review
+Concentration
+Data conflict
+
+not:
+
+Danger
+Critical risk
+Likely default
+
+unless source data explicitly supports such a conclusion.
+
+--------------------------------------------------
+C. PORTFOLIO EXPOSURE
+--------------------------------------------------
+
+Provide a strong visual portfolio exposure module.
+
+Include existing deterministic measures such as:
+
+total reported exposure
+top clients
+top 10 share
+top 20 share
+sector concentration
+country concentration
+
+Allow drilling into clients.
+
+Exposure remains a portfolio measure.
+
+Do not convert exposure into a relationship-risk score.
+
+--------------------------------------------------
+D. RELATIONSHIP INTELLIGENCE
+--------------------------------------------------
+
+Create a dedicated relationship intelligence module showing:
+
+semantic relationships
+connected entities
+endpoint pairs
+review-required relationships
+conflicts
+
+Also surface:
+
+top relationship families
+largest connected client ecosystems
+clients with highest relationship counts
+
+Only use metrics supported by existing APIs.
+
+Label exactly what is being counted.
+
+Do not show assertion count under the label “relationships” without
+qualification.
+
+--------------------------------------------------
+E. NETWORK PREVIEW
+--------------------------------------------------
+
+Retain a visually compelling network preview on the home page.
+
+Prompt 4A should NOT build the advanced network engine yet.
+
+Use the current bounded graph capability but restyle its container and
+interaction shell.
+
+The preview should show:
+
+selected/high-exposure ecosystem
+a small relationship neighborhood
+relationship family
+source authority
+review/conflict state
+
+Provide:
+
+Open Network
+
+to transition to the future advanced Network workspace.
+
+Do not render all 808 assertions at once.
+
+--------------------------------------------------
+F. GEOGRAPHIC INTELLIGENCE
+--------------------------------------------------
+
+Retain geography because senior users find it visually intuitive.
+
+Improve the layout around the current portfolio map.
+
+The map should communicate primarily:
+
+exposure geography
+
+and secondarily:
+
+relationship overlay availability
+
+Do not imply that map intensity is a credit-risk score.
+
+Provide toggles such as:
+
+Exposure
+Client count
+CAM coverage
+Relationship coverage
+
+Only show a layer if its data actually exists.
+
+--------------------------------------------------
+G. COVERAGE & DATA CONFIDENCE
+--------------------------------------------------
+
+Create a compact but meaningful coverage panel.
+
+Possible deterministic metrics:
+
+CAM coverage
+relationship coverage
+external-intelligence coverage if genuinely available
+review-required count
+conflict count
+
+Explain denominator on hover or drill-down.
+
+Avoid meaningless generic “confidence scores.”
+
+--------------------------------------------------
+H. SUGGESTED INVESTIGATIONS
+--------------------------------------------------
+
+Create an important new section:
+
+Suggested Investigations
+
+For Prompt 4A this must be generated deterministically from existing data,
+NOT by an LLM.
+
+Examples:
+
+High exposure / limited relationship coverage
+High exposure / no CAM coverage
+Many relationships requiring review
+Relationship conflict present
+Large concentration in one sector/country
+Highly connected client ecosystem
+
+Each card should explain:
+
+WHY THIS IS SHOWN
+
+using explicit deterministic facts.
+
+Example:
+
+“$5B reported exposure and no governed relationship records.”
+
+not:
+
+“This client is risky.”
+
+Each investigation links into an existing client/network/relationship view.
+
+==================================================
+7. GLOBAL SEARCH
+==================================================
+
+Improve global search.
+
+It should support at minimum:
+
+client name
+CAGID where applicable
+connected entity name where supported
+
+Search results should distinguish:
+
+Portfolio Client
+Connected Entity
+
+Do not assume every connected entity has portfolio exposure.
+
+Selecting:
+
+Portfolio Client
+→ Client Detail
+
+Connected Entity
+→ relationship/network context if supported
+
+Do not fabricate a client profile for an external-only entity.
+
+==================================================
+8. CLIENT CARD STANDARD
+==================================================
+
+Create a reusable client summary component for use throughout the
+application.
+
+It may expose:
+
+client name
+CAGID
+sector
+country
+reported exposure
+portfolio share
+CAM coverage
+relationship count
+review count
+conflict indicator
+
+Only display fields supported by the current data contract.
+
+This component should become reusable in later prompts.
+
+==================================================
+9. RELATIONSHIP ATTENTION STANDARD
+==================================================
+
+Create shared visual semantics for relationship states.
+
+Examples:
+
+Governed / confirmed
+Review required
+Conflict
+External support
+AI published
+
+These are NOT equivalent authority states.
+
+Do not flatten them into one generic status.
+
+CAM/V3 authority must remain distinguishable.
+
+Supplemental evidence must remain distinguishable.
+
+AI-published relationships must remain distinguishable.
+
+==================================================
+10. EXPLAINABILITY ENTRY POINT
+==================================================
+
+Every relationship-oriented card or metric that can be drilled into should
+have a consistent future explainability affordance:
+
+Why am I seeing this?
+
+Prompt 4A does not need to build the full explainability drawer.
+
+But establish the component/interface contract required by Prompt 4B.
+
+The future drawer will expose:
+
+relationship type
+entities
+direction
+state
+authority
+source lanes
+evidence
+source documents
+exact excerpts
+review status
+conflicts
+lineage
+
+Do not create placeholder fake evidence.
+
+==================================================
+11. REVIEW ATTENTION
+==================================================
+
+The Review entry point should clearly expose the count of items that actually
+require attention.
+
+Do not combine unrelated review universes into one number without explanation.
+
+If multiple queues exist, the UI should allow a future breakdown.
+
+For now show the governed portfolio review semantics supported by the common
+contract.
+
+==================================================
+12. RESPONSIVENESS
+==================================================
+
+The application is primarily designed for desktop institutional users.
+
+Optimize first for:
+
+1920×1080
+large enterprise monitors
+standard laptop widths
+
+Avoid very tall cards requiring excessive scrolling.
+
+Use responsive grid behavior.
+
+Make key executive signals visible within the initial viewport where
+possible.
+
+==================================================
+13. ACCESSIBILITY
+==================================================
+
+Maintain:
+
+keyboard navigation
+visible focus states
+sufficient contrast
+semantic headings
+accessible button labels
+tooltips that are not mouse-only
+
+Do not encode status exclusively through color.
+
+==================================================
+14. PERFORMANCE
+==================================================
+
+Do not render large network datasets on initial home-page load.
+
+Reuse current portfolio endpoints efficiently.
+
+Avoid duplicate API calls where data is already present.
+
+Use memoization/caching where appropriate within the existing frontend
+architecture.
+
+No premature architectural rewrite.
+
+==================================================
+15. REMOVE OR DOWNPLAY TECHNICAL CLUTTER
+==================================================
+
+The current portfolio UI exposes several implementation-oriented concepts.
+
+Do not delete backend capabilities.
+
+But primary senior-user screens should avoid prominently showing terms such
+as:
+
+V2 fallback
+V3 candidate
+normalized store
+candidate database
+overlay store
+AI instance store
+
+These concepts can remain available in:
+
+advanced provenance
+explainability
+admin/governance
+debug/developer context
+
+The executive interface should instead use business semantics.
+
+==================================================
+16. DO NOT YET IMPLEMENT
+==================================================
+
+Do NOT yet implement:
+
+advanced force-directed graph redesign
+relationship edge animation
+community detection redesign
+news/event ingestion
+interest-rate shock propagation
+stress simulation
+live Stylus calls
+live SEC calls
+live web calls
+automatic external fallback
+full AI chat
+AI relationship configuration redesign
+natural-language query execution
+relationship preset redesign
+
+These belong to later Prompt 4 stages.
+
+Do prepare reusable UI contracts for them.
+
+==================================================
+17. TESTING
+==================================================
+
+Add frontend tests covering at minimum:
+
+Executive Home renders from current APIs.
+
+Portfolio metrics preserve current values.
+
+Relationship count semantics distinguish:
+
+assertions
+semantic relationships
+endpoint pairs
+connected entities.
+
+Review-required and conflict states display distinctly.
+
+Suggested Investigations use deterministic rules only.
+
+Global search distinguishes clients from connected entities where supported.
+
+No external provider is called on normal page load.
+
+No AI generation endpoint is called on normal page load.
+
+Existing Lending routes continue to work.
+
+Prompt 3 benchmark/backend tests remain passing.
+
+==================================================
+18. VISUAL ACCEPTANCE
+==================================================
+
+Manually inspect the following screens after implementation:
+
+Executive Home
+Clients
+Client Detail
+Network
+Relationship Explorer
+External Research
+Review
+
+The new shell should make them feel like one coherent product even before
+later Prompt 4 redesigns.
+
+Do not fully redesign all subordinate pages in this prompt.
+
+==================================================
+19. REPORT
 ==================================================
 
 Create:
 
-backend/data/CCR_PROVIDER_CONNECTIVITY_EVIDENCE_REPORT.md
+LENDING_PROMPT4A_EXECUTIVE_HOME_REPORT.md
 
-Include:
+Document:
 
-root cause of prior DNS failure
-network/proxy configuration used
-GLEIF result
-SEC result
-Web adapter architecture
-source classification
-bounded acquisition results
-one-entity orchestrator test
-security controls
-regression results
+frontend stack
+files changed
+new component architecture
+navigation structure
+Executive Home sections
+API endpoints consumed
+count semantics
+Suggested Investigation rules
+search behavior
+relationship status semantics
+explainability interface contract
+performance considerations
+tests
+remaining work for 4B–4H
 
-FINAL RESPONSE:
+Include screenshots if the existing project workflow supports them.
 
-CCR PROVIDER CONNECTIVITY + EVIDENCE: PASS / FAIL
+Conclude with exactly one:
 
-GLEIF
-DNS:
-TCP:
-TLS:
-HTTP:
-Verified document:
-Status:
+READY FOR PROMPT 4B
 
-SEC
-DNS:
-TCP:
-TLS:
-HTTP:
-Verified document:
-Status:
+or
 
-WEB
-Adapter configured:
-Network request:
-Tier-1 retrieval:
-Tier-2 retrieval:
-Status:
+NOT READY FOR PROMPT 4B
 
-BOUNDED ORCHESTRATOR TEST
-Subject:
-Questions:
-Verified documents:
-Claims:
-Proposals:
-Insufficient evidence:
-Not found:
-Conflict:
+STOP when complete.
 
-QUALITY
-SOURCE_NOT_VERIFIED new documents:
-Inadmissible evidence accepted: 0 / FAIL
-AI as evidence: 0 / FAIL
-Synthetic edges: 0 / FAIL
-Confirmed relationships: 0 / FAIL
-
-REGRESSION
-passed:
-failed:
-errors:
-
-REPORT:
-backend/data/CCR_PROVIDER_CONNECTIVITY_EVIDENCE_REPORT.md
-
-STOP.
+Do not begin Prompt 4B.
