@@ -1,428 +1,448 @@
-LENDING RELATIONSHIP INTELLIGENCE
-PROMPT 3C — CLOSE PROMPT-4 BLOCKERS
+CCR RELATIONSHIP INTELLIGENCE — PROVIDER CONNECTIVITY + EVIDENCE ACQUISITION
 
-Continue in the CURRENT Lending repository.
+Work only in the CURRENT CCR repository.
 
 Read first:
 
-LENDING_FOUNDATION_AUDIT.md
-LENDING_CANONICAL_RELATIONSHIP_CONTRACT_REPORT.md
-LENDING_PROMPT3_ACCEPTANCE_REPORT.md
+backend/data/CCR_LIVE_RELATIONSHIP_PILOT_REPORT.md
+backend/data/CCR_RESEARCH_ORCHESTRATOR_REPORT.md
+backend/data/CCR_RELATIONSHIP_EVIDENCE_PATH_POLICY.md
+backend/data/CCR_PHASE3A_CONNECTIVITY_REPORT.md if present
 
-Also inspect the implementation produced by Prompt 3.
+Inspect existing provider code for:
 
-This task exists ONLY because Prompt 3B concluded:
+GLEIF
+SEC
+Web
+Helix/internal gateway helpers
+certificate/proxy/network configuration
 
-PASS WITH CONDITIONS
+IMPORTANT
 
-Do not redesign the UI.
-Do not start Prompt 4 visual work.
-Do not perform CCR/customer-master work.
-Do not call SEC, web, Stylus, or external providers.
-Do not rebuild the architecture.
-Do not change CAM/V3 source truth.
-Do not broaden V2 into a global relationship universe.
+The previous bounded pilot proved the orchestrator works, but:
+
+GLEIF failed DNS resolution
+SEC failed DNS resolution
+Web had no approved adapter configured
+
+Do NOT broaden the pilot.
+Do NOT lower evidence standards.
+Do NOT create relationships merely to prove the pipeline works.
+Do NOT change canonical data.
+Do NOT fabricate evidence.
 
 OBJECTIVE
 
-Resolve only the conditions/blockers identified in
-LENDING_PROMPT3_ACCEPTANCE_REPORT.md that prevent the common Lending
-relationship contract from safely supporting:
+Make the external evidence acquisition layer operational on this Windows
+workstation for:
 
-- executive relationship counts
-- semantic relationship grouping
-- network visualization
-- explainability
-- future external intelligence
-- future AI interaction
+GLEIF
+SEC
+APPROVED HIGH-QUALITY WEB
 
-The goal is NOT to increase relationship counts.
-
-The goal is to make the existing common contract semantically safe and
-unambiguous for Prompt 4.
+Then prove each provider can retrieve one bounded, verifiable document/result.
 
 ==================================================
-1. EXTRACT THE CONDITIONS
+1. DIAGNOSE CURRENT CONNECTIVITY
 ==================================================
 
-From LENDING_PROMPT3_ACCEPTANCE_REPORT.md, list every reason the result was
-PASS WITH CONDITIONS.
+Reproduce the current failures separately from the research orchestrator.
 
-Classify each one as:
+For GLEIF report:
 
-A. MUST FIX BEFORE PROMPT 4
-B. SAFE TO DEFER
-C. INFORMATIONAL ONLY
+hostname used
+DNS resolution result
+TCP connection result
+TLS result
+HTTP result
+proxy behavior if applicable
+safe error category
 
-For each condition provide:
+For SEC report the same.
 
-- problem
-- affected API/store/model
-- consequence if not fixed
-- proposed smallest safe remediation
+Do not print credentials or sensitive headers.
 
-Do not implement anything until this classification is complete.
+Determine whether failures are caused by:
 
-==================================================
-2. SEMANTIC RELATIONSHIP GROUPING
-==================================================
+Windows DNS
+corporate proxy
+certificate trust
+provider hostname/config
+Python networking
+environment variables
+application configuration
+other
 
-The acceptance report identified relationship assertions and endpoint-pair
-reconciliation.
-
-We now need a stable distinction between:
-
-SOURCE ASSERTION
-
-and
-
-SEMANTIC DISPLAY RELATIONSHIP.
-
-Do NOT delete or overwrite source assertions.
-
-Implement the minimum safe grouping capability required for a future UI.
-
-A semantic relationship group must preserve:
-
-- subject entity identity
-- related entity identity
-- atomic relationship type
-- normalized direction
-- relationship state where material
-- connectivity
-- all contributing source assertion IDs
-- all source lanes
-- all authority classes
-- evidence IDs/counts
-- review states
-- conflict indicators
-- lineage availability
-
-Do NOT group merely because two rows have the same endpoint pair.
-
-Examples that MUST remain separate:
-
-Lambda → NVIDIA : supplier
-
-Lambda ↔ NVIDIA : strategic_partner
-
-Project Indigo → CoreWeave : parent_company
-
-Project Indigo → CoreWeave : guarantor
-
-BO Westover → Blue Owl : backleverage_financing
-
-BO Westover → Blue Owl : guarantor
-
-Same endpoints do not imply same semantic relationship.
+Do not guess.
 
 ==================================================
-3. STABLE DISPLAY GROUP KEY
+2. CHECK EXISTING WORKSTATION NETWORK PATTERN
 ==================================================
 
-Create a deterministic semantic display/group identifier.
+Inspect the current environment/repository for approved working outbound
+network patterns already used elsewhere.
 
-It must be derived from governed identity and relationship semantics, not
-frontend labels.
+Look for:
 
-It should safely account for:
+HTTP_PROXY
+HTTPS_PROXY
+NO_PROXY
 
-- canonical subject identity
-- canonical related identity
-- relationship type
-- normalized direction semantics
-- material lifecycle/state distinctions where required
+enterprise certificate bundle
+REQUESTS_CA_BUNDLE
+SSL_CERT_FILE
 
-Do not use mutable display names as the primary identity.
+internal gateway helpers
+Helix/R2D2 approved network wrappers
+existing provider transport abstraction
 
-Do not collapse unresolved entities into resolved ones.
+Reuse approved enterprise configuration.
 
-Document the algorithm.
+Do not disable certificate verification.
 
-==================================================
-4. ASSERTION VERSUS GROUP COUNTS
-==================================================
-
-Extend the common read contract so the API can return separately:
-
-- assertion_count
-- semantic_relationship_count
-- endpoint_pair_count
-- connected_entity_count
-- review_required_count
-- conflict_count
-
-Never make one count masquerade as another.
-
-The existing 808 trusted-read assertions must remain explainable.
-
-Do not silently change the historical source-row count merely to improve
-display metrics.
+Do not hardcode personal machine paths if avoidable.
 
 ==================================================
-5. GROUPED READ MODEL
+3. GLEIF PROVIDER
 ==================================================
 
-Add a minimal grouped relationship read suitable for Prompt 4.
+Verify the configured official GLEIF endpoint.
 
-It may be:
+Perform one bounded identity lookup using an existing known-valid local LEI.
 
-- a grouped mode on the existing common relationship endpoint
+Expected:
 
-OR
+network works
+response is official GLEIF data
+response is cached according to current policy
+source tier = TIER_1_AUTHORITATIVE_EXTERNAL
 
-- a clearly related read endpoint
+Do not yet create a relationship.
 
-Choose the smallest architecture-consistent solution.
-
-Each grouped relationship should expose at minimum:
-
-group_id
-subject
-related_entity
-relationship_type
-relationship_family
-direction
-state
-connectivity
-
-assertion_count
-source_lanes
-authority_classes
-
-evidence_count
-source_count
-independent_source_count where legitimately measurable
-
-has_review_required
-has_conflict
-has_external_support
-has_ai_support
-
-primary_assertion_id or equivalent
-supporting_assertion_ids
-
-lineage_status
-
-Do not infer unsupported fields.
+Store/retrieve only enough information to prove provider functionality.
 
 ==================================================
-6. AUTHORITY PRESERVATION
+4. SEC PROVIDER
 ==================================================
 
-Grouping MUST NOT flatten source authority.
+Verify official SEC provider configuration.
 
-A grouped relationship may contain:
+Inspect:
 
-CAM_V3 assertion
-+
-NORMALIZED assertion
-+
-EXTERNAL corroboration
-+
-AI published assertion
+User-Agent
+headers
+request pacing
+endpoint paths
+CIK discovery behavior
 
-but the API must still make clear which source supplied which assertion.
+Use only official SEC endpoints already permitted by source policy.
 
-A supplemental/external/AI source cannot become CAM authority simply
-because it belongs to the same semantic group.
+Perform one bounded request against a CCR entity that has a defensible SEC
+identity.
 
-Preserve source lane and authority on every supporting assertion.
+Expected:
 
-==================================================
-7. REVIEW AND CONFLICT SEMANTICS
-==================================================
+one official SEC response/document retrieved
+source tier = TIER_1_AUTHORITATIVE_EXTERNAL
 
-A semantic group may contain assertions with different quality/review
-states.
+Respect SEC request-rate expectations.
 
-Do NOT solve this by declaring the whole group canonical.
-
-Expose a deterministic group summary such as:
-
-trusted CAM assertion exists
-trusted governed normalized assertion exists
-review-required assertion exists
-external proposal exists
-external conflict exists
-AI-published assertion exists
-
-The raw assertion statuses must remain available.
-
-The future UI must be able to distinguish:
-
-CONFIRMED RELATIONSHIP
-
-SUPPORTED BY ADDITIONAL SOURCES
-
-REVIEW REQUIRED
-
-CONFLICTING EVIDENCE
-
-PROPOSED EXTERNALLY
-
-AI-GOVERNED
-
-without altering underlying source truth.
+No broad filing crawl.
 
 ==================================================
-8. 376 ENDPOINT-PAIR ANALYSIS
+5. WEB ADAPTER
 ==================================================
 
-The Prompt 3B report references 376 endpoint-pair reconciliation.
+The prior pilot produced:
 
-Verify exactly what 376 represents.
+Web network attempts = 0
+
+because no approved adapter was configured.
+
+Implement/configure ONE approved Web research adapter.
+
+Its job is discovery + retrieval of admissible Web sources.
+
+It must support source quality classification.
+
+Allowed targets:
+
+official company site
+official investor relations
+official regulatory/government site
+major established financial/business publication
+approved specialist source
+
+Reject:
+
+SEO pages
+anonymous sites
+content farms
+AI-generated sites
+scraped mirrors
+search snippets as evidence
+
+Search snippets may identify a candidate URL but cannot become evidence.
+
+==================================================
+6. WEB SOURCE CLASSIFICATION
+==================================================
+
+Every Web result must carry:
+
+URL
+domain
+publisher
+title
+published date if available
+retrieved_at
+
+source_tier
+
+TIER_1_AUTHORITATIVE_EXTERNAL
+TIER_2_HIGH_QUALITY_SECONDARY
+TIER_3_CORROBORATIVE
+INADMISSIBLE
+
+admissibility_reason
+
+Do not rely on domain name alone when source type is ambiguous.
+
+==================================================
+7. HELIX ROLE
+==================================================
+
+If Helix is already working, it may help classify:
+
+document type
+publisher type
+relationship relevance
+candidate evidence passage
+
+But AI may NOT determine source admissibility by itself.
+
+Deterministic/source-policy rules remain authoritative.
+
+AI output is not evidence.
+
+==================================================
+8. PROVIDER NORMALIZATION
+==================================================
+
+Ensure all three adapters return the orchestrator's normalized result contract:
+
+provider
+status
+
+documents_found
+claims_found
+identity_candidates
+evidence_candidates
+
+network_requests
+cache_hits
+
+error_category
+safe_error_message
+
+Statuses:
+
+SUCCESS
+NOT_FOUND
+NOT_APPLICABLE
+UNAVAILABLE
+ERROR
+
+==================================================
+9. SAFE CONNECTIVITY STATUS
+==================================================
+
+Update provider diagnostics so the application can distinguish:
+
+DNS_ERROR
+PROXY_ERROR
+TLS_ERROR
+AUTH_ERROR
+HTTP_ERROR
+RATE_LIMITED
+CONFIGURATION_INCOMPLETE
+NOT_CONFIGURED
+READY
+
+Do not collapse all failures into UNAVAILABLE.
+
+==================================================
+10. EVIDENCE ACQUISITION TEST
+==================================================
+
+Run exactly three bounded tests:
+
+A. one GLEIF lookup
+B. one SEC retrieval
+C. one approved Web retrieval
+
+For each prove:
+
+successful network acquisition
+source tier
+document provenance
+cache behavior
+no sensitive information logged
+
+Do not create production relationships during these tests.
+
+==================================================
+11. RE-RUN SMALL RELATIONSHIP TEST
+==================================================
+
+Only after all usable providers are functioning:
+
+take ONE of the previously selected high-quality CCR entities.
+
+Run at most:
+
+3 relationship questions.
+
+Use the existing orchestrator.
+
+Objective:
+
+prove real evidence can flow:
+
+provider
+→ source document
+→ evidence snippet
+→ discovered claim
+→ governed outcome
+
+Allowed outcome:
+
+PROPOSAL_PENDING_REVIEW
+INSUFFICIENT_EVIDENCE
+NOT_FOUND
+CONFLICT
+
+Do not force a proposal.
+
+==================================================
+12. VALIDATION
+==================================================
 
 Report:
 
-- endpoint-pair count
-- semantic relationship-group count
-- assertion count
-- number of endpoint pairs with one semantic type
-- number with multiple semantic types
-- number supported by more than one source lane
-- number containing review-required assertions
-- number containing conflicts
+GLEIF connectivity:
+SEC connectivity:
+Web connectivity:
 
-Do not use 376 as an executive “relationship” count unless the semantics
-actually justify it.
+GLEIF verified documents:
+SEC verified documents:
+Web verified documents:
 
-==================================================
-9. EXPLAINABILITY CONTRACT
-==================================================
+SOURCE_NOT_VERIFIED documents newly produced:
+should be 0 unless genuine reason exists
 
-For a grouped relationship, future UI must support:
+Relationship questions:
+<= 3
 
-WHY AM I SEEING THIS?
+Claims discovered:
+actual
 
-Return or link deterministically to:
+Proposals:
+actual
 
-- source assertions
-- authority of each assertion
-- source documents
-- evidence records
-- source location/page where available
-- exact excerpt where available
-- identity-resolution information
-- taxonomy mapping
-- review status
-- conflicts
-- lineage
+Confirmed relationships:
+0
 
-If historical lineage is incomplete, expose:
+Synthetic edges:
+0
 
-LINEAGE_INCOMPLETE
-
-Do not manufacture missing historical stages.
+AI evidence:
+0
 
 ==================================================
-10. NETWORK CONTRACT
+13. FULL REGRESSION
 ==================================================
 
-Prepare, but do NOT build, the graph contract.
+Run the backend suite.
 
-Define:
+Expected:
 
-NODE_ID
-ASSERTION_EDGE_ID
-DISPLAY_EDGE_ID
+0 failed
+0 errors
 
-The future graph should normally render DISPLAY_EDGE_ID.
-
-Selecting an edge must allow drill-down to all ASSERTION_EDGE_ID records.
-
-Specify how graph styling can safely reflect:
-
-- CAM authority
-- additional source support
-- external corroboration
-- review requirement
-- conflict
-- AI-published status
-
-without converting presentation state into source truth.
+Confirm protected counts and hashes unchanged.
 
 ==================================================
-11. BENCHMARK REGRESSION
-==================================================
-
-Re-run the benchmark cases after remediation:
-
-- Lambda / NVIDIA
-- Project Indigo / CoreWeave
-- Applied Digital / CoreWeave
-- Serverfarm / Meta
-- BO Westover / Blue Owl
-- OpenAI cases
-- Hut 8
-- Cavalry / CyrusOne
-
-Prove specifically that grouping does NOT collapse distinct semantics.
-
-Examples:
-
-supplier != strategic_partner
-
-parent_company != guarantor
-
-guarantor != backleverage_financing
-
-contracted_customer != service_provider
-
-==================================================
-12. API ACCEPTANCE TESTS
-==================================================
-
-Add tests covering:
-
-1. assertion read remains stable
-2. grouped read deterministic
-3. same pair / different type stays separate
-4. same semantic relationship / multiple lanes groups correctly
-5. authority remains assertion-level
-6. review status is not silently promoted
-7. rejected rows do not enter trusted default
-8. V2 remains conditional
-9. external proposals do not become CAM
-10. AI-published rows do not become CAM
-11. lineage incomplete is explicit
-12. pagination/filtering produce consistent counts
-13. group IDs are stable across repeated reads
-
-==================================================
-13. REPORT
+14. REPORT
 ==================================================
 
 Create:
 
-LENDING_PROMPT3C_REMEDIATION_REPORT.md
+backend/data/CCR_PROVIDER_CONNECTIVITY_EVIDENCE_REPORT.md
 
 Include:
 
-- original PASS WITH CONDITIONS items
-- what was fixed
-- what was intentionally deferred
-- assertion count
-- endpoint-pair count
-- semantic group count
-- multi-source group count
-- multi-type pair count
-- authority verification
-- review/conflict behavior
-- network contract
-- explainability contract
-- benchmark results
-- test results
-- remaining blockers
+root cause of prior DNS failure
+network/proxy configuration used
+GLEIF result
+SEC result
+Web adapter architecture
+source classification
+bounded acquisition results
+one-entity orchestrator test
+security controls
+regression results
 
-Conclude with exactly one of:
+FINAL RESPONSE:
 
-READY FOR PROMPT 4
+CCR PROVIDER CONNECTIVITY + EVIDENCE: PASS / FAIL
 
-or
+GLEIF
+DNS:
+TCP:
+TLS:
+HTTP:
+Verified document:
+Status:
 
-NOT READY FOR PROMPT 4
+SEC
+DNS:
+TCP:
+TLS:
+HTTP:
+Verified document:
+Status:
 
-Do not begin Prompt 4.
+WEB
+Adapter configured:
+Network request:
+Tier-1 retrieval:
+Tier-2 retrieval:
+Status:
 
-STOP when complete.
+BOUNDED ORCHESTRATOR TEST
+Subject:
+Questions:
+Verified documents:
+Claims:
+Proposals:
+Insufficient evidence:
+Not found:
+Conflict:
+
+QUALITY
+SOURCE_NOT_VERIFIED new documents:
+Inadmissible evidence accepted: 0 / FAIL
+AI as evidence: 0 / FAIL
+Synthetic edges: 0 / FAIL
+Confirmed relationships: 0 / FAIL
+
+REGRESSION
+passed:
+failed:
+errors:
+
+REPORT:
+backend/data/CCR_PROVIDER_CONNECTIVITY_EVIDENCE_REPORT.md
+
+STOP.
