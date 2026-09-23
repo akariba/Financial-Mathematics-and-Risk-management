@@ -1,527 +1,356 @@
-CCR RELATIONSHIP INTELLIGENCE — LIVE HIGH-QUALITY RELATIONSHIP PILOT
+LENDING RELATIONSHIP INTELLIGENCE
+PROMPT 3B — CANONICAL CONTRACT ACCEPTANCE AND TRUSTED-READ VERIFICATION
 
-Work only in the CURRENT CCR repository.
+Continue in the CURRENT Lending repository.
 
-Read first:
+This is a READ-ONLY / TEST-ONLY verification of Prompt 3.
 
-backend/data/CCR_CANONICAL_DATA_MODEL_REPORT.md
-backend/data/CCR_RELATIONSHIP_UNIVERSE_MODEL_REPORT.md
-backend/data/CCR_RELATIONSHIP_EVIDENCE_PATH_POLICY.md
-backend/data/CCR_RESEARCH_ORCHESTRATOR_REPORT.md
-backend/data/CCR_PHASE2_FINGERPRINT_RECONCILIATION_REPORT.md
+Do not redesign the UI.
+Do not create new architecture.
+Do not change relationship policy unless an actual Prompt-3 defect is proven.
+Do not perform CCR or customer-master work.
+Do not call SEC, web, Stylus, or external providers.
 
-Inspect the current provider connectivity and research orchestration code.
+Use as authoritative inputs:
 
-This is the FIRST live external relationship pilot.
+- LENDING_FOUNDATION_AUDIT.md
+- LENDING_CANONICAL_RELATIONSHIP_CONTRACT_REPORT.md
+- the Prompt-3 implementation
+- the existing benchmark/golden-sample fixtures
 
-Do NOT run across the full CCR population.
+OBJECTIVE
 
-Do NOT perform broad crawling.
+Verify that the new common relationship contract and unified Lending read
+model are semantically safe before the executive UI, network visualization,
+external-intelligence automation, and AI assistant are built on top of it.
 
-Do NOT create CONFIRMED relationships automatically.
+The Prompt-3 completion reported a trusted read of:
 
-Do NOT use AI-generated text as evidence.
+808 total
+41 CAM_V3
+767 NORMALIZED_JSON
 
-Do NOT lower evidence standards because a provider fails.
-
-==================================================
-1. OBJECTIVE
-==================================================
-
-Select 5 real CCR entities with strong identity quality and run bounded
-relationship discovery using the existing orchestrator.
-
-The pilot must test:
-
-GLEIF
-SEC
-authoritative company Web
-high-quality secondary Web where configured/allowed
-
-The objective is to discover a small number of HIGH-QUALITY relationship
-proposals with real evidence.
-
-Possible relationship types:
-
-PARENT
-ULTIMATE_PARENT
-SUBSIDIARY
-SUPPLIER
-CRITICAL_SUPPLIER
-CUSTOMER
-KEY_CUSTOMER
-TECHNOLOGY_PROVIDER
-TECHNOLOGY_DEPENDENCY
-INVESTOR
-SPONSOR
-LENDER
-FINANCING_RELATIONSHIP
-STRATEGIC_PARTNER
-JOINT_VENTURE
-
-Do not attempt every relationship type for every entity.
-
-Choose plausible analysis types based on entity profile and source readiness.
+Explain and prove exactly what those numbers mean.
 
 ==================================================
-2. SELECT PILOT ENTITIES
+1. TRUSTED READ COMPOSITION
 ==================================================
 
-Choose 5 CCR entities dynamically from the canonical database.
+Inspect the default unified trusted read.
 
-Selection preference:
+Report exact counts by:
 
-HIGH identity quality
+- source_lane
+- authority_class
+- quality_status
+- review_status
+- publication_status
+- relationship_family
+- relationship_type
+- state
+- connectivity
 
-research_allowed = true
+Specifically prove whether the 767 NORMALIZED_JSON rows are:
 
-master-backed
+- validated/canonical only
+- review-required
+- rejected
+- or a mixture
 
-LEI available where possible
+The default trusted read MUST NOT silently include rejected normalized rows.
 
-public-company / SEC-researchable identity where possible
-
-non-masked identity
-
-Avoid:
-
-REVIEW_REQUIRED
-
-masked/private-bank CCR-only identities
-
-weak identity
-
-Do not hardcode famous companies merely for convenience.
-
-For each selected entity report:
-
-entity_key
-legal_name
-country
-sector/industry
-LEI
-CIK if already known
-identity quality
-research readiness
-reason selected
+If review-required rows are included, explain the declared policy and why.
 
 ==================================================
-3. RESEARCH PLAN PER ENTITY
+2. CROSS-LANE DUPLICATION
 ==================================================
 
-Create a bounded plan per entity.
+Determine how many of the 808 assertions represent the same semantic
+real-world relationship in more than one source lane.
 
-Examples:
+Compute and report:
 
-If LEI exists:
-test parent / ultimate-parent through GLEIF.
+A. total relationship assertions
+B. distinct source relationship IDs
+C. distinct semantic relationship groups
+D. distinct endpoint pairs
+E. endpoint pairs with multiple relationship types
+F. semantic groups supported by multiple source lanes
+G. exact duplicate assertions, if any
 
-If SEC-researchable:
-test one or more of:
-supplier
-customer
-technology dependency
-subsidiary
-financing
-strategic partner
+Do NOT delete legitimate multi-source assertions.
 
-Use the relationship-specific source strategy registry.
+We need to distinguish:
 
-Do not exceed:
+SOURCE ASSERTION COUNT
 
-3 relationship-analysis questions per entity
+from
 
-Total pilot:
-maximum 15 bounded research questions.
+DISPLAY RELATIONSHIP COUNT.
 
 ==================================================
-4. PROVIDER ORDER
+3. DISPLAY GROUPING CONTRACT
 ==================================================
 
-Use the configured strategy.
+Verify that the implementation has a safe way for a future UI to render:
 
-Examples:
+one semantic relationship
+    +
+multiple source assertions/evidence lanes
 
-PARENT / ULTIMATE_PARENT:
-GLEIF
-→ SEC
-→ authoritative Web
+without losing provenance.
 
-SUPPLIER / CUSTOMER:
-SEC
-→ official company disclosure
-→ high-quality Web
+For a semantic group expose, at minimum:
 
-TECHNOLOGY DEPENDENCY:
-SEC
-→ official company disclosure
-→ high-quality Web
+- display/group key
+- subject
+- related entity
+- atomic relationship type
+- direction
+- state
+- source lanes supporting it
+- authority classes
+- assertion count
+- evidence count
+- independent source count where meaningful
+- conflict indicator
+- review indicator
 
-LENDER / FINANCING:
-SEC
-→ official company disclosure
-→ high-quality Web
+If the backend does not currently expose such grouping, DO NOT implement a
+large redesign.
 
-Do not use one generic provider order.
-
-==================================================
-5. SOURCE QUALITY
-==================================================
-
-Admit only:
-
-TIER_1_AUTHORITATIVE_EXTERNAL
-
-or where policy permits:
-
-TIER_2_HIGH_QUALITY_SECONDARY
-
-Tier-2 evidence alone must obey existing corroboration rules.
-
-Reject:
-
-search snippets
-aggregators
-SEO pages
-anonymous sources
-AI-generated pages
-unverified scraped copies
+Instead identify the smallest required addition for Prompt 4.
 
 ==================================================
-6. IDENTITY RESOLUTION
+4. AUTHORITY VERIFICATION
 ==================================================
 
-If research discovers a related entity not already in entity_registry:
+Prove the authority semantics for each active lane.
 
-resolve identity before creating EXTERNAL_ENTITY.
+Expected conceptual behavior:
 
-Prefer:
+CAM_V3
+    authoritative CAM assertion
 
-LEI
-CIK
-official legal name
-official domain
-regulatory identity
+NORMALIZED_CAM / NORMALIZED_JSON
+    governed derived assertion
 
-Do NOT create external entities from:
+EXTERNAL
+    supplemental
 
-name similarity alone
-search snippets
-AI guesses
-local correlation score
+AI_PUBLISHED
+    governed AI assertion
 
-==================================================
-7. CLAIM EXTRACTION
-==================================================
+V2_FALLBACK
+    compatibility fallback only
 
-For each candidate relationship store:
-
-subject
-related entity
-relationship type
-direction
-
-source document
-evidence snippet
-source tier
-
-current/historical/unknown
-evidence strength
-identity quality
-source quality
-freshness
-consistency
-
-Do not store one opaque confidence score.
+Verify that no normalized/external/AI operation can silently overwrite or
+masquerade as CAM authority.
 
 ==================================================
-8. PROPOSAL RULE
+5. V2 VERIFICATION
 ==================================================
 
-A relationship may become:
+Prove that V2 remains conditional.
 
-PROPOSAL_PENDING_REVIEW
+Report:
 
-only if the existing evidence threshold is met.
+- whether V2 rows appear in the default global trusted read
+- whether they can appear only for client-specific fallback
+- how the source lane is labelled
+- whether a client with V3 relationships can accidentally receive V2 rows
 
-Otherwise:
+Expected result:
 
-INSUFFICIENT_EVIDENCE
-NOT_FOUND
-CONFLICT
-PROVIDER_UNAVAILABLE
-IDENTITY_UNRESOLVED
-
-Do not create CONFIRMED relationships.
+V2 is NOT a global relationship universe.
 
 ==================================================
-9. DIRECT VS INDIRECT
+6. REVIEW / REJECTED VERIFICATION
 ==================================================
 
-For this pilot:
+Verify separately:
 
-discover DIRECT evidence-backed claims first.
+- CAM V3 canonical
+- CAM V3 review-required
+- normalized validated
+- normalized review-required
+- normalized rejected
+- external pending/review/conflict
+- AI draft
+- AI published
 
-If multiple direct relationships create an indirect path:
+State which are visible in:
 
-record/display the path separately.
+A. default trusted relationship read
+B. explicit review read
+C. relationship detail
+D. network-ready read
 
-Do NOT create a synthetic direct edge from an indirect path.
-
-==================================================
-10. HIDDEN RELATIONSHIPS
-==================================================
-
-If an externally evidenced direct relationship was not already known internally:
-
-classify it as:
-
-HIDDEN_DIRECT
-
-This means:
-
-externally discovered direct relationship
-
-not:
-
-AI-inferred relationship.
-
-If an indirect path emerges from multiple valid edges:
-
-classify path as:
-
-HIDDEN_INDIRECT
-
-without creating a direct relationship.
+No lifecycle state may be silently promoted.
 
 ==================================================
-11. HELIX / AI
+7. LINEAGE VERIFICATION
 ==================================================
 
-If Helix is available, it may assist with:
+Select examples representing:
 
-document classification
-claim extraction
-relationship-type classification
-direction extraction
-evidence summarization
-contradiction detection
+- fully persisted new lineage
+- historical incomplete lineage
+- taxonomy substitution
+- entity-resolution issue
+- evidence-gate failure
+- direction/state issue
+- multi-source semantic relationship
 
-AI must NOT:
+For each show the actual returned lineage.
 
-act as evidence
-invent evidence
-create CONFIRMED status
-create an entity without identity evidence
-fill missing relationship hops
+Prove that missing historical stages return an explicit:
 
-If AI is unavailable:
+LINEAGE_INCOMPLETE
 
-continue with deterministic/provider extraction where possible.
+or equivalent.
 
-==================================================
-12. BOUNDED NETWORK LIMIT
-==================================================
-
-This is a pilot.
-
-Maximum:
-
-5 subject entities
-15 research questions
-50 retrieved source documents total
-30 discovered claims total
-20 external entities created maximum
-
-If limits are reached:
-
-stop gracefully and report BOUNDED_LIMIT_REACHED.
+The implementation must not manufacture intermediate history.
 
 ==================================================
-13. PRODUCTION WRITES
+8. BENCHMARK TRACES
 ==================================================
 
-Allowed production writes:
+Run the common-contract/detail/lineage APIs against available benchmark
+cases including:
 
-research_runs
-research plans
-source documents
-evidence snippets
-discovered claims
-defensible external entities
-PROPOSAL_PENDING_REVIEW relationship observations
-paths composed only of valid stored edges
+- Lambda / NVIDIA
+- Project Indigo / CoreWeave
+- Applied Digital / CoreWeave
+- Serverfarm / Meta
+- BO Westover / Blue Owl
+- OpenAI relationship cases
+- Hut 8
+- Cavalry / CyrusOne
 
-Not allowed:
+For every case report:
 
-CONFIRMED relationships
-synthetic relationships
-candidate promotion from local correlation alone
+- endpoint identity
+- relationship type
+- source lane
+- authority
+- review status
+- taxonomy mapping if any
+- evidence availability
+- lineage completeness
+- whether it would appear in default trusted read
+- whether it would appear in a future grouped display
+
+Do not change benchmark truth.
 
 ==================================================
-14. VALIDATION
+9. EXPLAINABILITY RESPONSE
 ==================================================
 
-After pilot report:
+Call the new relationship-detail/read logic directly for representative
+records.
 
-subjects researched
+Confirm that a future frontend can answer:
 
-research questions
+WHY AM I SEEING THIS RELATIONSHIP?
 
-provider attempts by provider
+using one response or a deterministic linked response set.
 
-documents retrieved
+Verify availability of:
 
-Tier-1 documents
+- identity
+- relationship semantics
+- authority
+- source lane
+- source documents
+- source location
+- representative evidence/excerpt where available
+- evidence count
+- quality/review status
+- entity-resolution state
+- taxonomy-resolution state
+- lineage
+- conflict
+- supporting source assertions
 
-Tier-2 documents
+Clearly identify any field that remains unavailable.
 
-inadmissible documents rejected
+Do not synthesize missing facts.
 
-claims discovered
+==================================================
+10. NETWORK SAFETY CHECK
+==================================================
 
-proposals created
+Before Prompt 4 builds a sophisticated graph, report what the graph should
+use as:
 
-insufficient-evidence outcomes
+NODE IDENTITY
 
+EDGE ASSERTION IDENTITY
+
+EDGE DISPLAY/GROUP IDENTITY
+
+EDGE STRENGTH / SUPPORT METRICS
+
+Do not implement visualization yet.
+
+Specifically explain how the network should avoid:
+
+- duplicate edges caused only by multiple source lanes
+- collapsing supplier and strategic-partner semantics
+- collapsing parent and guarantor semantics
+- turning review-required relationships into accepted facts
+- making external proposals look like CAM facts
+- making AI relationships look like CAM facts
+
+==================================================
+11. EXECUTIVE COUNT CONTRACT
+==================================================
+
+Define which numbers future executive cards should display.
+
+Distinguish:
+
+relationship assertions
+semantic relationships
+connected entities
+relationships requiring review
+externally corroborated relationships
+external proposals
 conflicts
+AI-published relationships
 
-provider unavailable
-
-external entities created
-
-direct relationships proposed
-
-hidden-direct relationships
-
-indirect paths
-
-hidden-indirect paths
-
-CONFIRMED relationships created = 0
-
-AI evidence rows = 0
-
-synthetic edges = 0
+Never place different denominators under one label.
 
 ==================================================
-15. QUALITY REVIEW
-==================================================
-
-For every proposal verify manually in code/data:
-
-the evidence snippet actually supports the relationship
-
-the source identity matches the entity
-
-direction is correct
-
-relationship type is not overstated
-
-CRITICAL_SUPPLIER / KEY_CUSTOMER / TECHNOLOGY_DEPENDENCY
-is not assigned without explicit dependency/materiality evidence
-
-If questionable:
-
-downgrade to INSUFFICIENT_EVIDENCE.
-
-Prefer false negatives over low-quality false positives.
-
-==================================================
-16. REPORT
+12. OUTPUT
 ==================================================
 
 Create:
 
-backend/data/CCR_LIVE_RELATIONSHIP_PILOT_REPORT.md
+LENDING_PROMPT3_ACCEPTANCE_REPORT.md
 
-Include one section per pilot entity:
+Include:
 
-identity
-research questions
-provider waterfall
-documents
-claims
-proposals
-rejected claims
-research gaps
+1. trusted-read composition
+2. exact 808-row explanation
+3. source/assertion/group counts
+4. duplicate and multi-source analysis
+5. authority verification
+6. V2 verification
+7. review/rejection verification
+8. lineage verification
+9. benchmark traces
+10. explainability readiness
+11. network identity recommendations
+12. executive count contract
+13. remaining Prompt-3 defects, if any
+14. blockers for Prompt 4
+15. PASS / PASS WITH CONDITIONS / FAIL readiness conclusion
 
-Include a final quality summary.
+Do not alter the UI.
 
-==================================================
-17. FINAL RESPONSE
-==================================================
+If a genuine Prompt-3 implementation defect is discovered, document it
+rather than silently redesigning the architecture.
 
-Return:
-
-CCR LIVE RELATIONSHIP PILOT: PASS / FAIL
-
-SUBJECTS RESEARCHED:
-actual
-
-RESEARCH QUESTIONS:
-actual
-
-PROVIDER ATTEMPTS
-GLEIF:
-SEC:
-AUTHORITATIVE WEB:
-HIGH-QUALITY WEB:
-
-DOCUMENTS
-Total:
-Tier-1:
-Tier-2:
-Rejected/inadmissible:
-
-CLAIMS
-Discovered:
-Accepted:
-Rejected:
-
-RELATIONSHIP PROPOSALS:
-actual
-
-HIDDEN DIRECT:
-actual
-
-INDIRECT PATHS:
-actual
-
-HIDDEN INDIRECT:
-actual
-
-EXTERNAL ENTITIES CREATED:
-actual
-
-OUTCOMES
-Proposal pending review:
-Insufficient evidence:
-Conflict:
-Not found:
-Provider unavailable:
-Identity unresolved:
-
-QUALITY
-Wrong-entity matches:
-0 / FAIL
-
-Unsupported relationship types:
-0 / FAIL
-
-Critical/key relationships without materiality evidence:
-0 / FAIL
-
-AI AS EVIDENCE:
-0 / FAIL
-
-CONFIRMED RELATIONSHIPS CREATED:
-0 / FAIL
-
-SYNTHETIC EDGES:
-0 / FAIL
-
-REPORT:
-backend/data/CCR_LIVE_RELATIONSHIP_PILOT_REPORT.md
-
-STOP.
+At the end STOP.
