@@ -1,791 +1,280 @@
-LENDING RELATIONSHIP INTELLIGENCE
-PROMPT 4A — EXECUTIVE INTELLIGENCE HOME + PRODUCT SHELL
+CCR CONNECTIVITY — WINDOWS NETWORK TRANSPORT DIAGNOSTIC
 
-Work only in the CURRENT Lending repository.
+Work only in the CURRENT CCR repository and CURRENT Windows workstation.
 
-Prompt 3C is complete.
+Read:
 
-Read first:
+backend/data/CCR_PROVIDER_CONNECTIVITY_EVIDENCE_REPORT.md
+backend/data/CCR_PHASE3A_CONNECTIVITY_REPORT.md if present
 
-LENDING_FOUNDATION_AUDIT.md
-LENDING_CANONICAL_RELATIONSHIP_CONTRACT_REPORT.md
-LENDING_PROMPT3_ACCEPTANCE_REPORT.md
-LENDING_PROMPT3C_REMEDIATION_REPORT.md
+The current provider tests fail before HTTP:
 
-Treat the Prompt 3C conclusion READY FOR PROMPT 4 as the authoritative
-foundation.
+GLEIF = DNS_ERROR / Windows error 11001
+SEC = DNS_ERROR / Windows error 11001
 
-Also inspect the CURRENT frontend before changing anything.
+Reuters Web is NOT part of this task.
 
-IMPORTANT:
+Do NOT modify relationship logic.
+Do NOT create relationships.
+Do NOT modify canonical data.
+Do NOT lower TLS/security controls.
+Do NOT disable certificate verification.
+Do NOT run broad external research.
 
-This is Lending only.
+OBJECTIVE
 
-Do not touch CCR.
-Do not use Customer_latest.parquet.
-Do not redesign backend authority rules.
-Do not rewrite CAM/V3.
-Do not call SEC.
-Do not call web.
-Do not call Stylus.
-Do not perform live external research.
-Do not build the advanced relationship graph yet.
-Do not build final AI orchestration yet.
-
-This prompt establishes the new product shell and executive home experience.
+Find and fix the approved Windows networking path so Python can resolve and
+reach official GLEIF and SEC endpoints.
 
 ==================================================
-BUSINESS VISION
+1. REPRODUCE OUTSIDE APPLICATION
 ==================================================
 
-The Lending application is evolving from a collection of analytical pages
-into a senior-user Relationship Intelligence platform.
+Using PowerShell and Python separately, test:
 
-The target users include:
+DNS resolution
+TCP 443
+TLS
+HTTP HEAD/GET where appropriate
 
-- senior credit officers
-- portfolio managers
-- relationship managers
-- senior risk managers
-- management stakeholders
+for the exact hostnames currently configured by the GLEIF and SEC providers.
 
-These users should NOT need to understand:
+Report each layer independently.
 
-- database lanes
-- V2/V3 internals
-- normalized stores
-- candidate stores
-- API contracts
-- extraction internals
-- taxonomy implementation details
-
-The product must translate those technical foundations into an intuitive,
-high-confidence analytical experience.
-
-The first screen must answer immediately:
-
-1. What matters in my lending portfolio?
-2. Where is our largest exposure?
-3. What relationships could transmit risk?
-4. What has changed or deserves attention?
-5. Which clients should I investigate?
-6. Why is the system showing me this?
-7. What can I ask the AI next?
-
-This is not merely a dashboard.
-
-It should feel like an intelligence workstation.
+Do not infer DNS failure from a higher-level request.
 
 ==================================================
-1. PRESERVE THE DATA CONTRACT
+2. WINDOWS DNS
 ==================================================
 
-All portfolio relationship reads must use the common governed Lending
-relationship contract established in Prompt 3.
+Inspect safely:
 
-Do not create another relationship universe.
+Get-DnsClientServerAddress
 
-Distinguish clearly:
+Resolve-DnsName for provider hostnames
 
-- assertions
-- semantic relationships
-- endpoint pairs
-- connected entities
+nslookup for provider hostnames
 
-Do not display 808 assertions as though they are 808 unique counterparties
-or 808 unique endpoint pairs.
+Python socket.getaddrinfo()
 
-The current trusted-read metrics are approximately:
+Determine whether:
 
-808 assertions
-808 semantic groups
-376 endpoint pairs
-255 connected entities
-28 review-required assertions
-3 conflict assertions
+Windows itself cannot resolve
 
-Use live API results when available instead of hard-coding these values.
+or
 
-Every displayed metric must have a defined denominator and semantic meaning.
+only Python cannot resolve.
+
+Record Windows error codes.
 
 ==================================================
-2. FRONTEND TECHNICAL DIRECTION
+3. PROXY / ENTERPRISE NETWORK
 ==================================================
 
-Inspect the current frontend stack first.
+Inspect:
 
-If the application already uses React/TypeScript, preserve and improve it.
+HTTP_PROXY
+HTTPS_PROXY
+NO_PROXY
+REQUESTS_CA_BUNDLE
+SSL_CERT_FILE
 
-Do NOT introduce a second frontend framework.
+Also inspect Windows proxy state:
 
-Build reusable components rather than page-specific duplicated components.
+netsh winhttp show proxy
 
-Prefer:
+and current user Internet/WinINET proxy configuration where accessible.
 
-- React
-- TypeScript
-- existing routing conventions
-- existing API client conventions
-- reusable hooks
-- reusable cards/panels
-- reusable filter controls
-- responsive CSS/layout primitives
+Do not print credentials embedded in proxy URLs.
 
-Use the existing design system where practical but materially improve the
-visual experience.
+If an approved enterprise proxy already exists, reuse it.
 
-Avoid unnecessary new dependencies.
-
-If a new library is required, document why before adding it.
+Do not invent a proxy.
 
 ==================================================
-3. DESIGN LANGUAGE
+4. EXISTING WORKING NETWORK PATTERN
 ==================================================
 
-The application should become:
+Search the repository and current environment for an already working approved
+network implementation.
 
-LIGHT
-PREMIUM
-INSTITUTIONAL
-CALM
-INFORMATION-DENSE
-INTERACTIVE
+Look for:
 
-Do not use a dark cyberpunk aesthetic.
+requests.Session
+httpx.Client
+proxy helpers
+certificate bundle helpers
+Helix/R2D2 network helpers
+internal gateway transport
+corporate CA configuration
 
-Use a primarily light canvas with:
-
-- white / near-white surfaces
-- restrained grey borders
-- subtle depth
-- generous spacing
-- dark navy/charcoal typography
-- controlled use of teal / blue / green
-- amber for review attention
-- red only for genuine conflicts/severe attention
-
-The interface should feel credible for institutional credit professionals.
-
-Avoid:
-
-- excessive gradients
-- excessive glowing
-- decorative animations
-- meaningless gauges
-- excessive rounded cards
-- visual noise
-
-Use motion only to communicate:
-
-- selection
-- filtering
-- relationship activation
-- AI analysis
-- drill-down
-- new attention signals
+We previously had connectivity work in this environment, so prefer reuse of an
+existing approved pattern over creating a new transport stack.
 
 ==================================================
-4. NEW PRODUCT SHELL
+5. HOSTNAME VALIDATION
 ==================================================
 
-Redesign the Lending application shell while keeping existing routes working.
+Confirm the provider hostnames are still the intended configured hosts.
 
-Create a clearer navigation hierarchy.
+Do not silently replace provider endpoints.
 
-Recommended top-level information architecture:
-
-HOME
-PORTFOLIO
-NETWORK
-RELATIONSHIPS
-INTELLIGENCE
-REVIEW
-
-Do not expose technical implementation terminology in primary navigation.
-
-Existing routes may remain underneath these labels.
-
-Provide an unobtrusive product identity:
-
-LENDING
-Relationship Intelligence
-
-Top navigation should also provide:
-
-- global client/entity search
-- AI entry point
-- data/source status indicator
-- review attention count
-- current analytical scope
-
-Do not fake functionality.
-
-If an action is not yet implemented, visually indicate that it is coming
-later or do not expose it.
+If a configured hostname is wrong/stale, document the exact configuration
+issue before changing it.
 
 ==================================================
-5. GLOBAL INTELLIGENCE COMMAND BAR
+6. PYTHON TRANSPORT TEST
 ==================================================
 
-Create a prominent but elegant global command/search interaction.
+Create a minimal temporary diagnostic using the SAME Python environment as the
+CCR backend.
 
-The user should be able to enter things such as:
+Test:
 
-CoreWeave
-NVIDIA
-Show my largest AI infrastructure exposures
-Which clients depend on NVIDIA?
-Show relationships requiring review
-Where are my largest concentrations?
-Explain this relationship
+socket DNS
+TLS handshake
+HTTP response
 
-For Prompt 4A:
+separately.
 
-DO NOT connect these natural-language commands to a live LLM.
+Safe output only:
 
-Implement the visual shell and deterministic routing/search behavior only
-where existing application data permits it.
+hostname
+resolved IP count
+TCP success
+TLS success
+HTTP status
+error category
 
-Provide a clean placeholder for the future AI orchestration contract.
-
-Suggested prompt chips may include deterministic routes such as:
-
-Largest exposures
-Relationship concentrations
-Review required
-Explore network
-Clients without CAM coverage
-
-Clearly mark future AI-generated actions separately from existing
-deterministic analytics.
+Never output cookies, authorization headers, or secrets.
 
 ==================================================
-6. EXECUTIVE HOME
+7. APPLY MINIMAL FIX
 ==================================================
 
-Transform the current Overview into an Executive Intelligence Home.
+Only after root cause is proven, make the smallest approved fix.
 
-It should tell a coherent story rather than displaying unrelated widgets.
+Possible examples:
 
-Recommended page structure:
+reuse approved proxy settings
 
-A. EXECUTIVE HEADER
+reuse corporate CA bundle
 
-Title:
-Portfolio Intelligence
+correct provider transport configuration
 
-Subtitle:
-A short institutional description of exposure, relationships, concentration,
-and emerging attention.
+inherit Windows approved proxy in Python
 
-Provide context such as:
+fix an incorrect hostname/config value
 
-portfolio population
-reported exposure
-CAM coverage
-relationship coverage
-review attention
+Do NOT:
 
-Do not overfill this area.
+disable TLS verification
 
---------------------------------------------------
-B. ATTENTION STRIP
---------------------------------------------------
+use hardcoded public DNS
 
-Create an executive attention strip immediately below the header.
+change system DNS without explicit necessity
 
-This should surface a small number of deterministic signals.
-
-Examples based on existing data:
-
-Largest exposure concentration
-Largest sector concentration
-Clients with review-required relationships
-Relationship conflicts
-High-exposure clients without CAM
-High-exposure clients without relationship intelligence
-
-Each signal should be clickable.
-
-Do not infer unsupported credit risk conclusions.
-
-Use language such as:
-
-Attention
-Coverage gap
-Relationship review
-Concentration
-Data conflict
-
-not:
-
-Danger
-Critical risk
-Likely default
-
-unless source data explicitly supports such a conclusion.
-
---------------------------------------------------
-C. PORTFOLIO EXPOSURE
---------------------------------------------------
-
-Provide a strong visual portfolio exposure module.
-
-Include existing deterministic measures such as:
-
-total reported exposure
-top clients
-top 10 share
-top 20 share
-sector concentration
-country concentration
-
-Allow drilling into clients.
-
-Exposure remains a portfolio measure.
-
-Do not convert exposure into a relationship-risk score.
-
---------------------------------------------------
-D. RELATIONSHIP INTELLIGENCE
---------------------------------------------------
-
-Create a dedicated relationship intelligence module showing:
-
-semantic relationships
-connected entities
-endpoint pairs
-review-required relationships
-conflicts
-
-Also surface:
-
-top relationship families
-largest connected client ecosystems
-clients with highest relationship counts
-
-Only use metrics supported by existing APIs.
-
-Label exactly what is being counted.
-
-Do not show assertion count under the label “relationships” without
-qualification.
-
---------------------------------------------------
-E. NETWORK PREVIEW
---------------------------------------------------
-
-Retain a visually compelling network preview on the home page.
-
-Prompt 4A should NOT build the advanced network engine yet.
-
-Use the current bounded graph capability but restyle its container and
-interaction shell.
-
-The preview should show:
-
-selected/high-exposure ecosystem
-a small relationship neighborhood
-relationship family
-source authority
-review/conflict state
-
-Provide:
-
-Open Network
-
-to transition to the future advanced Network workspace.
-
-Do not render all 808 assertions at once.
-
---------------------------------------------------
-F. GEOGRAPHIC INTELLIGENCE
---------------------------------------------------
-
-Retain geography because senior users find it visually intuitive.
-
-Improve the layout around the current portfolio map.
-
-The map should communicate primarily:
-
-exposure geography
-
-and secondarily:
-
-relationship overlay availability
-
-Do not imply that map intensity is a credit-risk score.
-
-Provide toggles such as:
-
-Exposure
-Client count
-CAM coverage
-Relationship coverage
-
-Only show a layer if its data actually exists.
-
---------------------------------------------------
-G. COVERAGE & DATA CONFIDENCE
---------------------------------------------------
-
-Create a compact but meaningful coverage panel.
-
-Possible deterministic metrics:
-
-CAM coverage
-relationship coverage
-external-intelligence coverage if genuinely available
-review-required count
-conflict count
-
-Explain denominator on hover or drill-down.
-
-Avoid meaningless generic “confidence scores.”
-
---------------------------------------------------
-H. SUGGESTED INVESTIGATIONS
---------------------------------------------------
-
-Create an important new section:
-
-Suggested Investigations
-
-For Prompt 4A this must be generated deterministically from existing data,
-NOT by an LLM.
-
-Examples:
-
-High exposure / limited relationship coverage
-High exposure / no CAM coverage
-Many relationships requiring review
-Relationship conflict present
-Large concentration in one sector/country
-Highly connected client ecosystem
-
-Each card should explain:
-
-WHY THIS IS SHOWN
-
-using explicit deterministic facts.
-
-Example:
-
-“$5B reported exposure and no governed relationship records.”
-
-not:
-
-“This client is risky.”
-
-Each investigation links into an existing client/network/relationship view.
+bypass enterprise controls
 
 ==================================================
-7. GLOBAL SEARCH
+8. RETEST PROVIDERS
 ==================================================
 
-Improve global search.
+After the transport fix run exactly:
 
-It should support at minimum:
+one GLEIF request
 
-client name
-CAGID where applicable
-connected entity name where supported
+one SEC request
 
-Search results should distinguish:
+No broad search.
 
-Portfolio Client
-Connected Entity
+Expected progression:
 
-Do not assume every connected entity has portfolio exposure.
+DNS = PASS
+TCP = PASS
+TLS = PASS
+HTTP = PASS or a provider-specific governed HTTP result
 
-Selecting:
-
-Portfolio Client
-→ Client Detail
-
-Connected Entity
-→ relationship/network context if supported
-
-Do not fabricate a client profile for an external-only entity.
+If HTTP fails after DNS succeeds, report that as the NEW root cause rather
+than continuing to modify unrelated code.
 
 ==================================================
-8. CLIENT CARD STANDARD
+9. REGRESSION
 ==================================================
 
-Create a reusable client summary component for use throughout the
-application.
+Run backend tests.
 
-It may expose:
+Expected:
 
-client name
-CAGID
-sector
-country
-reported exposure
-portfolio share
-CAM coverage
-relationship count
-review count
-conflict indicator
+0 failed
+0 errors
 
-Only display fields supported by the current data contract.
+No canonical counts changed.
 
-This component should become reusable in later prompts.
+No relationships created.
+
+No evidence fabricated.
 
 ==================================================
-9. RELATIONSHIP ATTENTION STANDARD
-==================================================
-
-Create shared visual semantics for relationship states.
-
-Examples:
-
-Governed / confirmed
-Review required
-Conflict
-External support
-AI published
-
-These are NOT equivalent authority states.
-
-Do not flatten them into one generic status.
-
-CAM/V3 authority must remain distinguishable.
-
-Supplemental evidence must remain distinguishable.
-
-AI-published relationships must remain distinguishable.
-
-==================================================
-10. EXPLAINABILITY ENTRY POINT
-==================================================
-
-Every relationship-oriented card or metric that can be drilled into should
-have a consistent future explainability affordance:
-
-Why am I seeing this?
-
-Prompt 4A does not need to build the full explainability drawer.
-
-But establish the component/interface contract required by Prompt 4B.
-
-The future drawer will expose:
-
-relationship type
-entities
-direction
-state
-authority
-source lanes
-evidence
-source documents
-exact excerpts
-review status
-conflicts
-lineage
-
-Do not create placeholder fake evidence.
-
-==================================================
-11. REVIEW ATTENTION
-==================================================
-
-The Review entry point should clearly expose the count of items that actually
-require attention.
-
-Do not combine unrelated review universes into one number without explanation.
-
-If multiple queues exist, the UI should allow a future breakdown.
-
-For now show the governed portfolio review semantics supported by the common
-contract.
-
-==================================================
-12. RESPONSIVENESS
-==================================================
-
-The application is primarily designed for desktop institutional users.
-
-Optimize first for:
-
-1920×1080
-large enterprise monitors
-standard laptop widths
-
-Avoid very tall cards requiring excessive scrolling.
-
-Use responsive grid behavior.
-
-Make key executive signals visible within the initial viewport where
-possible.
-
-==================================================
-13. ACCESSIBILITY
-==================================================
-
-Maintain:
-
-keyboard navigation
-visible focus states
-sufficient contrast
-semantic headings
-accessible button labels
-tooltips that are not mouse-only
-
-Do not encode status exclusively through color.
-
-==================================================
-14. PERFORMANCE
-==================================================
-
-Do not render large network datasets on initial home-page load.
-
-Reuse current portfolio endpoints efficiently.
-
-Avoid duplicate API calls where data is already present.
-
-Use memoization/caching where appropriate within the existing frontend
-architecture.
-
-No premature architectural rewrite.
-
-==================================================
-15. REMOVE OR DOWNPLAY TECHNICAL CLUTTER
-==================================================
-
-The current portfolio UI exposes several implementation-oriented concepts.
-
-Do not delete backend capabilities.
-
-But primary senior-user screens should avoid prominently showing terms such
-as:
-
-V2 fallback
-V3 candidate
-normalized store
-candidate database
-overlay store
-AI instance store
-
-These concepts can remain available in:
-
-advanced provenance
-explainability
-admin/governance
-debug/developer context
-
-The executive interface should instead use business semantics.
-
-==================================================
-16. DO NOT YET IMPLEMENT
-==================================================
-
-Do NOT yet implement:
-
-advanced force-directed graph redesign
-relationship edge animation
-community detection redesign
-news/event ingestion
-interest-rate shock propagation
-stress simulation
-live Stylus calls
-live SEC calls
-live web calls
-automatic external fallback
-full AI chat
-AI relationship configuration redesign
-natural-language query execution
-relationship preset redesign
-
-These belong to later Prompt 4 stages.
-
-Do prepare reusable UI contracts for them.
-
-==================================================
-17. TESTING
-==================================================
-
-Add frontend tests covering at minimum:
-
-Executive Home renders from current APIs.
-
-Portfolio metrics preserve current values.
-
-Relationship count semantics distinguish:
-
-assertions
-semantic relationships
-endpoint pairs
-connected entities.
-
-Review-required and conflict states display distinctly.
-
-Suggested Investigations use deterministic rules only.
-
-Global search distinguishes clients from connected entities where supported.
-
-No external provider is called on normal page load.
-
-No AI generation endpoint is called on normal page load.
-
-Existing Lending routes continue to work.
-
-Prompt 3 benchmark/backend tests remain passing.
-
-==================================================
-18. VISUAL ACCEPTANCE
-==================================================
-
-Manually inspect the following screens after implementation:
-
-Executive Home
-Clients
-Client Detail
-Network
-Relationship Explorer
-External Research
-Review
-
-The new shell should make them feel like one coherent product even before
-later Prompt 4 redesigns.
-
-Do not fully redesign all subordinate pages in this prompt.
-
-==================================================
-19. REPORT
+10. REPORT
 ==================================================
 
 Create:
 
-LENDING_PROMPT4A_EXECUTIVE_HOME_REPORT.md
+backend/data/CCR_WINDOWS_NETWORK_TRANSPORT_REPORT.md
 
-Document:
+FINAL RESPONSE:
 
-frontend stack
-files changed
-new component architecture
-navigation structure
-Executive Home sections
-API endpoints consumed
-count semantics
-Suggested Investigation rules
-search behavior
-relationship status semantics
-explainability interface contract
-performance considerations
-tests
-remaining work for 4B–4H
+CCR WINDOWS NETWORK TRANSPORT: PASS / FAIL
 
-Include screenshots if the existing project workflow supports them.
+ROOT CAUSE:
+<exact>
 
-Conclude with exactly one:
+GLEIF
+DNS:
+TCP:
+TLS:
+HTTP:
 
-READY FOR PROMPT 4B
+SEC
+DNS:
+TCP:
+TLS:
+HTTP:
 
-or
+WINDOWS DNS:
+PASS / FAIL
 
-NOT READY FOR PROMPT 4B
+PYTHON DNS:
+PASS / FAIL
 
-STOP when complete.
+PROXY REQUIRED:
+YES / NO / UNKNOWN
 
-Do not begin Prompt 4B.
+PROXY CONFIGURATION SOURCE:
+<safe description>
+
+CORPORATE CA REQUIRED:
+YES / NO / UNKNOWN
+
+FIX APPLIED:
+<exact safe summary>
+
+TLS VERIFICATION DISABLED:
+0 / FAIL
+
+RELATIONSHIPS CREATED:
+0 / FAIL
+
+EXTERNAL RESEARCH QUESTIONS:
+0 / FAIL
+
+REGRESSION:
+passed:
+failed:
+errors:
+
+REPORT:
+backend/data/CCR_WINDOWS_NETWORK_TRANSPORT_REPORT.md
+
+STOP.
